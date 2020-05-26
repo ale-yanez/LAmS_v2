@@ -60,40 +60,43 @@ DATA_SECTION
   number log_qcru_prior
   !! log_qcru_prior = log(qcru);
 
- init_matrix parS(1,4,1,3);
+
+ init_matrix sel_ini(1,4,1,3);//Selectividad flota y crucero (valores de partida y rango)
+
+
  init_number lambda
 
  number log_L50fpriorm
  number log_s1priorm
  number log_s2priorm
 
- !! log_L50fpriorm = log(parS(1,1));
- !! log_s1priorm = log(parS(1,2));
- !! log_s2priorm = log(parS(1,3));
+ !! log_L50fpriorm = log(sel_ini(1,1));
+ !! log_s1priorm = log(sel_ini(1,2));
+ !! log_s2priorm = log(sel_ini(1,3));
 
  number log_L50fpriorh
  number log_s1priorh
  number log_s2priorh
 
- !! log_L50fpriorh = log(parS(2,1));
- !! log_s1priorh = log(parS(2,2));
- !! log_s2priorh = log(parS(2,3));
+ !! log_L50fpriorh = log(sel_ini(2,1));
+ !! log_s1priorh = log(sel_ini(2,2));
+ !! log_s2priorh = log(sel_ini(2,3));
 
  number log_L50fpriorch
  number log_s1priorch
  number log_s2priorch
 
- !! log_L50fpriorch = log(parS(3,1));
- !! log_s1priorch = log(parS(3,2));
- !! log_s2priorch = log(parS(3,3));
+ !! log_L50fpriorch = log(sel_ini(3,1));
+ !! log_s1priorch = log(sel_ini(3,2));
+ !! log_s2priorch = log(sel_ini(3,3));
 
  number log_L50fpriorcm
  number log_s1priorcm
  number log_s2priorcm
 
- !! log_L50fpriorcm = log(parS(4,1));
- !! log_s1priorcm = log(parS(4,2));
- !! log_s2priorcm = log(parS(4,3));
+ !! log_L50fpriorcm = log(sel_ini(4,1));
+ !! log_s1priorcm = log(sel_ini(4,2));
+ !! log_s2priorcm = log(sel_ini(4,3));
 
  init_int    nbloques1
  init_vector ybloques1(1,nbloques1)
@@ -168,7 +171,7 @@ PARAMETER_SECTION
 // init_bounded_vector log_L50f(1,nbloques1,-5,8,opt1_fase)  
  
 
-// init_3darray log_parSf(1,2,1,2,1,nbloques1,optSf_fase)
+// init_3darray log_sel_inif(1,2,1,2,1,nbloques1,optSf_fase)
 
  init_vector log_L50m(1,nbloques1,optSf_fase)  
  init_vector log_sigma1m(1,nbloques1,optSf_fase)
