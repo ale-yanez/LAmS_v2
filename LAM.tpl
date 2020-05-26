@@ -23,9 +23,9 @@ DATA_SECTION
  init_matrix data(1,nyears,1,13);
   //Years/desem/cpue/Bcru/ph/cv_desem/cv_CPUE/cv_Cru/cv_ph/n_mf/n_hf/n_mc/n_hc
  init_vector vec_ages(1,nedades);
- init_vector vec_tallas(1,ntallas)
+ init_vector vec_tallas(1,ntallas);
 
- init_3darray Ctot(1,4,1,nyears,1,ntallas)
+ init_3darray Catsize(1,4,1,nyears,1,ntallas)
 
  init_vector msex(1,ntallas)
  init_matrix Wmed(1,2,1,ntallas)
@@ -713,16 +713,16 @@ FUNCTION Eval_capturas_predichas
 
 
 // PROPORCIONES  matrices de proporcion de capturas por talla y año
- pobs_m=elem_div(Ctot(1),outer_prod(rowsum(Ctot(1)+1e-10),Unos_tallas));
+ pobs_m=elem_div(Catsize(1),outer_prod(rowsum(Catsize(1)+1e-10),Unos_tallas));
  ppred_m=elem_div(pred_Ctotm,outer_prod(rowsum(pred_Ctotm+1e-10),Unos_tallas));
 
- pobs_h=elem_div(Ctot(2),outer_prod(rowsum(Ctot(2)+1e-10),Unos_tallas));
+ pobs_h=elem_div(Catsize(2),outer_prod(rowsum(Catsize(2)+1e-10),Unos_tallas));
  ppred_h=elem_div(pred_Ctoth,outer_prod(rowsum(pred_Ctoth+1e-10),Unos_tallas));
 
- pobsc_m=elem_div(Ctot(3),outer_prod(rowsum(Ctot(3)+1e-10),Unos_tallas));
+ pobsc_m=elem_div(Catsize(3),outer_prod(rowsum(Catsize(3)+1e-10),Unos_tallas));
  ppredc_m=elem_div(NVcru_m,outer_prod(rowsum(NVcru_m+1e-10),Unos_tallas));
 
- pobsc_h=elem_div(Ctot(4),outer_prod(rowsum(Ctot(4)+1e-10),Unos_tallas));
+ pobsc_h=elem_div(Catsize(4),outer_prod(rowsum(Catsize(4)+1e-10),Unos_tallas));
  ppredc_h=elem_div(NVcru_h,outer_prod(rowsum(NVcru_h+1e-10),Unos_tallas));
 
 
