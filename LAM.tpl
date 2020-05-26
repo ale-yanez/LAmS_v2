@@ -139,8 +139,10 @@ number log_s2priorcm
 
  // Lee numero y tasas de pbr
  init_int    npbr
- init_vector pbr(1,npbr)
- init_int ntime_sim
+ init_vector tasa_bdpr(1,npbr);
+
+  // Simulaciones
+ init_int nyear_proy
 
  init_number pR
  init_number opt_sim
@@ -366,15 +368,15 @@ PARAMETER_SECTION
 
  vector CTP(1,ntallas)
  vector NMDp(1,ntallas);
- matrix YTP(1,ntime_sim,1,npbr)
- matrix BTp(1,ntime_sim,1,npbr)
+ matrix YTP(1,nyear_proy,1,npbr)
+ matrix BTp(1,nyear_proy,1,npbr)
 
  number BD_lp
  vector ratio_pbr(1,npbr)
 
  vector Nvp(1,nedades);
  number Nvplus;
- vector SDvp(1,ntime_sim);
+ vector SDvp(1,nyear_proy);
 
  
  sdreport_vector CBA(1,npbr) // 
@@ -392,7 +394,7 @@ PARAMETER_SECTION
  sdreport_vector RPRp(1,npbr) // RPR proyectado en la simulacion
  sdreport_vector Restim(1,nyears)//Reclutas hembras
  sdreport_vector RPRlp(1,nyears)//
- sdreport_matrix SSBp(1,ntime_sim,1,npbr)//Biomasa desovante proyectada
+ sdreport_matrix SSBp(1,nyear_proy,1,npbr)//Biomasa desovante proyectada
  sdreport_vector Frpr(1,nyears)
 
  
@@ -845,7 +847,7 @@ FUNCTION Eval_funcion_objetivo
  penalty+=0.5*norm2((log_qcru-log_qcru_prior)/cv_qcru);}
 
  if(active(log_Fref)){
- penalty+=1000*norm2(ratio_pbr-pbr);}
+ penalty+=1000*norm2(ratio_pbr-tasa_bdpr);}
 
 
  f=opt_sim*sum(likeval)+penalty;
@@ -873,7 +875,7 @@ FUNCTION Eval_CTP
  Zpbrh=Zh(nyears);
  Zpbrm=Zm(nyears);
 
- for (int i=1;i<=ntime_sim;i++)
+ for (int i=1;i<=nyear_proy;i++)
  {
 
  Bph=sum(elem_prod(Nph*Prob_talla_h,Wmed(2)));
@@ -916,7 +918,7 @@ FUNCTION Eval_CTP
  Nvp=Nv(nyears);// toma la ultima estimación
 
 
- for (int i=1;i<=ntime_sim;i++)
+ for (int i=1;i<=nyear_proy;i++)
   {
      Nvplus=Nvp(nedades)*exp(-1.0*Mh);
      Nvp(2,nedades)=++Nvp(1,nedades-1)*exp(-1.0*Mh);
@@ -927,7 +929,7 @@ FUNCTION Eval_CTP
 
  for (int i=1;i<=npbr;i++)
  {
-  RPRp(i)=SSBp(ntime_sim,i)/SDvp(ntime_sim);//
+  RPRp(i)=SSBp(nyear_proy,i)/SDvp(nyear_proy);//
  }
 
 
@@ -1120,8 +1122,8 @@ FUNCTION Eval_mcmc
   if(reporte_mcmc == 0)
   mcmc_report<<"Bcru_last CTP1 CTP2 CTP3 CTP4 BDp1/BDlast BDp2/BDlast BDp3/BDlast BDp4/BDlast "<<endl;
   mcmc_report<<pred_Bcru(nyears)<<" "<<YTP(1,1)<<" "<<YTP(1,2)<<" "<<YTP(1,3)<<" "<<YTP(1,4)<<
-     " "<<SSBp(ntime_sim,1)/BD(nyears)<<" "<<SSBp(ntime_sim,2)/BD(nyears)<<" "<<SSBp(ntime_sim,3)/BD(nyears)<<
-     " "<<SSBp(ntime_sim,4)/BD(nyears)<<endl;
+     " "<<SSBp(nyear_proy,1)/BD(nyears)<<" "<<SSBp(nyear_proy,2)/BD(nyears)<<" "<<SSBp(nyear_proy,3)/BD(nyears)<<
+     " "<<SSBp(nyear_proy,4)/BD(nyears)<<endl;
 
   reporte_mcmc++;
 
