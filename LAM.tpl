@@ -111,7 +111,7 @@ number log_s2priorcm
  init_vector ybloq_selflo(1,nbloq_selflo);
 
  init_int    nbloq_selcru
- init_vector ybloques2(1,nbloq_selcru)
+ init_vector ybloq_selcru(1,nbloq_selcru)
 
  init_int    nqbloques
  init_vector yqbloques(1,nqbloques)
@@ -567,7 +567,7 @@ FUNCTION Eval_selectividad
 
    for (i=1;i<=nyears;i++){
       for (j=1;j<=nbloq_selcru;j++){
-              if (yrs(i)>=ybloques2(j)){
+              if (yrs(i)>=ybloq_selcru(j)){
                 Sel_crum(i)=Prob_talla_m*S3(j);
                 Sel_cruh(i)=Prob_talla_h*S4(j);}
        }
