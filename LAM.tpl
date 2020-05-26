@@ -25,33 +25,30 @@ DATA_SECTION
  init_vector vec_ages(1,nedades);
  init_vector vec_tallas(1,ntallas);
 
- init_3darray Catsize(1,4,1,nyears,1,ntallas)
+ init_3darray Catsize(1,4,1,nyears,1,ntallas);
 
- init_vector msex(1,ntallas)
- init_matrix Wmed(1,2,1,ntallas)
+ init_vector msex(1,ntallas);
+ init_matrix Wmed(1,2,1,ntallas);
 
 // !! ad_comm::change_datafile_name("lansur17.ctl");
- init_vector cvar(1,3)
- init_vector dt(1,3)
- init_matrix Par_bio(1,2,1,5)
- init_vector cv_priors(1,5)
+ init_vector cvar(1,3);//# Coeficiente de variación de los desvios Rt, No y prop_machos en el Reclutamiento
+ init_vector dt(1,3);
+ 
+ init_matrix Par_bio(1,2,1,5); //#Loo, k, Lt(a=1), cv(edad), M; filas machos,hembras y prior si se estiman
+ init_vector cv_priors(1,5);
 
   number log_Lopriorm
   number log_Lopriorh
+  !! log_Lopriorm = log(Par_bio(1,3));
+  !! log_Lopriorh = log(Par_bio(2,3));
 
   number log_cva_priorm
   number log_cva_priorh
+  !! log_cva_priorm = log(Par_bio(1,4));
+  !! log_cva_priorh = log(Par_bio(2,4));
 
   number log_M_priorm
   number log_M_priorh
-
-
-  !! log_Lopriorm = log(Par_bio(1,3));
-  !! log_cva_priorm = log(Par_bio(1,4));
-
-  !! log_Lopriorh = log(Par_bio(2,3));
-  !! log_cva_priorh = log(Par_bio(2,4));
-
   !! log_M_priorm = log(Par_bio(1,5));
   !! log_M_priorh = log(Par_bio(2,5));
 
