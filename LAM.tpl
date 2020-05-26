@@ -23,7 +23,7 @@ DATA_SECTION
  init_matrix data(1,nyears,1,13);
   //Years/desem/cpue/Bcru/ph/cv_desem/cv_CPUE/cv_Cru/cv_ph/n_mf/n_hf/n_mc/n_hc
  init_vector vec_ages(1,nedades);
- init_vector Tallas(1,ntallas)
+ init_vector vec_tallas(1,ntallas)
 
  init_3darray Ctot(1,4,1,nyears,1,ntallas)
 
@@ -467,8 +467,8 @@ FUNCTION Eval_prob_talla_edad
  sigma_edadh=exp(log_cv_edadh)*mu_edadh;
 
 
-  Prob_talla_m = ALK( mu_edadm, sigma_edadm, Tallas);
-  Prob_talla_h = ALK( mu_edadh, sigma_edadh, Tallas);
+  Prob_talla_m = ALK( mu_edadm, sigma_edadm, vec_tallas);
+  Prob_talla_h = ALK( mu_edadh, sigma_edadh, vec_tallas);
 
 //----------------------------------------------------------------------
 FUNCTION dvar_matrix ALK(dvar_vector& mu, dvar_vector& sig, dvector& x)
@@ -502,18 +502,18 @@ FUNCTION Eval_selectividad
 // FLOTA
  for (j=1;j<=nbloques1;j++){
 
- S1(j)=exp(-0.5*square(Tallas-exp(log_L50m(j)))/square(exp(log_sigma1m(j))));//machos
- S2(j)=exp(-0.5*square(Tallas-exp(log_L50h(j)))/square(exp(log_sigma1h(j))));//hembras
+ S1(j)=exp(-0.5*square(vec_tallas-exp(log_L50m(j)))/square(exp(log_sigma1m(j))));//machos
+ S2(j)=exp(-0.5*square(vec_tallas-exp(log_L50h(j)))/square(exp(log_sigma1h(j))));//hembras
 
 
     for (i=1;i<=ntallas;i++){
 
-      if(Tallas(i)>=exp(log_L50m(j))){
-      S1(j,i)= exp(-0.5*square(Tallas(i)-exp(log_L50m(j)))/square(exp(log_sigma2m(j))));
+      if(vec_tallas(i)>=exp(log_L50m(j))){
+      S1(j,i)= exp(-0.5*square(vec_tallas(i)-exp(log_L50m(j)))/square(exp(log_sigma2m(j))));
       }
 
-      if(Tallas(i)>=exp(log_L50h(j))){
-      S2(j,i)= exp(-0.5*square(Tallas(i)-exp(log_L50h(j)))/square(exp(log_sigma2h(j))));
+      if(vec_tallas(i)>=exp(log_L50h(j))){
+      S2(j,i)= exp(-0.5*square(vec_tallas(i)-exp(log_L50h(j)))/square(exp(log_sigma2h(j))));
       }
 
  }}
@@ -540,18 +540,18 @@ FUNCTION Eval_selectividad
 
  for (j=1;j<=nbloques2;j++){
 
- S3(j)=exp(-0.5*square(Tallas-exp(log_L50cm(j)))/square(exp(log_sigma1cm(j))));
- S4(j)=exp(-0.5*square(Tallas-exp(log_L50ch(j)))/square(exp(log_sigma1ch(j))));
+ S3(j)=exp(-0.5*square(vec_tallas-exp(log_L50cm(j)))/square(exp(log_sigma1cm(j))));
+ S4(j)=exp(-0.5*square(vec_tallas-exp(log_L50ch(j)))/square(exp(log_sigma1ch(j))));
 
 
     for (i=1;i<=ntallas;i++){
 
-      if(Tallas(i)>=exp(log_L50cm(j))){
-      S3(j,i)= exp(-0.5*square(Tallas(i)-exp(log_L50cm(j)))/square(exp(log_sigma2cm(j))));
+      if(vec_tallas(i)>=exp(log_L50cm(j))){
+      S3(j,i)= exp(-0.5*square(vec_tallas(i)-exp(log_L50cm(j)))/square(exp(log_sigma2cm(j))));
       }
 
-      if(Tallas(i)>=exp(log_L50ch(j))){
-      S4(j,i)= exp(-0.5*square(Tallas(i)-exp(log_L50ch(j)))/square(exp(log_sigma2ch(j))));
+      if(vec_tallas(i)>=exp(log_L50ch(j))){
+      S4(j,i)= exp(-0.5*square(vec_tallas(i)-exp(log_L50ch(j)))/square(exp(log_sigma2ch(j))));
       }
 
  }}
@@ -950,17 +950,17 @@ REPORT_SECTION
  report << prop_h << endl;
  report << prop_hpred << endl;
  report << "Lm_obs_pred" << endl;
- report << Tallas*trans(pobs_m)<< endl;
- report << Tallas*trans(ppred_m)<< endl;
+ report << vec_tallas*trans(pobs_m)<< endl;
+ report << vec_tallas*trans(ppred_m)<< endl;
  report << "Lh_obs_pred" << endl;
- report << Tallas*trans(pobs_h)<< endl;
- report << Tallas*trans(ppred_h)<< endl;
+ report << vec_tallas*trans(pobs_h)<< endl;
+ report << vec_tallas*trans(ppred_h)<< endl;
  report << "Lmc_obs_est" << endl;
- report << Tallas*trans(pobsc_m)<< endl;
- report << Tallas*trans(ppredc_m)<< endl;
+ report << vec_tallas*trans(pobsc_m)<< endl;
+ report << vec_tallas*trans(ppredc_m)<< endl;
  report << "Lhc_obs_est" << endl;
- report << Tallas*trans(pobsc_h)<< endl;
- report << Tallas*trans(ppredc_h)<< endl;
+ report << vec_tallas*trans(pobsc_h)<< endl;
+ report << vec_tallas*trans(ppredc_h)<< endl;
  report << "Sflom_age" << endl;
  report << Sel_m << endl;
  report << "Sfloh_age" <<endl;
