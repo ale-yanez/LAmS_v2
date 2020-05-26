@@ -108,7 +108,7 @@ number log_s2priorcm
 
 
  init_int    nbloq_selflo
- init_vector ybloques1(1,nbloq_selflo)
+ init_vector ybloq_selflo(1,nbloq_selflo)
 
  init_int    nbloques2
  init_vector ybloques2(1,nbloques2)
@@ -530,7 +530,7 @@ FUNCTION Eval_selectividad
 
    for (i=1;i<=nyears;i++){
       for (j=1;j<=nbloq_selflo;j++){
-              if (yrs(i)>=ybloques1(j)){
+              if (yrs(i)>=ybloq_selflo(j)){
                 Sel_m(i)=Prob_talla_m*S1(j);//machos
                 Sel_h(i)=Prob_talla_h*S2(j);} //hembras
        }
