@@ -108,10 +108,10 @@ number log_s2priorcm
 
 
  init_int    nbloq_selflo
- init_vector ybloq_selflo(1,nbloq_selflo)
+ init_vector ybloq_selflo(1,nbloq_selflo);
 
- init_int    nbloques2
- init_vector ybloques2(1,nbloques2)
+ init_int    nbloq_selcru
+ init_vector ybloques2(1,nbloq_selcru)
 
  init_int    nqbloques
  init_vector yqbloques(1,nqbloques)
@@ -190,13 +190,13 @@ PARAMETER_SECTION
  init_vector log_sigma1h(1,nbloq_selflo,optSf_fase)
  init_vector log_sigma2h(1,nbloq_selflo,optSf_fase)
 
- init_vector log_L50ch(1,nbloques2,optSc_fase)  
- init_vector log_sigma1ch(1,nbloques2,optSc_fase)
- init_vector log_sigma2ch(1,nbloques2,optSc_fase)
+ init_vector log_L50ch(1,nbloq_selcru,optSc_fase)  
+ init_vector log_sigma1ch(1,nbloq_selcru,optSc_fase)
+ init_vector log_sigma2ch(1,nbloq_selcru,optSc_fase)
 
- init_vector log_L50cm(1,nbloques2,optSc_fase)  
- init_vector log_sigma1cm(1,nbloques2,optSc_fase)
- init_vector log_sigma2cm(1,nbloques2,optSc_fase)
+ init_vector log_L50cm(1,nbloq_selcru,optSc_fase)  
+ init_vector log_sigma1cm(1,nbloq_selcru,optSc_fase)
+ init_vector log_sigma2cm(1,nbloq_selcru,optSc_fase)
 
 
 // parametros reclutamientos y mortalidades)
@@ -270,8 +270,8 @@ PARAMETER_SECTION
 
  matrix S1(1,nbloq_selflo,1,ntallas)
  matrix S2(1,nbloq_selflo,1,ntallas)
- matrix S3(1,nbloques2,1,ntallas)
- matrix S4(1,nbloques2,1,ntallas)
+ matrix S3(1,nbloq_selcru,1,ntallas)
+ matrix S4(1,nbloq_selcru,1,ntallas)
 
  matrix Sel_m(1,nyears,1,nedades)
  matrix Sel_h(1,nyears,1,nedades)
@@ -547,7 +547,7 @@ FUNCTION Eval_selectividad
 
  if(active(log_L50cm)){
 
- for (j=1;j<=nbloques2;j++){
+ for (j=1;j<=nbloq_selcru;j++){
 
  S3(j)=exp(-0.5*square(vec_tallas-exp(log_L50cm(j)))/square(exp(log_sigma1cm(j))));
  S4(j)=exp(-0.5*square(vec_tallas-exp(log_L50ch(j)))/square(exp(log_sigma1ch(j))));
@@ -566,7 +566,7 @@ FUNCTION Eval_selectividad
  }}
 
    for (i=1;i<=nyears;i++){
-      for (j=1;j<=nbloques2;j++){
+      for (j=1;j<=nbloq_selcru;j++){
               if (yrs(i)>=ybloques2(j)){
                 Sel_crum(i)=Prob_talla_m*S3(j);
                 Sel_cruh(i)=Prob_talla_h*S4(j);}
