@@ -143,35 +143,42 @@ number log_s2priorcm
 
   // Simulaciones
  init_int nyear_proy
-
- init_number pR
- init_number opt_sim
+ init_number pRec // Proporción de Reclutamiento para Proyección de capturas ante distintos niveles (1.0 proporcional al reclutamiento medio)
+ init_number opt_sim // Opción para simular o estimar(0=simula, 1=estima)
  int reporte_mcmc
 
 
 INITIALIZATION_SECTION
 
-  log_Lom        log_Lopriorm
-  log_cv_edadm   log_cva_priorm
+  log_Lom        log_Lopriorm // Inicializo log_Lom con log_Lopriorm, luego se estima en el modelo y toma otro valor
   log_Loh        log_Lopriorh
+  
+  log_cv_edadm   log_cva_priorm // Parbio = 0.1
   log_cv_edadh   log_cva_priorh
-  log_pRm        -0.69314
+  
+  log_propmR        -0.69314 // 0.5 en escala normal
 
-  log_L50m        log_L50fpriorm 
-  log_sigma1m     log_s1priorm 
-  log_sigma2m     log_s2priorm 
 
-  log_L50h        log_L50fpriorh 
-  log_sigma1h     log_s1priorh 
-  log_sigma2h     log_s2priorh 
+  log_L50flom        log_L50fpriorm 
+  log_L50floh        log_L50fpriorh 
+    
+  log_sdL50flomL     log_s1priorm 
+  log_sdL50flomR     log_s2priorm 
 
-  log_L50ch        log_L50cpriorh 
-  log_sigma1ch     log_s1priorch 
-  log_sigma2ch     log_s2priorch 
+  log_sdL50flohL     log_s1priorh 
+  log_sdL50flohR     log_s2priorh 
 
-  log_L50cm        log_L50cpriorm 
-  log_sigma1cm     log_s1priorcm 
-  log_sigma2cm     log_s2priorcm 
+
+  log_L50crum        log_L50cpriorm 
+  log_L50cruh        log_L50cpriorh 
+  
+  log_sdL50crumL     log_s1priorcm 
+  log_sdL50crumR     log_s2priorcm 
+
+  log_sdL50cruhL     log_s1priorch 
+  log_sdL50cruhR     log_s2priorch 
+
+
   log_Mm           log_M_priorm
   log_Mh           log_M_priorh
 
@@ -179,33 +186,31 @@ INITIALIZATION_SECTION
 PARAMETER_SECTION
 
 
-
 // selectividad paramétrica a la talla común
 // init_bounded_vector log_L50f(1,nbloq_selflo,-5,8,opt1_fase)  
- 
 
 // init_3darray log_sel_inif(1,2,1,2,1,nbloq_selflo,phs_Selflo)
 
- init_vector log_L50m(1,nbloq_selflo,phs_Selflo)  
- init_vector log_sigma1m(1,nbloq_selflo,phs_Selflo)
- init_vector log_sigma2m(1,nbloq_selflo,phs_Selflo)
+ init_vector log_L50flom(1,nbloq_selflo,phs_Selflo)  
+ init_vector log_sdL50flomL(1,nbloq_selflo,phs_Selflo)
+ init_vector log_sdL50flomR(1,nbloq_selflo,phs_Selflo)
 
- init_vector log_L50h(1,nbloq_selflo,phs_Selflo)  
- init_vector log_sigma1h(1,nbloq_selflo,phs_Selflo)
- init_vector log_sigma2h(1,nbloq_selflo,phs_Selflo)
+ init_vector log_L50floh(1,nbloq_selflo,phs_Selflo)  
+ init_vector log_sdL50flohL(1,nbloq_selflo,phs_Selflo)
+ init_vector log_sdL50flohR(1,nbloq_selflo,phs_Selflo)
 
- init_vector log_L50ch(1,nbloq_selcru,phs_Selcru)  
- init_vector log_sigma1ch(1,nbloq_selcru,phs_Selcru)
- init_vector log_sigma2ch(1,nbloq_selcru,phs_Selcru)
+ init_vector log_L50cruh(1,nbloq_selcru,phs_Selcru)  
+ init_vector log_sdL50cruhL(1,nbloq_selcru,phs_Selcru)
+ init_vector log_sdL50cruhR(1,nbloq_selcru,phs_Selcru)
 
- init_vector log_L50cm(1,nbloq_selcru,phs_Selcru)  
- init_vector log_sigma1cm(1,nbloq_selcru,phs_Selcru)
- init_vector log_sigma2cm(1,nbloq_selcru,phs_Selcru)
+ init_vector log_L50crum(1,nbloq_selcru,phs_Selcru)  
+ init_vector log_sdL50crumL(1,nbloq_selcru,phs_Selcru)
+ init_vector log_sdL50crumR(1,nbloq_selcru,phs_Selcru)
 
 
 // parametros reclutamientos y mortalidades)
  init_number log_Ro(1)
- init_bounded_number log_pRm(-2.3,-0.1,phs_prop_mR) // prop de machos en el reclutamiento
+ init_bounded_number log_propmR(-2.3,-0.1,phs_prop_mR) // prop de machos en el reclutamiento
  init_bounded_dev_vector dev_log_Ro(1,nyears,-10,10,phs_devRt)
  init_bounded_vector dev_log_Nom(1,nedades,-10,10,phs_devNo)
  init_bounded_vector dev_log_Noh(1,nedades,-10,10,phs_devNo)
@@ -515,18 +520,18 @@ FUNCTION Eval_selectividad
 // FLOTA
  for (j=1;j<=nbloq_selflo;j++){
 
- S1(j)=exp(-0.5*square(vec_tallas-exp(log_L50m(j)))/square(exp(log_sigma1m(j))));//machos
- S2(j)=exp(-0.5*square(vec_tallas-exp(log_L50h(j)))/square(exp(log_sigma1h(j))));//hembras
+ S1(j)=exp(-0.5*square(vec_tallas-exp(log_L50flom(j)))/square(exp(log_sdL50flomL(j))));//machos
+ S2(j)=exp(-0.5*square(vec_tallas-exp(log_L50floh(j)))/square(exp(log_sdL50flohL(j))));//hembras
 
 
     for (i=1;i<=ntallas;i++){
 
-      if(vec_tallas(i)>=exp(log_L50m(j))){
-      S1(j,i)= exp(-0.5*square(vec_tallas(i)-exp(log_L50m(j)))/square(exp(log_sigma2m(j))));
+      if(vec_tallas(i)>=exp(log_L50flom(j))){
+      S1(j,i)= exp(-0.5*square(vec_tallas(i)-exp(log_L50flom(j)))/square(exp(log_sdL50flomR(j))));
       }
 
-      if(vec_tallas(i)>=exp(log_L50h(j))){
-      S2(j,i)= exp(-0.5*square(vec_tallas(i)-exp(log_L50h(j)))/square(exp(log_sigma2h(j))));
+      if(vec_tallas(i)>=exp(log_L50floh(j))){
+      S2(j,i)= exp(-0.5*square(vec_tallas(i)-exp(log_L50floh(j)))/square(exp(log_sdL50flohR(j))));
       }
 
  }}
@@ -549,22 +554,22 @@ FUNCTION Eval_selectividad
     Sel_cruh=1.0;
 
 
- if(active(log_L50cm)){
+ if(active(log_L50crum)){
 
  for (j=1;j<=nbloq_selcru;j++){
 
- S3(j)=exp(-0.5*square(vec_tallas-exp(log_L50cm(j)))/square(exp(log_sigma1cm(j))));
- S4(j)=exp(-0.5*square(vec_tallas-exp(log_L50ch(j)))/square(exp(log_sigma1ch(j))));
+ S3(j)=exp(-0.5*square(vec_tallas-exp(log_L50crum(j)))/square(exp(log_sdL50crumL(j))));
+ S4(j)=exp(-0.5*square(vec_tallas-exp(log_L50cruh(j)))/square(exp(log_sdL50cruhL(j))));
 
 
     for (i=1;i<=ntallas;i++){
 
-      if(vec_tallas(i)>=exp(log_L50cm(j))){
-      S3(j,i)= exp(-0.5*square(vec_tallas(i)-exp(log_L50cm(j)))/square(exp(log_sigma2cm(j))));
+      if(vec_tallas(i)>=exp(log_L50crum(j))){
+      S3(j,i)= exp(-0.5*square(vec_tallas(i)-exp(log_L50crum(j)))/square(exp(log_sdL50crumR(j))));
       }
 
-      if(vec_tallas(i)>=exp(log_L50ch(j))){
-      S4(j,i)= exp(-0.5*square(vec_tallas(i)-exp(log_L50ch(j)))/square(exp(log_sigma2ch(j))));
+      if(vec_tallas(i)>=exp(log_L50cruh(j))){
+      S4(j,i)= exp(-0.5*square(vec_tallas(i)-exp(log_L50cruh(j)))/square(exp(log_sdL50cruhR(j))));
       }
 
  }}
@@ -628,7 +633,7 @@ FUNCTION Eval_abundancia
 
 
 
- Neqm(1)=mfexp(log_Ro) * (exp(log_pRm)/(1-exp(log_pRm)));//machos
+ Neqm(1)=mfexp(log_Ro) * (exp(log_propmR)/(1-exp(log_propmR)));//machos
  for (j=2;j<=nedades;j++)
  {
    Neqm(j)=Neqm(j-1)*exp(-Zm(1,j-1));
@@ -654,7 +659,7 @@ FUNCTION Eval_abundancia
      if(i>=vec_ages(1)){
      Rpred(i+1)=alfa*BD(i-vec_ages(1)+1)/(beta+BD(i-vec_ages(1)+1));}// Reclutamiento estimado por un modelo B&H hembras
 
-     Nm(i+1,1)=Rpred(i+1)*mfexp(dev_log_Ro(i))*exp(log_pRm)/(1-exp(log_pRm));  // Reclutas machos   
+     Nm(i+1,1)=Rpred(i+1)*mfexp(dev_log_Ro(i))*exp(log_propmR)/(1-exp(log_propmR));  // Reclutas machos   
      Nh(i+1,1)=Rpred(i+1)*mfexp(dev_log_Ro(i));// Reclutas hembras
      Restim=column(Nh,1);
 
@@ -819,18 +824,18 @@ FUNCTION Eval_funcion_objetivo
  if(active(dev_log_Nom)){
  likeval(10)=1./(2*square(cvar(2)))*norm2(dev_log_Nom);
  likeval(11)=1./(2*square(cvar(2)))*norm2(dev_log_Noh);}
- if(active(log_sigma2m)){
- likeval(12)=lambda*norm2(log_sigma2m-log_s2priorm);}
- if(active(log_sigma2h)){
- likeval(13)=lambda*norm2(log_sigma2h-log_s2priorh);}
+ if(active(log_sdL50flomR)){
+ likeval(12)=lambda*norm2(log_sdL50flomR-log_s2priorm);}
+ if(active(log_sdL50flohR)){
+ likeval(13)=lambda*norm2(log_sdL50flohR-log_s2priorh);}
 
- if(active(log_sigma2cm)){
- likeval(14)=lambda*norm2(log_sigma2cm-log_s2priorcm);}
- if(active(log_sigma2ch)){
- likeval(15)=lambda*norm2(log_sigma2ch-log_s2priorch);}
+ if(active(log_sdL50crumR)){
+ likeval(14)=lambda*norm2(log_sdL50crumR-log_s2priorcm);}
+ if(active(log_sdL50cruhR)){
+ likeval(15)=lambda*norm2(log_sdL50cruhR-log_s2priorch);}
 
- if (active(log_pRm)){
- likeval(16)=0.5/square(cvar(3))*square(log_pRm+0.69315);}
+ if (active(log_propmR)){
+ likeval(16)=0.5/square(cvar(3))*square(log_propmR+0.69315);}
 
  if (active(log_Lom)){
  likeval(17)=0.5*square((log_Lopriorm-log_Lom)/cv_priors(3));
@@ -893,11 +898,11 @@ FUNCTION Eval_CTP
  Npplus=Nph(nedades)*Sph(nedades);
  Nph(2,nedades)=++elem_prod(Nph(1,nedades-1),Sph(1,nedades-1));
  Nph(nedades)+=Npplus;
- Nph(1)=pR*exp(log_Ro);
+ Nph(1)=pRec*exp(log_Ro);
  Npplus=Npm(nedades)*Spm(nedades);
  Npm(2,nedades)=++elem_prod(Npm(1,nedades-1),Spm(1,nedades-1));
  Npm(nedades)+=Npplus;
- Npm(1)=exp(log_Ro)*exp(log_pRm)/(1-exp(log_pRm));//;
+ Npm(1)=exp(log_Ro)*exp(log_propmR)/(1-exp(log_propmR));//;
 
 
  // Se considera el mismo F de hembras en los machos
