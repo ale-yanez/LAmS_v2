@@ -111,10 +111,10 @@ number log_s2priorcm
  init_vector ybloq_selflo(1,nbloq_selflo);
 
  init_int    nbloq_selcru
- init_vector ybloq_selcru(1,nbloq_selcru)
+ init_vector ybloq_selcru(1,nbloq_selcru);
 
- init_int    nqbloques
- init_vector yqbloques(1,nqbloques)
+ init_int    nbloq_qflo
+ init_vector ybloq_qflo(1,nbloq_qflo);
 
  init_int    nqbloques2
  init_vector yqbloques2(1,nqbloques2)
@@ -209,7 +209,7 @@ PARAMETER_SECTION
  init_bounded_vector log_Fh(1,nyears,-20,-0.2,opt_F) // log  mortalidad por pesca por flota
 
 // capturabilidades
- init_vector log_qflo(1,nqbloques,opt_qf)
+ init_vector log_qflo(1,nbloq_qflo,opt_qf)
  init_vector log_qcru(1,nqbloques2,opt_qc)
 
 // Crecim
@@ -740,8 +740,8 @@ FUNCTION Eval_indices
  
 
    for (int i=1;i<=nyears;i++){
-      for (int j=1;j<=nqbloques;j++){
-              if (yrs(i)>=yqbloques(j)){
+      for (int j=1;j<=nbloq_qflo;j++){
+              if (yrs(i)>=ybloq_qflo(j)){
                  pred_CPUE(i)=exp(log_qflo(j))*BMflo(i);}
        }
    }
