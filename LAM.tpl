@@ -116,8 +116,8 @@ number log_s2priorcm
  init_int    nbloq_qflo
  init_vector ybloq_qflo(1,nbloq_qflo);
 
- init_int    nqbloques2
- init_vector yqbloques2(1,nqbloques2)
+ init_int    nbloq_qcru
+ init_vector ybloq_qcru(1,nbloq_qcru)
 
  init_int    opt_qf
  init_int    opt_qc
@@ -210,7 +210,7 @@ PARAMETER_SECTION
 
 // capturabilidades
  init_vector log_qflo(1,nbloq_qflo,opt_qf)
- init_vector log_qcru(1,nqbloques2,opt_qc)
+ init_vector log_qcru(1,nbloq_qcru,opt_qc)
 
 // Crecim
  init_number log_Lom(opt_Lo)
@@ -748,8 +748,8 @@ FUNCTION Eval_indices
 
 
    for (int i=1;i<=nyears;i++){
-      for (int j=1;j<=nqbloques2;j++){
-              if (yrs(i)>=yqbloques2(j)){
+      for (int j=1;j<=nbloq_qcru;j++){
+              if (yrs(i)>=ybloq_qcru(j)){
                  pred_Bcru(i)=exp(log_qcru(j))*BMcru(i);}
        }
    }
