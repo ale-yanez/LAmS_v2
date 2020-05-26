@@ -64,39 +64,49 @@ DATA_SECTION
  init_matrix sel_ini(1,4,1,3);//Selectividad flota y crucero (valores de partida y rango)
 
 
- init_number lambda
-
+ // Priors para selectividades y sd // Desde aquí hacia abajo difiere de LAm
+ //Flota
  number log_L50fpriorm
- number log_s1priorm
- number log_s2priorm
-
  !! log_L50fpriorm = log(sel_ini(1,1));
+
+ number log_s1priorm
  !! log_s1priorm = log(sel_ini(1,2));
+
+ number log_s2priorm
  !! log_s2priorm = log(sel_ini(1,3));
 
  number log_L50fpriorh
- number log_s1priorh
- number log_s2priorh
-
  !! log_L50fpriorh = log(sel_ini(2,1));
+ 
+ number log_s1priorh
  !! log_s1priorh = log(sel_ini(2,2));
+ 
+ number log_s2priorh
  !! log_s2priorh = log(sel_ini(2,3));
 
- number log_L50fpriorch
+//Crucero
+number log_L50cpriorm
+!! log_L50cpriorm = log(sel_ini(4,1));
+
+number log_s1priorcm
+!! log_s1priorcm = log(sel_ini(4,2));
+
+number log_s2priorcm
+!! log_s2priorcm = log(sel_ini(4,3));
+
+
+
+ number log_L50cpriorh
  number log_s1priorch
  number log_s2priorch
 
- !! log_L50fpriorch = log(sel_ini(3,1));
+ !! log_L50cpriorh = log(sel_ini(3,1));
  !! log_s1priorch = log(sel_ini(3,2));
  !! log_s2priorch = log(sel_ini(3,3));
 
- number log_L50fpriorcm
- number log_s1priorcm
- number log_s2priorcm
 
- !! log_L50fpriorcm = log(sel_ini(4,1));
- !! log_s1priorcm = log(sel_ini(4,2));
- !! log_s2priorcm = log(sel_ini(4,3));
+
+ init_number lambda
 
  init_int    nbloques1
  init_vector ybloques1(1,nbloques1)
@@ -152,11 +162,11 @@ INITIALIZATION_SECTION
   log_sigma1h     log_s1priorh 
   log_sigma2h     log_s2priorh 
 
-  log_L50ch        log_L50fpriorch 
+  log_L50ch        log_L50cpriorh 
   log_sigma1ch     log_s1priorch 
   log_sigma2ch     log_s2priorch 
 
-  log_L50cm        log_L50fpriorcm 
+  log_L50cm        log_L50cpriorm 
   log_sigma1cm     log_s1priorcm 
   log_sigma2cm     log_s2priorcm 
   log_Mm           log_M_priorm
