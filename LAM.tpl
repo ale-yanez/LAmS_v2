@@ -52,13 +52,13 @@ DATA_SECTION
   !! log_M_priorm = log(Par_bio(1,5));
   !! log_M_priorh = log(Par_bio(2,5));
 
-
  init_number h
+ 
  init_number qcru
  init_number cv_qcru
 
-  number log_qc_prior
-  !! log_qc_prior = log(qcru);
+  number log_qcru_prior
+  !! log_qcru_prior = log(qcru);
 
  init_matrix parS(1,4,1,3);
  init_number lambda
@@ -828,7 +828,7 @@ FUNCTION Eval_funcion_objetivo
  penalty+=100*(square(log_M_priorh-log_Mh)+square(log_M_priorm-log_Mm));}
 
  if(active(log_qcru)){
- penalty+=0.5*norm2((log_qcru-log_qc_prior)/cv_qcru);}
+ penalty+=0.5*norm2((log_qcru-log_qcru_prior)/cv_qcru);}
 
  if(active(log_Fref)){
  penalty+=1000*norm2(ratio_pbr-pbr);}
