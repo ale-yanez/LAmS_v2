@@ -861,7 +861,7 @@ FUNCTION Eval_CTP
  Zpbrh=Zh(nyears);
  Zpbrm=Zm(nyears);
 
- for (int i=1;i<=nyears_sim;i++)
+ for (int i=1;i<=ntime_sim;i++)
  {
 
  Bph=sum(elem_prod(Nph*Prob_talla_h,Wmed(2)));
