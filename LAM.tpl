@@ -117,25 +117,27 @@ number log_s2priorcm
  init_vector ybloq_qflo(1,nbloq_qflo);
 
  init_int    nbloq_qcru
- init_vector ybloq_qcru(1,nbloq_qcru)
+ init_vector ybloq_qcru(1,nbloq_qcru);
 
- init_int    opt_qf
- init_int    opt_qc
+// Fases de estimacion
+ init_int    phs_qflo  // q flota
+ init_int    phs_qcru  // q crucero
 
- init_int    optSf_fase
- init_int    optSc_fase
+ init_int    phs_Selflo //fase sel flo
+ init_int    phs_Selcru //fase sel cru
 
- init_int    opt_Lo
- init_int    opt_cva
- init_int    opt_M
+ init_int    phs_Lo
+ init_int    phs_cva
+ init_int    phs_M //no se estima
 
- init_int    opt_F
- init_int    opt_devRt
- init_int    opt_devNo
- init_int    opt_Rm
- init_int    opt_Fpbr
+ init_int    phs_F
+ init_int    phs_devRt
+ init_int    phs_devNo
+ init_int    phs_prop_mR
+ init_int    phs_Fpbr
 
 
+ // Lee numero y tasas de pbr
  init_int    npbr
  init_vector pbr(1,npbr)
  init_int ntime_sim
@@ -180,50 +182,50 @@ PARAMETER_SECTION
 // init_bounded_vector log_L50f(1,nbloq_selflo,-5,8,opt1_fase)  
  
 
-// init_3darray log_sel_inif(1,2,1,2,1,nbloq_selflo,optSf_fase)
+// init_3darray log_sel_inif(1,2,1,2,1,nbloq_selflo,phs_Selflo)
 
- init_vector log_L50m(1,nbloq_selflo,optSf_fase)  
- init_vector log_sigma1m(1,nbloq_selflo,optSf_fase)
- init_vector log_sigma2m(1,nbloq_selflo,optSf_fase)
+ init_vector log_L50m(1,nbloq_selflo,phs_Selflo)  
+ init_vector log_sigma1m(1,nbloq_selflo,phs_Selflo)
+ init_vector log_sigma2m(1,nbloq_selflo,phs_Selflo)
 
- init_vector log_L50h(1,nbloq_selflo,optSf_fase)  
- init_vector log_sigma1h(1,nbloq_selflo,optSf_fase)
- init_vector log_sigma2h(1,nbloq_selflo,optSf_fase)
+ init_vector log_L50h(1,nbloq_selflo,phs_Selflo)  
+ init_vector log_sigma1h(1,nbloq_selflo,phs_Selflo)
+ init_vector log_sigma2h(1,nbloq_selflo,phs_Selflo)
 
- init_vector log_L50ch(1,nbloq_selcru,optSc_fase)  
- init_vector log_sigma1ch(1,nbloq_selcru,optSc_fase)
- init_vector log_sigma2ch(1,nbloq_selcru,optSc_fase)
+ init_vector log_L50ch(1,nbloq_selcru,phs_Selcru)  
+ init_vector log_sigma1ch(1,nbloq_selcru,phs_Selcru)
+ init_vector log_sigma2ch(1,nbloq_selcru,phs_Selcru)
 
- init_vector log_L50cm(1,nbloq_selcru,optSc_fase)  
- init_vector log_sigma1cm(1,nbloq_selcru,optSc_fase)
- init_vector log_sigma2cm(1,nbloq_selcru,optSc_fase)
+ init_vector log_L50cm(1,nbloq_selcru,phs_Selcru)  
+ init_vector log_sigma1cm(1,nbloq_selcru,phs_Selcru)
+ init_vector log_sigma2cm(1,nbloq_selcru,phs_Selcru)
 
 
 // parametros reclutamientos y mortalidades)
  init_number log_Ro(1)
- init_bounded_number log_pRm(-2.3,-0.1,opt_Rm) // prop de machos en el reclutamiento
- init_bounded_dev_vector dev_log_Ro(1,nyears,-10,10,opt_devRt)
- init_bounded_vector dev_log_Nom(1,nedades,-10,10,opt_devNo)
- init_bounded_vector dev_log_Noh(1,nedades,-10,10,opt_devNo)
- init_bounded_vector log_Fm(1,nyears,-20,-0.2,opt_F) // log  mortalidad por pesca por flota
- init_bounded_vector log_Fh(1,nyears,-20,-0.2,opt_F) // log  mortalidad por pesca por flota
+ init_bounded_number log_pRm(-2.3,-0.1,phs_prop_mR) // prop de machos en el reclutamiento
+ init_bounded_dev_vector dev_log_Ro(1,nyears,-10,10,phs_devRt)
+ init_bounded_vector dev_log_Nom(1,nedades,-10,10,phs_devNo)
+ init_bounded_vector dev_log_Noh(1,nedades,-10,10,phs_devNo)
+ init_bounded_vector log_Fm(1,nyears,-20,-0.2,phs_F) // log  mortalidad por pesca por flota
+ init_bounded_vector log_Fh(1,nyears,-20,-0.2,phs_F) // log  mortalidad por pesca por flota
 
 // capturabilidades
- init_vector log_qflo(1,nbloq_qflo,opt_qf)
- init_vector log_qcru(1,nbloq_qcru,opt_qc)
+ init_vector log_qflo(1,nbloq_qflo,phs_qflo)
+ init_vector log_qcru(1,nbloq_qcru,phs_qcru)
 
 // Crecim
- init_number log_Lom(opt_Lo)
- init_number log_cv_edadm(opt_cva)
+ init_number log_Lom(phs_Lo)
+ init_number log_cv_edadm(phs_cva)
 
- init_number log_Loh(opt_Lo)
- init_number log_cv_edadh(opt_cva)
+ init_number log_Loh(phs_Lo)
+ init_number log_cv_edadh(phs_cva)
 
- init_number log_Mh(opt_M)
- init_number log_Mm(opt_M)
+ init_number log_Mh(phs_M)
+ init_number log_Mm(phs_M)
 
 // Fpbr
- init_vector log_Fref(1,npbr,opt_Fpbr);
+ init_vector log_Fref(1,npbr,phs_Fpbr);
 
 //---------------------------------------------------------------------------------
 
