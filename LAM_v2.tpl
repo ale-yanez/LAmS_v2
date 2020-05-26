@@ -45,12 +45,11 @@ DATA_SECTION
   number log_cva_priorm
   number log_cva_priorh
   !! log_cva_priorm = log(Par_bio(1,4));
-  !! log_M_priorm = log(Par_bio(1,5));
-
+  !! log_cva_priorh = log(Par_bio(2,4));
 
   number log_M_priorm
   number log_M_priorh
-  !! log_cva_priorh = log(Par_bio(2,4));
+  !! log_M_priorm = log(Par_bio(1,5));
   !! log_M_priorh = log(Par_bio(2,5));
 
  init_number h
