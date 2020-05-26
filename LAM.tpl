@@ -86,30 +86,29 @@ DATA_SECTION
 
 //Crucero
 number log_L50cpriorm
-!! log_L50cpriorm = log(sel_ini(4,1));
+!! log_L50cpriorm = log(sel_ini(3,1));
 
 number log_s1priorcm
-!! log_s1priorcm = log(sel_ini(4,2));
+!! log_s1priorcm = log(sel_ini(3,2));
 
 number log_s2priorcm
-!! log_s2priorcm = log(sel_ini(4,3));
-
-
+!! log_s2priorcm = log(sel_ini(3,3));
 
  number log_L50cpriorh
+ !! log_L50cpriorh = log(sel_ini(4,1));
+ 
  number log_s1priorch
+ !! log_s1priorch = log(sel_ini(4,2));
+ 
  number log_s2priorch
-
- !! log_L50cpriorh = log(sel_ini(3,1));
- !! log_s1priorch = log(sel_ini(3,2));
- !! log_s2priorch = log(sel_ini(3,3));
-
+ !! log_s2priorch = log(sel_ini(4,3));
 
 
  init_number lambda
 
- init_int    nbloques1
- init_vector ybloques1(1,nbloques1)
+
+ init_int    nbloq_selflo
+ init_vector ybloques1(1,nbloq_selflo)
 
  init_int    nbloques2
  init_vector ybloques2(1,nbloques2)
@@ -178,18 +177,18 @@ PARAMETER_SECTION
 
 
 // selectividad paramétrica a la talla común
-// init_bounded_vector log_L50f(1,nbloques1,-5,8,opt1_fase)  
+// init_bounded_vector log_L50f(1,nbloq_selflo,-5,8,opt1_fase)  
  
 
-// init_3darray log_sel_inif(1,2,1,2,1,nbloques1,optSf_fase)
+// init_3darray log_sel_inif(1,2,1,2,1,nbloq_selflo,optSf_fase)
 
- init_vector log_L50m(1,nbloques1,optSf_fase)  
- init_vector log_sigma1m(1,nbloques1,optSf_fase)
- init_vector log_sigma2m(1,nbloques1,optSf_fase)
+ init_vector log_L50m(1,nbloq_selflo,optSf_fase)  
+ init_vector log_sigma1m(1,nbloq_selflo,optSf_fase)
+ init_vector log_sigma2m(1,nbloq_selflo,optSf_fase)
 
- init_vector log_L50h(1,nbloques1,optSf_fase)  
- init_vector log_sigma1h(1,nbloques1,optSf_fase)
- init_vector log_sigma2h(1,nbloques1,optSf_fase)
+ init_vector log_L50h(1,nbloq_selflo,optSf_fase)  
+ init_vector log_sigma1h(1,nbloq_selflo,optSf_fase)
+ init_vector log_sigma2h(1,nbloq_selflo,optSf_fase)
 
  init_vector log_L50ch(1,nbloques2,optSc_fase)  
  init_vector log_sigma1ch(1,nbloques2,optSc_fase)
@@ -269,8 +268,8 @@ PARAMETER_SECTION
  matrix Sel_crum(1,nyears,1,nedades);
  matrix Sel_cruh(1,nyears,1,nedades);
 
- matrix S1(1,nbloques1,1,ntallas)
- matrix S2(1,nbloques1,1,ntallas)
+ matrix S1(1,nbloq_selflo,1,ntallas)
+ matrix S2(1,nbloq_selflo,1,ntallas)
  matrix S3(1,nbloques2,1,ntallas)
  matrix S4(1,nbloques2,1,ntallas)
 
@@ -510,7 +509,7 @@ FUNCTION Eval_selectividad
 
 
 // FLOTA
- for (j=1;j<=nbloques1;j++){
+ for (j=1;j<=nbloq_selflo;j++){
 
  S1(j)=exp(-0.5*square(vec_tallas-exp(log_L50m(j)))/square(exp(log_sigma1m(j))));//machos
  S2(j)=exp(-0.5*square(vec_tallas-exp(log_L50h(j)))/square(exp(log_sigma1h(j))));//hembras
@@ -530,7 +529,7 @@ FUNCTION Eval_selectividad
 
 
    for (i=1;i<=nyears;i++){
-      for (j=1;j<=nbloques1;j++){
+      for (j=1;j<=nbloq_selflo;j++){
               if (yrs(i)>=ybloques1(j)){
                 Sel_m(i)=Prob_talla_m*S1(j);//machos
                 Sel_h(i)=Prob_talla_h*S2(j);} //hembras
