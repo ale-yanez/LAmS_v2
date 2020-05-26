@@ -191,7 +191,7 @@ PARAMETER_SECTION
 
 // init_3darray log_sel_inif(1,2,1,2,1,nbloq_selflo,phs_Selflo)
 
- init_vector log_L50flom(1,nbloq_selflo,phs_Selflo)  
+ init_vector log_L50flom(1,nbloq_selflo,phs_Selflo)
  init_vector log_sdL50flomL(1,nbloq_selflo,phs_Selflo)
  init_vector log_sdL50flomR(1,nbloq_selflo,phs_Selflo)
 

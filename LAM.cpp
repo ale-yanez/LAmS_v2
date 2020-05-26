@@ -26,8 +26,8 @@ model_data::model_data(int argc,char * argv[]) : ad_comm(argc,argv)
   ntallas.allocate("ntallas");
   data.allocate(1,nyears,1,13,"data");
   vec_ages.allocate(1,nedades,"vec_ages");
-  Tallas.allocate(1,ntallas,"Tallas");
-  Ctot.allocate(1,4,1,nyears,1,ntallas,"Ctot");
+  vec_tallas.allocate(1,ntallas,"vec_tallas");
+  Catsize.allocate(1,4,1,nyears,1,ntallas,"Catsize");
   msex.allocate(1,ntallas,"msex");
   Wmed.allocate(1,2,1,ntallas,"Wmed");
   cvar.allocate(1,3,"cvar");
@@ -35,75 +35,75 @@ model_data::model_data(int argc,char * argv[]) : ad_comm(argc,argv)
   Par_bio.allocate(1,2,1,5,"Par_bio");
   cv_priors.allocate(1,5,"cv_priors");
  log_Lopriorm = log(Par_bio(1,3));
- log_cva_priorm = log(Par_bio(1,4));
  log_Lopriorh = log(Par_bio(2,3));
+ log_cva_priorm = log(Par_bio(1,4));
  log_cva_priorh = log(Par_bio(2,4));
  log_M_priorm = log(Par_bio(1,5));
  log_M_priorh = log(Par_bio(2,5));
   h.allocate("h");
   qcru.allocate("qcru");
   cv_qcru.allocate("cv_qcru");
- log_qc_prior = log(qcru);
-  parS.allocate(1,4,1,3,"parS");
+ log_qcru_prior = log(qcru);
+  sel_ini.allocate(1,4,1,3,"sel_ini");
+ log_L50fpriorm = log(sel_ini(1,1));
+ log_s1priorm = log(sel_ini(1,2));
+ log_s2priorm = log(sel_ini(1,3));
+ log_L50fpriorh = log(sel_ini(2,1));
+ log_s1priorh = log(sel_ini(2,2));
+ log_s2priorh = log(sel_ini(2,3));
+ log_L50cpriorm = log(sel_ini(3,1));
+ log_s1priorcm = log(sel_ini(3,2));
+ log_s2priorcm = log(sel_ini(3,3));
+ log_L50cpriorh = log(sel_ini(4,1));
+ log_s1priorch = log(sel_ini(4,2));
+ log_s2priorch = log(sel_ini(4,3));
   lambda.allocate("lambda");
- log_L50fpriorm = log(parS(1,1));
- log_s1priorm = log(parS(1,2));
- log_s2priorm = log(parS(1,3));
- log_L50fpriorh = log(parS(2,1));
- log_s1priorh = log(parS(2,2));
- log_s2priorh = log(parS(2,3));
- log_L50fpriorch = log(parS(3,1));
- log_s1priorch = log(parS(3,2));
- log_s2priorch = log(parS(3,3));
- log_L50fpriorcm = log(parS(4,1));
- log_s1priorcm = log(parS(4,2));
- log_s2priorcm = log(parS(4,3));
-  nbloques1.allocate("nbloques1");
-  ybloques1.allocate(1,nbloques1,"ybloques1");
-  nbloques2.allocate("nbloques2");
-  ybloques2.allocate(1,nbloques2,"ybloques2");
-  nqbloques.allocate("nqbloques");
-  yqbloques.allocate(1,nqbloques,"yqbloques");
-  nqbloques2.allocate("nqbloques2");
-  yqbloques2.allocate(1,nqbloques2,"yqbloques2");
-  opt_qf.allocate("opt_qf");
-  opt_qc.allocate("opt_qc");
-  optSf_fase.allocate("optSf_fase");
-  optSc_fase.allocate("optSc_fase");
-  opt_Lo.allocate("opt_Lo");
-  opt_cva.allocate("opt_cva");
-  opt_M.allocate("opt_M");
-  opt_F.allocate("opt_F");
-  opt_devRt.allocate("opt_devRt");
-  opt_devNo.allocate("opt_devNo");
-  opt_Rm.allocate("opt_Rm");
-  opt_Fpbr.allocate("opt_Fpbr");
+  nbloq_selflo.allocate("nbloq_selflo");
+  ybloq_selflo.allocate(1,nbloq_selflo,"ybloq_selflo");
+  nbloq_selcru.allocate("nbloq_selcru");
+  ybloq_selcru.allocate(1,nbloq_selcru,"ybloq_selcru");
+  nbloq_qflo.allocate("nbloq_qflo");
+  ybloq_qflo.allocate(1,nbloq_qflo,"ybloq_qflo");
+  nbloq_qcru.allocate("nbloq_qcru");
+  ybloq_qcru.allocate(1,nbloq_qcru,"ybloq_qcru");
+  phs_qflo.allocate("phs_qflo");
+  phs_qcru.allocate("phs_qcru");
+  phs_Selflo.allocate("phs_Selflo");
+  phs_Selcru.allocate("phs_Selcru");
+  phs_Lo.allocate("phs_Lo");
+  phs_cva.allocate("phs_cva");
+  phs_M.allocate("phs_M");
+  phs_F.allocate("phs_F");
+  phs_devRt.allocate("phs_devRt");
+  phs_devNo.allocate("phs_devNo");
+  phs_prop_mR.allocate("phs_prop_mR");
+  phs_Fpbr.allocate("phs_Fpbr");
   npbr.allocate("npbr");
-  pbr.allocate(1,npbr,"pbr");
-  ntime_sim.allocate("ntime_sim");
-  pR.allocate("pR");
+  tasa_bdpr.allocate(1,npbr,"tasa_bdpr");
+  nyear_proy.allocate("nyear_proy");
+  pRec.allocate("pRec");
   opt_sim.allocate("opt_sim");
 }
 
 void model_parameters::initializationfunction(void)
 {
   log_Lom.set_initial_value(log_Lopriorm);
-  log_cv_edadm.set_initial_value(log_cva_priorm);
   log_Loh.set_initial_value(log_Lopriorh);
+  log_cv_edadm.set_initial_value(log_cva_priorm);
   log_cv_edadh.set_initial_value(log_cva_priorh);
-  log_pRm.set_initial_value(-0.69314);
-  log_L50m.set_initial_value(log_L50fpriorm);
-  log_sigma1m.set_initial_value(log_s1priorm);
-  log_sigma2m.set_initial_value(log_s2priorm);
-  log_L50h.set_initial_value(log_L50fpriorh);
-  log_sigma1h.set_initial_value(log_s1priorh);
-  log_sigma2h.set_initial_value(log_s2priorh);
-  log_L50ch.set_initial_value(log_L50fpriorch);
-  log_sigma1ch.set_initial_value(log_s1priorch);
-  log_sigma2ch.set_initial_value(log_s2priorch);
-  log_L50cm.set_initial_value(log_L50fpriorcm);
-  log_sigma1cm.set_initial_value(log_s1priorcm);
-  log_sigma2cm.set_initial_value(log_s2priorcm);
+  log_propmR.set_initial_value(-0.69314);
+  log_L50flom.set_initial_value(log_L50fpriorm);
+  log_L50floh.set_initial_value(log_L50fpriorh);
+  log_sdL50flomL.set_initial_value(log_s1priorm);
+  log_sdL50flomR.set_initial_value(log_s2priorm);
+  log_sdL50flohL.set_initial_value(log_s1priorh);
+  log_sdL50flohR.set_initial_value(log_s2priorh);
+  log_L50crum.set_initial_value(log_L50cpriorm);
+  log_L50cruh.set_initial_value(log_L50cpriorh);
+  log_sdL50crumL.set_initial_value(log_s1priorcm);
+  log_sdL50crumR.set_initial_value(log_s2priorcm);
+  log_sdL50cruhL.set_initial_value(log_s1priorch);
+  log_sdL50cruhR.set_initial_value(log_s2priorch);
   log_Mm.set_initial_value(log_M_priorm);
   log_Mh.set_initial_value(log_M_priorh);
 }
@@ -112,34 +112,34 @@ model_parameters::model_parameters(int sz,int argc,char * argv[]) :
  model_data(argc,argv) , function_minimizer(sz)
 {
   initializationfunction();
-  log_L50m.allocate(1,nbloques1,optSf_fase,"log_L50m");
-  log_sigma1m.allocate(1,nbloques1,optSf_fase,"log_sigma1m");
-  log_sigma2m.allocate(1,nbloques1,optSf_fase,"log_sigma2m");
-  log_L50h.allocate(1,nbloques1,optSf_fase,"log_L50h");
-  log_sigma1h.allocate(1,nbloques1,optSf_fase,"log_sigma1h");
-  log_sigma2h.allocate(1,nbloques1,optSf_fase,"log_sigma2h");
-  log_L50ch.allocate(1,nbloques2,optSc_fase,"log_L50ch");
-  log_sigma1ch.allocate(1,nbloques2,optSc_fase,"log_sigma1ch");
-  log_sigma2ch.allocate(1,nbloques2,optSc_fase,"log_sigma2ch");
-  log_L50cm.allocate(1,nbloques2,optSc_fase,"log_L50cm");
-  log_sigma1cm.allocate(1,nbloques2,optSc_fase,"log_sigma1cm");
-  log_sigma2cm.allocate(1,nbloques2,optSc_fase,"log_sigma2cm");
+  log_L50flom.allocate(1,nbloq_selflo,phs_Selflo,"log_L50flom");
+  log_sdL50flomL.allocate(1,nbloq_selflo,phs_Selflo,"log_sdL50flomL");
+  log_sdL50flomR.allocate(1,nbloq_selflo,phs_Selflo,"log_sdL50flomR");
+  log_L50floh.allocate(1,nbloq_selflo,phs_Selflo,"log_L50floh");
+  log_sdL50flohL.allocate(1,nbloq_selflo,phs_Selflo,"log_sdL50flohL");
+  log_sdL50flohR.allocate(1,nbloq_selflo,phs_Selflo,"log_sdL50flohR");
+  log_L50cruh.allocate(1,nbloq_selcru,phs_Selcru,"log_L50cruh");
+  log_sdL50cruhL.allocate(1,nbloq_selcru,phs_Selcru,"log_sdL50cruhL");
+  log_sdL50cruhR.allocate(1,nbloq_selcru,phs_Selcru,"log_sdL50cruhR");
+  log_L50crum.allocate(1,nbloq_selcru,phs_Selcru,"log_L50crum");
+  log_sdL50crumL.allocate(1,nbloq_selcru,phs_Selcru,"log_sdL50crumL");
+  log_sdL50crumR.allocate(1,nbloq_selcru,phs_Selcru,"log_sdL50crumR");
   log_Ro.allocate(1,"log_Ro");
-  log_pRm.allocate(-2.3,-0.1,opt_Rm,"log_pRm");
-  dev_log_Ro.allocate(1,nyears,-10,10,opt_devRt,"dev_log_Ro");
-  dev_log_Nom.allocate(1,nedades,-10,10,opt_devNo,"dev_log_Nom");
-  dev_log_Noh.allocate(1,nedades,-10,10,opt_devNo,"dev_log_Noh");
-  log_Fm.allocate(1,nyears,-20,-0.2,opt_F,"log_Fm");
-  log_Fh.allocate(1,nyears,-20,-0.2,opt_F,"log_Fh");
-  log_qflo.allocate(1,nqbloques,opt_qf,"log_qflo");
-  log_qcru.allocate(1,nqbloques2,opt_qc,"log_qcru");
-  log_Lom.allocate(opt_Lo,"log_Lom");
-  log_cv_edadm.allocate(opt_cva,"log_cv_edadm");
-  log_Loh.allocate(opt_Lo,"log_Loh");
-  log_cv_edadh.allocate(opt_cva,"log_cv_edadh");
-  log_Mh.allocate(opt_M,"log_Mh");
-  log_Mm.allocate(opt_M,"log_Mm");
-  log_Fref.allocate(1,npbr,opt_Fpbr,"log_Fref");
+  log_propmR.allocate(-2.3,-0.1,phs_prop_mR,"log_propmR");
+  dev_log_Ro.allocate(1,nyears,-10,10,phs_devRt,"dev_log_Ro");
+  dev_log_Nom.allocate(1,nedades,-10,10,phs_devNo,"dev_log_Nom");
+  dev_log_Noh.allocate(1,nedades,-10,10,phs_devNo,"dev_log_Noh");
+  log_Fm.allocate(1,nyears,-20,-0.2,phs_F,"log_Fm");
+  log_Fh.allocate(1,nyears,-20,-0.2,phs_F,"log_Fh");
+  log_qflo.allocate(1,nbloq_qflo,phs_qflo,"log_qflo");
+  log_qcru.allocate(1,nbloq_qcru,phs_qcru,"log_qcru");
+  log_Lom.allocate(phs_Lo,"log_Lom");
+  log_cv_edadm.allocate(phs_cva,"log_cv_edadm");
+  log_Loh.allocate(phs_Lo,"log_Loh");
+  log_cv_edadh.allocate(phs_cva,"log_cv_edadh");
+  log_Mh.allocate(phs_M,"log_Mh");
+  log_Mm.allocate(phs_M,"log_Mm");
+  log_Fref.allocate(1,npbr,phs_Fpbr,"log_Fref");
   BMflo.allocate(1,nyears,"BMflo");
   #ifndef NO_AD_INITIALIZE
     BMflo.initialize();
@@ -256,19 +256,19 @@ model_parameters::model_parameters(int sz,int argc,char * argv[]) :
   #ifndef NO_AD_INITIALIZE
     Sel_cruh.initialize();
   #endif
-  S1.allocate(1,nbloques1,1,ntallas,"S1");
+  S1.allocate(1,nbloq_selflo,1,ntallas,"S1");
   #ifndef NO_AD_INITIALIZE
     S1.initialize();
   #endif
-  S2.allocate(1,nbloques1,1,ntallas,"S2");
+  S2.allocate(1,nbloq_selflo,1,ntallas,"S2");
   #ifndef NO_AD_INITIALIZE
     S2.initialize();
   #endif
-  S3.allocate(1,nbloques2,1,ntallas,"S3");
+  S3.allocate(1,nbloq_selcru,1,ntallas,"S3");
   #ifndef NO_AD_INITIALIZE
     S3.initialize();
   #endif
-  S4.allocate(1,nbloques2,1,ntallas,"S4");
+  S4.allocate(1,nbloq_selcru,1,ntallas,"S4");
   #ifndef NO_AD_INITIALIZE
     S4.initialize();
   #endif
@@ -576,11 +576,11 @@ model_parameters::model_parameters(int sz,int argc,char * argv[]) :
   #ifndef NO_AD_INITIALIZE
     NMDp.initialize();
   #endif
-  YTP.allocate(1,ntime_sim,1,npbr,"YTP");
+  YTP.allocate(1,nyear_proy,1,npbr,"YTP");
   #ifndef NO_AD_INITIALIZE
     YTP.initialize();
   #endif
-  BTp.allocate(1,ntime_sim,1,npbr,"BTp");
+  BTp.allocate(1,nyear_proy,1,npbr,"BTp");
   #ifndef NO_AD_INITIALIZE
     BTp.initialize();
   #endif
@@ -600,7 +600,7 @@ model_parameters::model_parameters(int sz,int argc,char * argv[]) :
   #ifndef NO_AD_INITIALIZE
   Nvplus.initialize();
   #endif
-  SDvp.allocate(1,ntime_sim,"SDvp");
+  SDvp.allocate(1,nyear_proy,"SDvp");
   #ifndef NO_AD_INITIALIZE
     SDvp.initialize();
   #endif
@@ -619,7 +619,7 @@ model_parameters::model_parameters(int sz,int argc,char * argv[]) :
   RPRp.allocate(1,npbr,"RPRp");
   Restim.allocate(1,nyears,"Restim");
   RPRlp.allocate(1,nyears,"RPRlp");
-  SSBp.allocate(1,ntime_sim,1,npbr,"SSBp");
+  SSBp.allocate(1,nyear_proy,1,npbr,"SSBp");
   Frpr.allocate(1,nyears,"Frpr");
 }
 
@@ -697,8 +697,8 @@ void model_parameters::Eval_prob_talla_edad(void)
   mu_edadh(i)=Linfh*(1-exp(-kh))+exp(-kh)*mu_edadh(i-1);
   }
  sigma_edadh=exp(log_cv_edadh)*mu_edadh;
-  Prob_talla_m = ALK( mu_edadm, sigma_edadm, Tallas);
-  Prob_talla_h = ALK( mu_edadh, sigma_edadh, Tallas);
+  Prob_talla_m = ALK( mu_edadm, sigma_edadm, vec_tallas);
+  Prob_talla_h = ALK( mu_edadh, sigma_edadh, vec_tallas);
 }
 
 dvar_matrix model_parameters::ALK(dvar_vector& mu, dvar_vector& sig, dvector& x)
@@ -729,20 +729,20 @@ dvar_matrix model_parameters::ALK(dvar_vector& mu, dvar_vector& sig, dvector& x)
 void model_parameters::Eval_selectividad(void)
 {
  int i,j;
- for (j=1;j<=nbloques1;j++){
- S1(j)=exp(-0.5*square(Tallas-exp(log_L50m(j)))/square(exp(log_sigma1m(j))));//machos
- S2(j)=exp(-0.5*square(Tallas-exp(log_L50h(j)))/square(exp(log_sigma1h(j))));//hembras
+ for (j=1;j<=nbloq_selflo;j++){
+ S1(j)=exp(-0.5*square(vec_tallas-exp(log_L50flom(j)))/square(exp(log_sdL50flomL(j))));//machos
+ S2(j)=exp(-0.5*square(vec_tallas-exp(log_L50floh(j)))/square(exp(log_sdL50flohL(j))));//hembras
     for (i=1;i<=ntallas;i++){
-      if(Tallas(i)>=exp(log_L50m(j))){
-      S1(j,i)= exp(-0.5*square(Tallas(i)-exp(log_L50m(j)))/square(exp(log_sigma2m(j))));
+      if(vec_tallas(i)>=exp(log_L50flom(j))){
+      S1(j,i)= exp(-0.5*square(vec_tallas(i)-exp(log_L50flom(j)))/square(exp(log_sdL50flomR(j))));
       }
-      if(Tallas(i)>=exp(log_L50h(j))){
-      S2(j,i)= exp(-0.5*square(Tallas(i)-exp(log_L50h(j)))/square(exp(log_sigma2h(j))));
+      if(vec_tallas(i)>=exp(log_L50floh(j))){
+      S2(j,i)= exp(-0.5*square(vec_tallas(i)-exp(log_L50floh(j)))/square(exp(log_sdL50flohR(j))));
       }
  }}
    for (i=1;i<=nyears;i++){
-      for (j=1;j<=nbloques1;j++){
-              if (yrs(i)>=ybloques1(j)){
+      for (j=1;j<=nbloq_selflo;j++){
+              if (yrs(i)>=ybloq_selflo(j)){
                 Sel_m(i)=Prob_talla_m*S1(j);//machos
                 Sel_h(i)=Prob_talla_h*S2(j);} //hembras
        }
@@ -753,21 +753,21 @@ void model_parameters::Eval_selectividad(void)
  //   Sel_cruh=Sel_h;
     Sel_crum=1.0;
     Sel_cruh=1.0;
- if(active(log_L50cm)){
- for (j=1;j<=nbloques2;j++){
- S3(j)=exp(-0.5*square(Tallas-exp(log_L50cm(j)))/square(exp(log_sigma1cm(j))));
- S4(j)=exp(-0.5*square(Tallas-exp(log_L50ch(j)))/square(exp(log_sigma1ch(j))));
+ if(active(log_L50crum)){
+ for (j=1;j<=nbloq_selcru;j++){
+ S3(j)=exp(-0.5*square(vec_tallas-exp(log_L50crum(j)))/square(exp(log_sdL50crumL(j))));
+ S4(j)=exp(-0.5*square(vec_tallas-exp(log_L50cruh(j)))/square(exp(log_sdL50cruhL(j))));
     for (i=1;i<=ntallas;i++){
-      if(Tallas(i)>=exp(log_L50cm(j))){
-      S3(j,i)= exp(-0.5*square(Tallas(i)-exp(log_L50cm(j)))/square(exp(log_sigma2cm(j))));
+      if(vec_tallas(i)>=exp(log_L50crum(j))){
+      S3(j,i)= exp(-0.5*square(vec_tallas(i)-exp(log_L50crum(j)))/square(exp(log_sdL50crumR(j))));
       }
-      if(Tallas(i)>=exp(log_L50ch(j))){
-      S4(j,i)= exp(-0.5*square(Tallas(i)-exp(log_L50ch(j)))/square(exp(log_sigma2ch(j))));
+      if(vec_tallas(i)>=exp(log_L50cruh(j))){
+      S4(j,i)= exp(-0.5*square(vec_tallas(i)-exp(log_L50cruh(j)))/square(exp(log_sdL50cruhR(j))));
       }
  }}
    for (i=1;i<=nyears;i++){
-      for (j=1;j<=nbloques2;j++){
-              if (yrs(i)>=ybloques2(j)){
+      for (j=1;j<=nbloq_selcru;j++){
+              if (yrs(i)>=ybloq_selcru(j)){
                 Sel_crum(i)=Prob_talla_m*S3(j);
                 Sel_cruh(i)=Prob_talla_h*S4(j);}
        }
@@ -806,7 +806,7 @@ void model_parameters::Eval_abundancia(void)
    Neqh(j)=Neqh(j-1)*exp(-Zh(1,j-1));
  }
    Neqh(nedades)=Neqh(nedades)*exp(-1.*Zh(1,nedades))/(1-exp(-1.*Zh(1,nedades)));
- Neqm(1)=mfexp(log_Ro) * (exp(log_pRm)/(1-exp(log_pRm)));//machos
+ Neqm(1)=mfexp(log_Ro) * (exp(log_propmR)/(1-exp(log_propmR)));//machos
  for (j=2;j<=nedades;j++)
  {
    Neqm(j)=Neqm(j-1)*exp(-Zm(1,j-1));
@@ -822,7 +822,7 @@ void model_parameters::Eval_abundancia(void)
      Rpred(i+1)=mfexp(log_Ro);// 
      if(i>=vec_ages(1)){
      Rpred(i+1)=alfa*BD(i-vec_ages(1)+1)/(beta+BD(i-vec_ages(1)+1));}// Reclutamiento estimado por un modelo B&H hembras
-     Nm(i+1,1)=Rpred(i+1)*mfexp(dev_log_Ro(i))*exp(log_pRm)/(1-exp(log_pRm));  // Reclutas machos   
+     Nm(i+1,1)=Rpred(i+1)*mfexp(dev_log_Ro(i))*exp(log_propmR)/(1-exp(log_propmR));  // Reclutas machos   
      Nh(i+1,1)=Rpred(i+1)*mfexp(dev_log_Ro(i));// Reclutas hembras
      Restim=column(Nh,1);
      Nm(i+1)(2,nedades)=++elem_prod(Nm(i)(1,nedades-1),Sm(i)(1,nedades-1));
@@ -870,27 +870,27 @@ void model_parameters::Eval_capturas_predichas(void)
  pred_Ctoth=pred_Ctot_ah*Prob_talla_h;
  prop_hpred = elem_div(rowsum(pred_Ctoth),rowsum(pred_Ctoth+pred_Ctotm+1e-10));
  pred_Desemb=pred_Ctotm*Wmed(1)+pred_Ctoth*Wmed(2);
- pobs_m=elem_div(Ctot(1),outer_prod(rowsum(Ctot(1)+1e-10),Unos_tallas));
+ pobs_m=elem_div(Catsize(1),outer_prod(rowsum(Catsize(1)+1e-10),Unos_tallas));
  ppred_m=elem_div(pred_Ctotm,outer_prod(rowsum(pred_Ctotm+1e-10),Unos_tallas));
- pobs_h=elem_div(Ctot(2),outer_prod(rowsum(Ctot(2)+1e-10),Unos_tallas));
+ pobs_h=elem_div(Catsize(2),outer_prod(rowsum(Catsize(2)+1e-10),Unos_tallas));
  ppred_h=elem_div(pred_Ctoth,outer_prod(rowsum(pred_Ctoth+1e-10),Unos_tallas));
- pobsc_m=elem_div(Ctot(3),outer_prod(rowsum(Ctot(3)+1e-10),Unos_tallas));
+ pobsc_m=elem_div(Catsize(3),outer_prod(rowsum(Catsize(3)+1e-10),Unos_tallas));
  ppredc_m=elem_div(NVcru_m,outer_prod(rowsum(NVcru_m+1e-10),Unos_tallas));
- pobsc_h=elem_div(Ctot(4),outer_prod(rowsum(Ctot(4)+1e-10),Unos_tallas));
+ pobsc_h=elem_div(Catsize(4),outer_prod(rowsum(Catsize(4)+1e-10),Unos_tallas));
  ppredc_h=elem_div(NVcru_h,outer_prod(rowsum(NVcru_h+1e-10),Unos_tallas));
 }
 
 void model_parameters::Eval_indices(void)
 {
    for (int i=1;i<=nyears;i++){
-      for (int j=1;j<=nqbloques;j++){
-              if (yrs(i)>=yqbloques(j)){
+      for (int j=1;j<=nbloq_qflo;j++){
+              if (yrs(i)>=ybloq_qflo(j)){
                  pred_CPUE(i)=exp(log_qflo(j))*BMflo(i);}
        }
    }
    for (int i=1;i<=nyears;i++){
-      for (int j=1;j<=nqbloques2;j++){
-              if (yrs(i)>=yqbloques2(j)){
+      for (int j=1;j<=nbloq_qcru;j++){
+              if (yrs(i)>=ybloq_qcru(j)){
                  pred_Bcru(i)=exp(log_qcru(j))*BMcru(i);}
        }
    }
@@ -944,16 +944,16 @@ void model_parameters::Eval_funcion_objetivo(void)
  if(active(dev_log_Nom)){
  likeval(10)=1./(2*square(cvar(2)))*norm2(dev_log_Nom);
  likeval(11)=1./(2*square(cvar(2)))*norm2(dev_log_Noh);}
- if(active(log_sigma2m)){
- likeval(12)=lambda*norm2(log_sigma2m-log_s2priorm);}
- if(active(log_sigma2h)){
- likeval(13)=lambda*norm2(log_sigma2h-log_s2priorh);}
- if(active(log_sigma2cm)){
- likeval(14)=lambda*norm2(log_sigma2cm-log_s2priorcm);}
- if(active(log_sigma2ch)){
- likeval(15)=lambda*norm2(log_sigma2ch-log_s2priorch);}
- if (active(log_pRm)){
- likeval(16)=0.5/square(cvar(3))*square(log_pRm+0.69315);}
+ if(active(log_sdL50flomR)){
+ likeval(12)=lambda*norm2(log_sdL50flomR-log_s2priorm);}
+ if(active(log_sdL50flohR)){
+ likeval(13)=lambda*norm2(log_sdL50flohR-log_s2priorh);}
+ if(active(log_sdL50crumR)){
+ likeval(14)=lambda*norm2(log_sdL50crumR-log_s2priorcm);}
+ if(active(log_sdL50cruhR)){
+ likeval(15)=lambda*norm2(log_sdL50cruhR-log_s2priorch);}
+ if (active(log_propmR)){
+ likeval(16)=0.5/square(cvar(3))*square(log_propmR+0.69315);}
  if (active(log_Lom)){
  likeval(17)=0.5*square((log_Lopriorm-log_Lom)/cv_priors(3));
  likeval(18)=0.5*square((log_Lopriorh-log_Loh)/cv_priors(3));}
@@ -963,9 +963,9 @@ void model_parameters::Eval_funcion_objetivo(void)
  if(active(log_Mh)){
  penalty+=100*(square(log_M_priorh-log_Mh)+square(log_M_priorm-log_Mm));}
  if(active(log_qcru)){
- penalty+=0.5*norm2((log_qcru-log_qc_prior)/cv_qcru);}
+ penalty+=0.5*norm2((log_qcru-log_qcru_prior)/cv_qcru);}
  if(active(log_Fref)){
- penalty+=1000*norm2(ratio_pbr-pbr);}
+ penalty+=1000*norm2(ratio_pbr-tasa_bdpr);}
  f=opt_sim*sum(likeval)+penalty;
 }
 
@@ -982,7 +982,7 @@ void model_parameters::Eval_CTP(void)
  Fpbrm=Fm(nyears);//
  Zpbrh=Zh(nyears);
  Zpbrm=Zm(nyears);
- for (int i=1;i<=ntime_sim;i++)
+ for (int i=1;i<=nyear_proy;i++)
  {
  Bph=sum(elem_prod(Nph*Prob_talla_h,Wmed(2)));
  Bpm=sum(elem_prod(Npm*Prob_talla_m,Wmed(1)));
@@ -997,11 +997,11 @@ void model_parameters::Eval_CTP(void)
  Npplus=Nph(nedades)*Sph(nedades);
  Nph(2,nedades)=++elem_prod(Nph(1,nedades-1),Sph(1,nedades-1));
  Nph(nedades)+=Npplus;
- Nph(1)=pR*exp(log_Ro);
+ Nph(1)=pRec*exp(log_Ro);
  Npplus=Npm(nedades)*Spm(nedades);
  Npm(2,nedades)=++elem_prod(Npm(1,nedades-1),Spm(1,nedades-1));
  Npm(nedades)+=Npplus;
- Npm(1)=exp(log_Ro)*exp(log_pRm)/(1-exp(log_pRm));//;
+ Npm(1)=exp(log_Ro)*exp(log_propmR)/(1-exp(log_propmR));//;
  // Se considera el mismo F de hembras en los machos
  Fpbrh=Sel_h(nyears)*exp(log_Fref(j));//
  Fpbrm=Sel_m(nyears)*exp(log_Fref(j));//
@@ -1013,7 +1013,7 @@ void model_parameters::Eval_CTP(void)
  CBA=YTP(2);// es para el año proyectado
  // Rutina para la estimación de RPR
  Nvp=Nv(nyears);// toma la ultima estimación
- for (int i=1;i<=ntime_sim;i++)
+ for (int i=1;i<=nyear_proy;i++)
   {
      Nvplus=Nvp(nedades)*exp(-1.0*Mh);
      Nvp(2,nedades)=++Nvp(1,nedades-1)*exp(-1.0*Mh);
@@ -1023,7 +1023,7 @@ void model_parameters::Eval_CTP(void)
   }
  for (int i=1;i<=npbr;i++)
  {
-  RPRp(i)=SSBp(ntime_sim,i)/SDvp(ntime_sim);//
+  RPRp(i)=SSBp(nyear_proy,i)/SDvp(nyear_proy);//
  }
 }
 
@@ -1063,17 +1063,17 @@ void model_parameters::report(const dvector& gradients)
  report << prop_h << endl;
  report << prop_hpred << endl;
  report << "Lm_obs_pred" << endl;
- report << Tallas*trans(pobs_m)<< endl;
- report << Tallas*trans(ppred_m)<< endl;
+ report << vec_tallas*trans(pobs_m)<< endl;
+ report << vec_tallas*trans(ppred_m)<< endl;
  report << "Lh_obs_pred" << endl;
- report << Tallas*trans(pobs_h)<< endl;
- report << Tallas*trans(ppred_h)<< endl;
+ report << vec_tallas*trans(pobs_h)<< endl;
+ report << vec_tallas*trans(ppred_h)<< endl;
  report << "Lmc_obs_est" << endl;
- report << Tallas*trans(pobsc_m)<< endl;
- report << Tallas*trans(ppredc_m)<< endl;
+ report << vec_tallas*trans(pobsc_m)<< endl;
+ report << vec_tallas*trans(ppredc_m)<< endl;
  report << "Lhc_obs_est" << endl;
- report << Tallas*trans(pobsc_h)<< endl;
- report << Tallas*trans(ppredc_h)<< endl;
+ report << vec_tallas*trans(pobsc_h)<< endl;
+ report << vec_tallas*trans(ppredc_h)<< endl;
  report << "Sflom_age" << endl;
  report << Sel_m << endl;
  report << "Sfloh_age" <<endl;
@@ -1209,8 +1209,8 @@ void model_parameters::Eval_mcmc(void)
   if(reporte_mcmc == 0)
   mcmc_report<<"Bcru_last CTP1 CTP2 CTP3 CTP4 BDp1/BDlast BDp2/BDlast BDp3/BDlast BDp4/BDlast "<<endl;
   mcmc_report<<pred_Bcru(nyears)<<" "<<YTP(1,1)<<" "<<YTP(1,2)<<" "<<YTP(1,3)<<" "<<YTP(1,4)<<
-     " "<<SSBp(ntime_sim,1)/BD(nyears)<<" "<<SSBp(ntime_sim,2)/BD(nyears)<<" "<<SSBp(ntime_sim,3)/BD(nyears)<<
-     " "<<SSBp(ntime_sim,4)/BD(nyears)<<endl;
+     " "<<SSBp(nyear_proy,1)/BD(nyears)<<" "<<SSBp(nyear_proy,2)/BD(nyears)<<" "<<SSBp(nyear_proy,3)/BD(nyears)<<
+     " "<<SSBp(nyear_proy,4)/BD(nyears)<<endl;
   reporte_mcmc++;
 }
 
