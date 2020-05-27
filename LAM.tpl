@@ -191,28 +191,28 @@ PARAMETER_SECTION
 
 // init_3darray log_sel_inif(1,2,1,2,1,nbloq_selflo,phs_Selflo)
 
- init_vector log_L50flom(1,nbloq_selflo,phs_Selflo)
- init_vector log_sdL50flomL(1,nbloq_selflo,phs_Selflo)
- init_vector log_sdL50flomR(1,nbloq_selflo,phs_Selflo)
+ init_vector log_L50flom(1,nbloq_selflo,phs_Selflo);// Podría ser bounded (0.67,1.94)
+ init_vector log_sdL50flomL(1,nbloq_selflo,phs_Selflo);
+ init_vector log_sdL50flomR(1,nbloq_selflo,phs_Selflo);
 
- init_vector log_L50floh(1,nbloq_selflo,phs_Selflo)  
- init_vector log_sdL50flohL(1,nbloq_selflo,phs_Selflo)
- init_vector log_sdL50flohR(1,nbloq_selflo,phs_Selflo)
+ init_vector log_L50floh(1,nbloq_selflo,phs_Selflo);// Podría ser bounded (0.67,1.94)
+ init_vector log_sdL50flohL(1,nbloq_selflo,phs_Selflo);
+ init_vector log_sdL50flohR(1,nbloq_selflo,phs_Selflo);
 
- init_vector log_L50cruh(1,nbloq_selcru,phs_Selcru)  
- init_vector log_sdL50cruhL(1,nbloq_selcru,phs_Selcru)
- init_vector log_sdL50cruhR(1,nbloq_selcru,phs_Selcru)
+ init_vector log_L50cruh(1,nbloq_selcru,phs_Selcru);// Podría ser bounded (0.67,1.94)
+ init_vector log_sdL50cruhL(1,nbloq_selcru,phs_Selcru);
+ init_vector log_sdL50cruhR(1,nbloq_selcru,phs_Selcru);
 
- init_vector log_L50crum(1,nbloq_selcru,phs_Selcru)  
- init_vector log_sdL50crumL(1,nbloq_selcru,phs_Selcru)
- init_vector log_sdL50crumR(1,nbloq_selcru,phs_Selcru)
+ init_vector log_L50crum(1,nbloq_selcru,phs_Selcru);// Podría ser bounded (0.67,1.94)
+ init_vector log_sdL50crumL(1,nbloq_selcru,phs_Selcru);
+ init_vector log_sdL50crumR(1,nbloq_selcru,phs_Selcru);
 
 
-// parametros reclutamientos y mortalidades)
- init_number log_Ro(1)
- init_bounded_number log_propmR(-2.3,-0.1,phs_prop_mR) // prop de machos en el reclutamiento
- init_bounded_dev_vector dev_log_Ro(1,nyears,-10,10,phs_devRt)
- init_bounded_vector dev_log_Nom(1,nedades,-10,10,phs_devNo)
+// parametros reclutamientos, desvíos R, No y mortalidades)
+ init_number log_Ro(1);// Inicializado en que valor..(0)??? (En fase 1)
+ init_bounded_number log_propmR(-2.3,-0.1,phs_prop_mR); // prop de machos en el reclutamiento (comienza en el valor medio entre 0.1 y 0.9, es decir 0.5)
+ init_bounded_dev_vector log_dev_Ro(1,nyears,-10,10,phs_devRt); //dev_vector para que la suma de los parámetros al ser estimados sea 0
+ init_bounded_vector dev_log_Nom(1,nedades,-10,10,phs_devNo) // -10, 10 significa...
  init_bounded_vector dev_log_Noh(1,nedades,-10,10,phs_devNo)
  init_bounded_vector log_Fm(1,nyears,-20,-0.2,phs_F) // log  mortalidad por pesca por flota
  init_bounded_vector log_Fh(1,nyears,-20,-0.2,phs_F) // log  mortalidad por pesca por flota
@@ -659,8 +659,8 @@ FUNCTION Eval_abundancia
      if(i>=vec_ages(1)){
      Rpred(i+1)=alfa*BD(i-vec_ages(1)+1)/(beta+BD(i-vec_ages(1)+1));}// Reclutamiento estimado por un modelo B&H hembras
 
-     Nm(i+1,1)=Rpred(i+1)*mfexp(dev_log_Ro(i))*exp(log_propmR)/(1-exp(log_propmR));  // Reclutas machos   
-     Nh(i+1,1)=Rpred(i+1)*mfexp(dev_log_Ro(i));// Reclutas hembras
+     Nm(i+1,1)=Rpred(i+1)*mfexp(log_dev_Ro(i))*exp(log_propmR)/(1-exp(log_propmR));  // Reclutas machos   
+     Nh(i+1,1)=Rpred(i+1)*mfexp(log_dev_Ro(i));// Reclutas hembras
      Restim=column(Nh,1);
 
      Nm(i+1)(2,nedades)=++elem_prod(Nm(i)(1,nedades-1),Sm(i)(1,nedades-1));
@@ -819,8 +819,8 @@ FUNCTION Eval_funcion_objetivo
  likeval(8)=-1.*sum(nm_sex(4)*elem_prod(pobsc_h,log(ppredc_h)));
 
 // lognormal Ninicial y Reclutas
- if(active(dev_log_Ro)){
- likeval(9)=1./(2*square(cvar(1)))*norm2(dev_log_Ro);}
+ if(active(log_dev_Ro)){
+ likeval(9)=1./(2*square(cvar(1)))*norm2(log_dev_Ro);}
  if(active(dev_log_Nom)){
  likeval(10)=1./(2*square(cvar(2)))*norm2(dev_log_Nom);
  likeval(11)=1./(2*square(cvar(2)))*norm2(dev_log_Noh);}
