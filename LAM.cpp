@@ -126,9 +126,9 @@ model_parameters::model_parameters(int sz,int argc,char * argv[]) :
   log_sdL50crumR.allocate(1,nbloq_selcru,phs_Selcru,"log_sdL50crumR");
   log_Ro.allocate(1,"log_Ro");
   log_propmR.allocate(-2.3,-0.1,phs_prop_mR,"log_propmR");
-  dev_log_Ro.allocate(1,nyears,-10,10,phs_devRt,"dev_log_Ro");
-  dev_log_Nom.allocate(1,nedades,-10,10,phs_devNo,"dev_log_Nom");
-  dev_log_Noh.allocate(1,nedades,-10,10,phs_devNo,"dev_log_Noh");
+  log_dev_Ro.allocate(1,nyears,-10,10,phs_devRt,"log_dev_Ro");
+  log_dev_Nom.allocate(1,nedades,-10,10,phs_devNo,"log_dev_Nom");
+  log_dev_Noh.allocate(1,nedades,-10,10,phs_devNo,"log_dev_Noh");
   log_Fm.allocate(1,nyears,-20,-0.2,phs_F,"log_Fm");
   log_Fh.allocate(1,nyears,-20,-0.2,phs_F,"log_Fh");
   log_qflo.allocate(1,nbloq_qflo,phs_qflo,"log_qflo");
@@ -147,10 +147,6 @@ model_parameters::model_parameters(int sz,int argc,char * argv[]) :
   BMcru.allocate(1,nyears,"BMcru");
   #ifndef NO_AD_INITIALIZE
     BMcru.initialize();
-  #endif
-  Brec.allocate(1,nyears,"Brec");
-  #ifndef NO_AD_INITIALIZE
-    Brec.initialize();
   #endif
   likeval.allocate(1,20,"likeval");
   #ifndef NO_AD_INITIALIZE
@@ -172,9 +168,9 @@ model_parameters::model_parameters(int sz,int argc,char * argv[]) :
   #ifndef NO_AD_INITIALIZE
     Unos_edad.initialize();
   #endif
-  Unos_anos.allocate(1,nyears,"Unos_anos");
+  Unos_yrs.allocate(1,nyears,"Unos_yrs");
   #ifndef NO_AD_INITIALIZE
-    Unos_anos.initialize();
+    Unos_yrs.initialize();
   #endif
   Unos_tallas.allocate(1,ntallas,"Unos_tallas");
   #ifndef NO_AD_INITIALIZE
@@ -204,14 +200,6 @@ model_parameters::model_parameters(int sz,int argc,char * argv[]) :
   #ifndef NO_AD_INITIALIZE
     No.initialize();
   #endif
-  prior.allocate(1,7,"prior");
-  #ifndef NO_AD_INITIALIZE
-    prior.initialize();
-  #endif
-  prop_hpred.allocate(1,nyears,"prop_hpred");
-  #ifndef NO_AD_INITIALIZE
-    prop_hpred.initialize();
-  #endif
   yrs.allocate(1,nyears,"yrs");
   #ifndef NO_AD_INITIALIZE
     yrs.initialize();
@@ -232,21 +220,41 @@ model_parameters::model_parameters(int sz,int argc,char * argv[]) :
   #ifndef NO_AD_INITIALIZE
     prop_h.initialize();
   #endif
-  Lobs.allocate(1,nyears,"Lobs");
+  prop_hpred.allocate(1,nyears,"prop_hpred");
   #ifndef NO_AD_INITIALIZE
-    Lobs.initialize();
-  #endif
-  Lpred.allocate(1,nyears,"Lpred");
-  #ifndef NO_AD_INITIALIZE
-    Lpred.initialize();
+    prop_hpred.initialize();
   #endif
   cv_index.allocate(1,4,1,nyears,"cv_index");
   #ifndef NO_AD_INITIALIZE
     cv_index.initialize();
   #endif
-  nm_sex.allocate(1,4,1,nyears,"nm_sex");
+  nm_flocru.allocate(1,4,1,nyears,"nm_flocru");
   #ifndef NO_AD_INITIALIZE
-    nm_sex.initialize();
+    nm_flocru.initialize();
+  #endif
+  S_flom.allocate(1,nbloq_selflo,1,ntallas,"S_flom");
+  #ifndef NO_AD_INITIALIZE
+    S_flom.initialize();
+  #endif
+  S_floh.allocate(1,nbloq_selflo,1,ntallas,"S_floh");
+  #ifndef NO_AD_INITIALIZE
+    S_floh.initialize();
+  #endif
+  S_crum.allocate(1,nbloq_selcru,1,ntallas,"S_crum");
+  #ifndef NO_AD_INITIALIZE
+    S_crum.initialize();
+  #endif
+  S_cruh.allocate(1,nbloq_selcru,1,ntallas,"S_cruh");
+  #ifndef NO_AD_INITIALIZE
+    S_cruh.initialize();
+  #endif
+  Sel_flom.allocate(1,nyears,1,nedades,"Sel_flom");
+  #ifndef NO_AD_INITIALIZE
+    Sel_flom.initialize();
+  #endif
+  Sel_floh.allocate(1,nyears,1,nedades,"Sel_floh");
+  #ifndef NO_AD_INITIALIZE
+    Sel_floh.initialize();
   #endif
   Sel_crum.allocate(1,nyears,1,nedades,"Sel_crum");
   #ifndef NO_AD_INITIALIZE
@@ -255,30 +263,6 @@ model_parameters::model_parameters(int sz,int argc,char * argv[]) :
   Sel_cruh.allocate(1,nyears,1,nedades,"Sel_cruh");
   #ifndef NO_AD_INITIALIZE
     Sel_cruh.initialize();
-  #endif
-  S1.allocate(1,nbloq_selflo,1,ntallas,"S1");
-  #ifndef NO_AD_INITIALIZE
-    S1.initialize();
-  #endif
-  S2.allocate(1,nbloq_selflo,1,ntallas,"S2");
-  #ifndef NO_AD_INITIALIZE
-    S2.initialize();
-  #endif
-  S3.allocate(1,nbloq_selcru,1,ntallas,"S3");
-  #ifndef NO_AD_INITIALIZE
-    S3.initialize();
-  #endif
-  S4.allocate(1,nbloq_selcru,1,ntallas,"S4");
-  #ifndef NO_AD_INITIALIZE
-    S4.initialize();
-  #endif
-  Sel_m.allocate(1,nyears,1,nedades,"Sel_m");
-  #ifndef NO_AD_INITIALIZE
-    Sel_m.initialize();
-  #endif
-  Sel_h.allocate(1,nyears,1,nedades,"Sel_h");
-  #ifndef NO_AD_INITIALIZE
-    Sel_h.initialize();
   #endif
   Fm.allocate(1,nyears,1,nedades,"Fm");
   #ifndef NO_AD_INITIALIZE
@@ -312,10 +296,6 @@ model_parameters::model_parameters(int sz,int argc,char * argv[]) :
   #ifndef NO_AD_INITIALIZE
     Nh.initialize();
   #endif
-  NM.allocate(1,nyears,1,nedades,"NM");
-  #ifndef NO_AD_INITIALIZE
-    NM.initialize();
-  #endif
   NMD.allocate(1,nyears,1,ntallas,"NMD");
   #ifndef NO_AD_INITIALIZE
     NMD.initialize();
@@ -323,10 +303,6 @@ model_parameters::model_parameters(int sz,int argc,char * argv[]) :
   NDv.allocate(1,nyears,1,ntallas,"NDv");
   #ifndef NO_AD_INITIALIZE
     NDv.initialize();
-  #endif
-  Nrec.allocate(1,nyears,1,ntallas,"Nrec");
-  #ifndef NO_AD_INITIALIZE
-    Nrec.initialize();
   #endif
   NVflo_m.allocate(1,nyears,1,ntallas,"NVflo_m");
   #ifndef NO_AD_INITIALIZE
@@ -344,53 +320,53 @@ model_parameters::model_parameters(int sz,int argc,char * argv[]) :
   #ifndef NO_AD_INITIALIZE
     NVcru_h.initialize();
   #endif
-  pred_Ctotm.allocate(1,nyears,1,ntallas,"pred_Ctotm");
-  #ifndef NO_AD_INITIALIZE
-    pred_Ctotm.initialize();
-  #endif
   pred_Ctot_am.allocate(1,nyears,1,nedades,"pred_Ctot_am");
   #ifndef NO_AD_INITIALIZE
     pred_Ctot_am.initialize();
   #endif
-  pred_Ctoth.allocate(1,nyears,1,ntallas,"pred_Ctoth");
+  pred_Ctotm.allocate(1,nyears,1,ntallas,"pred_Ctotm");
   #ifndef NO_AD_INITIALIZE
-    pred_Ctoth.initialize();
+    pred_Ctotm.initialize();
   #endif
   pred_Ctot_ah.allocate(1,nyears,1,nedades,"pred_Ctot_ah");
   #ifndef NO_AD_INITIALIZE
     pred_Ctot_ah.initialize();
   #endif
-  pobs_m.allocate(1,nyears,1,ntallas,"pobs_m");
+  pred_Ctoth.allocate(1,nyears,1,ntallas,"pred_Ctoth");
   #ifndef NO_AD_INITIALIZE
-    pobs_m.initialize();
+    pred_Ctoth.initialize();
   #endif
-  ppred_m.allocate(1,nyears,1,ntallas,"ppred_m");
+  pobs_flom.allocate(1,nyears,1,ntallas,"pobs_flom");
   #ifndef NO_AD_INITIALIZE
-    ppred_m.initialize();
+    pobs_flom.initialize();
   #endif
-  pobs_h.allocate(1,nyears,1,ntallas,"pobs_h");
+  ppred_flom.allocate(1,nyears,1,ntallas,"ppred_flom");
   #ifndef NO_AD_INITIALIZE
-    pobs_h.initialize();
+    ppred_flom.initialize();
   #endif
-  ppred_h.allocate(1,nyears,1,ntallas,"ppred_h");
+  pobs_floh.allocate(1,nyears,1,ntallas,"pobs_floh");
   #ifndef NO_AD_INITIALIZE
-    ppred_h.initialize();
+    pobs_floh.initialize();
   #endif
-  pobsc_m.allocate(1,nyears,1,ntallas,"pobsc_m");
+  ppred_floh.allocate(1,nyears,1,ntallas,"ppred_floh");
   #ifndef NO_AD_INITIALIZE
-    pobsc_m.initialize();
+    ppred_floh.initialize();
   #endif
-  ppredc_m.allocate(1,nyears,1,ntallas,"ppredc_m");
+  pobs_crum.allocate(1,nyears,1,ntallas,"pobs_crum");
   #ifndef NO_AD_INITIALIZE
-    ppredc_m.initialize();
+    pobs_crum.initialize();
   #endif
-  pobsc_h.allocate(1,nyears,1,ntallas,"pobsc_h");
+  ppred_crum.allocate(1,nyears,1,ntallas,"ppred_crum");
   #ifndef NO_AD_INITIALIZE
-    pobsc_h.initialize();
+    ppred_crum.initialize();
   #endif
-  ppredc_h.allocate(1,nyears,1,ntallas,"ppredc_h");
+  pobs_cruh.allocate(1,nyears,1,ntallas,"pobs_cruh");
   #ifndef NO_AD_INITIALIZE
-    ppredc_h.initialize();
+    pobs_cruh.initialize();
+  #endif
+  ppred_cruh.allocate(1,nyears,1,ntallas,"ppred_cruh");
+  #ifndef NO_AD_INITIALIZE
+    ppred_cruh.initialize();
   #endif
   Prob_talla_m.allocate(1,nedades,1,ntallas,"Prob_talla_m");
   #ifndef NO_AD_INITIALIZE
@@ -400,25 +376,9 @@ model_parameters::model_parameters(int sz,int argc,char * argv[]) :
   #ifndef NO_AD_INITIALIZE
     Prob_talla_h.initialize();
   #endif
-  P1.allocate(1,nedades,1,ntallas,"P1");
-  #ifndef NO_AD_INITIALIZE
-    P1.initialize();
-  #endif
-  P2.allocate(1,nedades,1,ntallas,"P2");
-  #ifndef NO_AD_INITIALIZE
-    P2.initialize();
-  #endif
-  P3.allocate(1,nedades,1,ntallas,"P3");
-  #ifndef NO_AD_INITIALIZE
-    P3.initialize();
-  #endif
   Nv.allocate(1,nyears,1,nedades,"Nv");
   #ifndef NO_AD_INITIALIZE
     Nv.initialize();
-  #endif
-  NMDv.allocate(1,nyears,1,nedades,"NMDv");
-  #ifndef NO_AD_INITIALIZE
-    NMDv.initialize();
   #endif
   suma1.allocate("suma1");
   #ifndef NO_AD_INITIALIZE
@@ -452,10 +412,6 @@ model_parameters::model_parameters(int sz,int argc,char * argv[]) :
   #ifndef NO_AD_INITIALIZE
   penalty.initialize();
   #endif
-  So.allocate("So");
-  #ifndef NO_AD_INITIALIZE
-  So.initialize();
-  #endif
   alfa.allocate("alfa");
   #ifndef NO_AD_INITIALIZE
   alfa.initialize();
@@ -468,17 +424,17 @@ model_parameters::model_parameters(int sz,int argc,char * argv[]) :
   #ifndef NO_AD_INITIALIZE
   Linfm.initialize();
   #endif
-  km.allocate("km");
+  K_m.allocate("K_m");
   #ifndef NO_AD_INITIALIZE
-  km.initialize();
+  K_m.initialize();
   #endif
   Linfh.allocate("Linfh");
   #ifndef NO_AD_INITIALIZE
   Linfh.initialize();
   #endif
-  kh.allocate("kh");
+  K_h.allocate("K_h");
   #ifndef NO_AD_INITIALIZE
-  kh.initialize();
+  K_h.initialize();
   #endif
   Mm.allocate("Mm");
   #ifndef NO_AD_INITIALIZE
@@ -620,6 +576,26 @@ model_parameters::model_parameters(int sz,int argc,char * argv[]) :
   Restim.allocate(1,nyears,"Restim");
   RPRlp.allocate(1,nyears,"RPRlp");
   SSBp.allocate(1,nyear_proy,1,npbr,"SSBp");
+  Lmf_obs.allocate(1,nyears,"Lmf_obs");
+  #ifndef NO_AD_INITIALIZE
+    Lmf_obs.initialize();
+  #endif
+  Lmf_pred.allocate(1,nyears,"Lmf_pred");
+  Lhf_obs.allocate(1,nyears,"Lhf_obs");
+  #ifndef NO_AD_INITIALIZE
+    Lhf_obs.initialize();
+  #endif
+  Lhf_pred.allocate(1,nyears,"Lhf_pred");
+  Lmc_obs.allocate(1,nyears,"Lmc_obs");
+  #ifndef NO_AD_INITIALIZE
+    Lmc_obs.initialize();
+  #endif
+  Lmc_pred.allocate(1,nyears,"Lmc_pred");
+  Lhc_obs.allocate(1,nyears,"Lhc_obs");
+  #ifndef NO_AD_INITIALIZE
+    Lhc_obs.initialize();
+  #endif
+  Lhc_pred.allocate(1,nyears,"Lhc_pred");
   Frpr.allocate(1,nyears,"Frpr");
 }
 
@@ -638,17 +614,17 @@ void model_parameters::preliminary_calculations(void)
  prop_h=column(data,5);
  for (int i=1;i<=4;i++){
  cv_index(i)=column(data,i+5);
- nm_sex(i)=column(data,i+9);
+ nm_flocru(i)=column(data,i+9);
  }
  Linfm=Par_bio(1,1);
- km=Par_bio(1,2);
+ K_m=Par_bio(1,2);
  Linfh=Par_bio(2,1);
- kh=Par_bio(2,2);
+ K_h=Par_bio(2,2);
  // Mm=Par_bio(1,5);
  // Mh=Par_bio(2,5);
  
  Unos_edad=1;// lo uso en  operaciones matriciales con la edad
- Unos_anos=1;// lo uso en operaciones matriciales con el año
+ Unos_yrs=1;// lo uso en operaciones matriciales con el año
  Unos_tallas=1;// lo uso en operaciones matriciales con el año
   reporte_mcmc=0;
 }
@@ -688,13 +664,13 @@ void model_parameters::Eval_prob_talla_edad(void)
  mu_edadm(1)=exp(log_Lom);
  for (i=2;i<=nedades;i++)
   {
-  mu_edadm(i)=Linfm*(1-exp(-km))+exp(-km)*mu_edadm(i-1);
+  mu_edadm(i)=Linfm*(1-exp(-K_m))+exp(-K_m)*mu_edadm(i-1);
   }
  sigma_edadm=exp(log_cv_edadm)*mu_edadm;
  mu_edadh(1)=exp(log_Loh);
  for (i=2;i<=nedades;i++)
   {
-  mu_edadh(i)=Linfh*(1-exp(-kh))+exp(-kh)*mu_edadh(i-1);
+  mu_edadh(i)=Linfh*(1-exp(-K_h))+exp(-K_h)*mu_edadh(i-1);
   }
  sigma_edadh=exp(log_cv_edadh)*mu_edadh;
   Prob_talla_m = ALK( mu_edadm, sigma_edadm, vec_tallas);
@@ -730,46 +706,46 @@ void model_parameters::Eval_selectividad(void)
 {
  int i,j;
  for (j=1;j<=nbloq_selflo;j++){
- S1(j)=exp(-0.5*square(vec_tallas-exp(log_L50flom(j)))/square(exp(log_sdL50flomL(j))));//machos
- S2(j)=exp(-0.5*square(vec_tallas-exp(log_L50floh(j)))/square(exp(log_sdL50flohL(j))));//hembras
+ S_flom(j)=exp(-0.5*square(vec_tallas-exp(log_L50flom(j)))/square(exp(log_sdL50flomL(j))));//machos
+ S_floh(j)=exp(-0.5*square(vec_tallas-exp(log_L50floh(j)))/square(exp(log_sdL50flohL(j))));//hembras
     for (i=1;i<=ntallas;i++){
       if(vec_tallas(i)>=exp(log_L50flom(j))){
-      S1(j,i)= exp(-0.5*square(vec_tallas(i)-exp(log_L50flom(j)))/square(exp(log_sdL50flomR(j))));
+      S_flom(j,i)= exp(-0.5*square(vec_tallas(i)-exp(log_L50flom(j)))/square(exp(log_sdL50flomR(j))));
       }
       if(vec_tallas(i)>=exp(log_L50floh(j))){
-      S2(j,i)= exp(-0.5*square(vec_tallas(i)-exp(log_L50floh(j)))/square(exp(log_sdL50flohR(j))));
+      S_floh(j,i)= exp(-0.5*square(vec_tallas(i)-exp(log_L50floh(j)))/square(exp(log_sdL50flohR(j))));
       }
  }}
    for (i=1;i<=nyears;i++){
       for (j=1;j<=nbloq_selflo;j++){
               if (yrs(i)>=ybloq_selflo(j)){
-                Sel_m(i)=Prob_talla_m*S1(j);//machos
-                Sel_h(i)=Prob_talla_h*S2(j);} //hembras
+                Sel_flom(i)=Prob_talla_m*S_flom(j);//machos
+                Sel_floh(i)=Prob_talla_h*S_floh(j);} //hembras
        }
    }
  // CRUCEROS
  // por defecto los mismos que la flota
- //    Sel_crum=Sel_m;
- //   Sel_cruh=Sel_h;
+ //    Sel_crum=Sel_flom;
+ //   Sel_cruh=Sel_floh;
     Sel_crum=1.0;
     Sel_cruh=1.0;
  if(active(log_L50crum)){
  for (j=1;j<=nbloq_selcru;j++){
- S3(j)=exp(-0.5*square(vec_tallas-exp(log_L50crum(j)))/square(exp(log_sdL50crumL(j))));
- S4(j)=exp(-0.5*square(vec_tallas-exp(log_L50cruh(j)))/square(exp(log_sdL50cruhL(j))));
+ S_crum(j)=exp(-0.5*square(vec_tallas-exp(log_L50crum(j)))/square(exp(log_sdL50crumL(j))));
+ S_cruh(j)=exp(-0.5*square(vec_tallas-exp(log_L50cruh(j)))/square(exp(log_sdL50cruhL(j))));
     for (i=1;i<=ntallas;i++){
       if(vec_tallas(i)>=exp(log_L50crum(j))){
-      S3(j,i)= exp(-0.5*square(vec_tallas(i)-exp(log_L50crum(j)))/square(exp(log_sdL50crumR(j))));
+      S_crum(j,i)= exp(-0.5*square(vec_tallas(i)-exp(log_L50crum(j)))/square(exp(log_sdL50crumR(j))));
       }
       if(vec_tallas(i)>=exp(log_L50cruh(j))){
-      S4(j,i)= exp(-0.5*square(vec_tallas(i)-exp(log_L50cruh(j)))/square(exp(log_sdL50cruhR(j))));
+      S_cruh(j,i)= exp(-0.5*square(vec_tallas(i)-exp(log_L50cruh(j)))/square(exp(log_sdL50cruhR(j))));
       }
  }}
    for (i=1;i<=nyears;i++){
       for (j=1;j<=nbloq_selcru;j++){
               if (yrs(i)>=ybloq_selcru(j)){
-                Sel_crum(i)=Prob_talla_m*S3(j);
-                Sel_cruh(i)=Prob_talla_h*S4(j);}
+                Sel_crum(i)=Prob_talla_m*S_crum(j);
+                Sel_cruh(i)=Prob_talla_h*S_cruh(j);}
        }
    }
  }
@@ -779,8 +755,8 @@ void model_parameters::Eval_mortalidades(void)
 {
  Mm=exp(log_Mm);
  Mh=exp(log_Mh);
- Fm=elem_prod(Sel_m,outer_prod(mfexp(log_Fm),Unos_edad));
- Fh=elem_prod(Sel_h,outer_prod(mfexp(log_Fh),Unos_edad));
+ Fm=elem_prod(Sel_flom,outer_prod(mfexp(log_Fm),Unos_edad));
+ Fh=elem_prod(Sel_floh,outer_prod(mfexp(log_Fh),Unos_edad));
  Zm=Fm+Mm;
  Zh=Fh+Mh;
  Sm=mfexp(-1.0*Zm);
@@ -813,8 +789,8 @@ void model_parameters::Eval_abundancia(void)
  }
    //Neqm(nedades)+=Neqm(nedades)*exp(-1.*Zm(1,nedades));//
    Neqm(nedades)=Neqm(nedades)*exp(-1.*Zm(1,nedades))/(1-exp(-1.*Zm(1,nedades)));
- Nm(1)=elem_prod(Neqm,exp(dev_log_Nom));
- Nh(1)=elem_prod(Neqh,exp(dev_log_Noh));
+ Nm(1)=elem_prod(Neqm,exp(log_dev_Nom));
+ Nh(1)=elem_prod(Neqh,exp(log_dev_Noh));
  BD(1)=sum(elem_prod(elem_prod(Nh(1),exp(-dt(1)*Zh(1)))*Prob_talla_h,elem_prod(msex,Wmed(2))));
  Rpred(1)=mfexp(log_Ro);//
  for (i=1;i<nyears;i++)
@@ -822,8 +798,8 @@ void model_parameters::Eval_abundancia(void)
      Rpred(i+1)=mfexp(log_Ro);// 
      if(i>=vec_ages(1)){
      Rpred(i+1)=alfa*BD(i-vec_ages(1)+1)/(beta+BD(i-vec_ages(1)+1));}// Reclutamiento estimado por un modelo B&H hembras
-     Nm(i+1,1)=Rpred(i+1)*mfexp(dev_log_Ro(i))*exp(log_propmR)/(1-exp(log_propmR));  // Reclutas machos   
-     Nh(i+1,1)=Rpred(i+1)*mfexp(dev_log_Ro(i));// Reclutas hembras
+     Nm(i+1,1)=Rpred(i+1)*mfexp(log_dev_Ro(i))*exp(log_propmR)/(1-exp(log_propmR));  // Reclutas machos   
+     Nh(i+1,1)=Rpred(i+1)*mfexp(log_dev_Ro(i));// Reclutas hembras
      Restim=column(Nh,1);
      Nm(i+1)(2,nedades)=++elem_prod(Nm(i)(1,nedades-1),Sm(i)(1,nedades-1));
      Nm(i+1,nedades)=Nm(i+1,nedades)+Nm(i,nedades)*Sm(i,nedades);// grupo plus
@@ -841,7 +817,7 @@ void model_parameters::Eval_deinteres(void)
      Nv(i+1)(2,nedades)=++Nv(i)(1,nedades-1)*exp(-1.0*Mh);
      Nv(i+1,nedades)=Nv(i+1,nedades)+Nv(i,nedades)*exp(-1.0*Mh);// grupo plus
  }
- NDv=elem_prod((Nv*exp(-dt(1)*Mh))*Prob_talla_h,outer_prod(Unos_anos,msex));
+ NDv=elem_prod((Nv*exp(-dt(1)*Mh))*Prob_talla_h,outer_prod(Unos_yrs,msex));
  BDo=NDv*Wmed(2);
  RPR=elem_div(BD,BDo);
  RPRlp=BD/SSBo;
@@ -850,9 +826,9 @@ void model_parameters::Eval_deinteres(void)
 void model_parameters::Eval_biomasas(void)
 {
  NMD=elem_prod(Nh,mfexp(-dt(1)*Zh))*Prob_talla_h;
- NMD=elem_prod(NMD,outer_prod(Unos_anos,msex));
- NVflo_m=elem_prod(elem_prod(Nm,mfexp(-dt(2)*(Zm))),Sel_m)*Prob_talla_m;
- NVflo_h=elem_prod(elem_prod(Nh,mfexp(-dt(2)*(Zh))),Sel_h)*Prob_talla_h;
+ NMD=elem_prod(NMD,outer_prod(Unos_yrs,msex));
+ NVflo_m=elem_prod(elem_prod(Nm,mfexp(-dt(2)*(Zm))),Sel_flom)*Prob_talla_m;
+ NVflo_h=elem_prod(elem_prod(Nh,mfexp(-dt(2)*(Zh))),Sel_floh)*Prob_talla_h;
  NVcru_m=elem_prod(elem_prod(Nm,mfexp(-dt(3)*(Zm))),Sel_crum)*Prob_talla_m;
  NVcru_h=elem_prod(elem_prod(Nh,mfexp(-dt(3)*(Zh))),Sel_cruh)*Prob_talla_h;
  BD=NMD*Wmed(2);
@@ -870,14 +846,22 @@ void model_parameters::Eval_capturas_predichas(void)
  pred_Ctoth=pred_Ctot_ah*Prob_talla_h;
  prop_hpred = elem_div(rowsum(pred_Ctoth),rowsum(pred_Ctoth+pred_Ctotm+1e-10));
  pred_Desemb=pred_Ctotm*Wmed(1)+pred_Ctoth*Wmed(2);
- pobs_m=elem_div(Catsize(1),outer_prod(rowsum(Catsize(1)+1e-10),Unos_tallas));
- ppred_m=elem_div(pred_Ctotm,outer_prod(rowsum(pred_Ctotm+1e-10),Unos_tallas));
- pobs_h=elem_div(Catsize(2),outer_prod(rowsum(Catsize(2)+1e-10),Unos_tallas));
- ppred_h=elem_div(pred_Ctoth,outer_prod(rowsum(pred_Ctoth+1e-10),Unos_tallas));
- pobsc_m=elem_div(Catsize(3),outer_prod(rowsum(Catsize(3)+1e-10),Unos_tallas));
- ppredc_m=elem_div(NVcru_m,outer_prod(rowsum(NVcru_m+1e-10),Unos_tallas));
- pobsc_h=elem_div(Catsize(4),outer_prod(rowsum(Catsize(4)+1e-10),Unos_tallas));
- ppredc_h=elem_div(NVcru_h,outer_prod(rowsum(NVcru_h+1e-10),Unos_tallas));
+ pobs_flom=elem_div(Catsize(1),outer_prod(rowsum(Catsize(1)+1e-10),Unos_tallas));
+ ppred_flom=elem_div(pred_Ctotm,outer_prod(rowsum(pred_Ctotm+1e-10),Unos_tallas));
+ pobs_floh=elem_div(Catsize(2),outer_prod(rowsum(Catsize(2)+1e-10),Unos_tallas));
+ ppred_floh=elem_div(pred_Ctoth,outer_prod(rowsum(pred_Ctoth+1e-10),Unos_tallas));
+ pobs_crum=elem_div(Catsize(3),outer_prod(rowsum(Catsize(3)+1e-10),Unos_tallas));
+ ppred_crum=elem_div(NVcru_m,outer_prod(rowsum(NVcru_m+1e-10),Unos_tallas));
+ pobs_cruh=elem_div(Catsize(4),outer_prod(rowsum(Catsize(4)+1e-10),Unos_tallas));
+ ppred_cruh=elem_div(NVcru_h,outer_prod(rowsum(NVcru_h+1e-10),Unos_tallas));
+ Lmf_obs  = vec_tallas*trans(pobs_flom);
+ Lmf_pred = vec_tallas*trans(ppred_flom);
+ Lhf_obs  = vec_tallas*trans(pobs_floh);
+ Lhf_pred = vec_tallas*trans(ppred_floh);
+ Lmc_obs  = vec_tallas*trans(pobs_crum);
+ Lmc_pred = vec_tallas*trans(ppred_crum);
+ Lhc_obs  = vec_tallas*trans(pobs_cruh);
+ Lhc_pred = vec_tallas*trans(ppred_cruh);
 }
 
 void model_parameters::Eval_indices(void)
@@ -899,7 +883,7 @@ void model_parameters::Eval_indices(void)
 void model_parameters::Eval_PBR(void)
 {
  for (int i=1;i<=npbr;i++){
- Fpbrh=Sel_h(nyears)*exp(log_Fref(i));
+ Fpbrh=Sel_floh(nyears)*exp(log_Fref(i));
  Zpbrh=Fpbrh+Mh;
  Neqh(1)=mfexp(log_Ro);//hembras
  for (int j=2;j<=nedades;j++)
@@ -935,15 +919,15 @@ void model_parameters::Eval_funcion_objetivo(void)
  likeval(2)=0.5*suma2;//Crucero
  likeval(3)=0.5*norm2(elem_div(log(elem_div(Desemb,pred_Desemb)),cv_index(1)));// desemb
  likeval(4)=0.5*suma3;// prop p_hembras
- likeval(5)=-1.*sum(nm_sex(1)*elem_prod(pobs_m,log(ppred_m)));
- likeval(6)=-1.*sum(nm_sex(2)*elem_prod(pobs_h,log(ppred_h)));
- likeval(7)=-1.*sum(nm_sex(3)*elem_prod(pobsc_m,log(ppredc_m)));
- likeval(8)=-1.*sum(nm_sex(4)*elem_prod(pobsc_h,log(ppredc_h)));
- if(active(dev_log_Ro)){
- likeval(9)=1./(2*square(cvar(1)))*norm2(dev_log_Ro);}
- if(active(dev_log_Nom)){
- likeval(10)=1./(2*square(cvar(2)))*norm2(dev_log_Nom);
- likeval(11)=1./(2*square(cvar(2)))*norm2(dev_log_Noh);}
+ likeval(5)=-1.*sum(nm_flocru(1)*elem_prod(pobs_flom,log(ppred_flom)));
+ likeval(6)=-1.*sum(nm_flocru(2)*elem_prod(pobs_floh,log(ppred_floh)));
+ likeval(7)=-1.*sum(nm_flocru(3)*elem_prod(pobs_crum,log(ppred_crum)));
+ likeval(8)=-1.*sum(nm_flocru(4)*elem_prod(pobs_cruh,log(ppred_cruh)));
+ if(active(log_dev_Ro)){
+ likeval(9)=1./(2*square(cvar(1)))*norm2(log_dev_Ro);}
+ if(active(log_dev_Nom)){
+ likeval(10)=1./(2*square(cvar(2)))*norm2(log_dev_Nom);
+ likeval(11)=1./(2*square(cvar(2)))*norm2(log_dev_Noh);}
  if(active(log_sdL50flomR)){
  likeval(12)=lambda*norm2(log_sdL50flomR-log_s2priorm);}
  if(active(log_sdL50flohR)){
@@ -1003,8 +987,8 @@ void model_parameters::Eval_CTP(void)
  Npm(nedades)+=Npplus;
  Npm(1)=exp(log_Ro)*exp(log_propmR)/(1-exp(log_propmR));//;
  // Se considera el mismo F de hembras en los machos
- Fpbrh=Sel_h(nyears)*exp(log_Fref(j));//
- Fpbrm=Sel_m(nyears)*exp(log_Fref(j));//
+ Fpbrh=Sel_floh(nyears)*exp(log_Fref(j));//
+ Fpbrm=Sel_flom(nyears)*exp(log_Fref(j));//
  Zpbrh=Fpbrh+Mh;
  Zpbrm=Fpbrm+Mm;
  Sph=exp(-1.*Zpbrh);
@@ -1063,43 +1047,43 @@ void model_parameters::report(const dvector& gradients)
  report << prop_h << endl;
  report << prop_hpred << endl;
  report << "Lm_obs_pred" << endl;
- report << vec_tallas*trans(pobs_m)<< endl;
- report << vec_tallas*trans(ppred_m)<< endl;
+ report << vec_tallas*trans(pobs_flom)<< endl;
+ report << vec_tallas*trans(ppred_flom)<< endl;
  report << "Lh_obs_pred" << endl;
- report << vec_tallas*trans(pobs_h)<< endl;
- report << vec_tallas*trans(ppred_h)<< endl;
+ report << vec_tallas*trans(pobs_floh)<< endl;
+ report << vec_tallas*trans(ppred_floh)<< endl;
  report << "Lmc_obs_est" << endl;
- report << vec_tallas*trans(pobsc_m)<< endl;
- report << vec_tallas*trans(ppredc_m)<< endl;
+ report << vec_tallas*trans(pobs_crum)<< endl;
+ report << vec_tallas*trans(ppred_crum)<< endl;
  report << "Lhc_obs_est" << endl;
- report << vec_tallas*trans(pobsc_h)<< endl;
- report << vec_tallas*trans(ppredc_h)<< endl;
+ report << vec_tallas*trans(pobs_cruh)<< endl;
+ report << vec_tallas*trans(ppred_cruh)<< endl;
  report << "Sflom_age" << endl;
- report << Sel_m << endl;
+ report << Sel_flom << endl;
  report << "Sfloh_age" <<endl;
- report << Sel_h << endl;
+ report << Sel_floh << endl;
  report << "Scrum_age" << endl;
  report << Sel_crum << endl;
  report << "Scruh_age" << endl;
  report << Sel_cruh << endl;
  report << "CAPTURAS" << endl;
  report << "pobs_mflo" << endl;
- report << (pobs_m)<< endl;
+ report << (pobs_flom)<< endl;
  report << "ppred_mflo" << endl;
- report << (ppred_m)<< endl;
+ report << (ppred_flom)<< endl;
  report << "pobs_hflo" << endl;
- report << (pobs_h)<< endl;
+ report << (pobs_floh)<< endl;
  report << "Ppred_hflo" << endl;
- report << (ppred_h)<< endl;
+ report << (ppred_floh)<< endl;
  report << "CRUCERO" << endl;
  report << "pobs_mcru" << endl;
- report << (pobsc_m)<< endl;
+ report << (pobs_crum)<< endl;
  report << "ppred_mcru" << endl;
- report << (ppredc_m)<< endl;
+ report << (ppred_crum)<< endl;
  report << "pobs_hcru" << endl;
- report << (pobsc_h)<< endl;
+ report << (pobs_cruh)<< endl;
  report << "ppred_hcru" << endl;
- report << (ppredc_h)<< endl;
+ report << (ppred_cruh)<< endl;
  report << "Abundancia a la edad"<< endl;
  report << "Nm"<< endl;
  report << Nm << endl;
@@ -1167,33 +1151,33 @@ void model_parameters::report(const dvector& gradients)
  report << YTP << endl;
  suma1=0; suma2=0;nm1=1;cuenta1=0;
   for (int i=1;i<=nyears;i++){ //
-   if (sum(pobs_m(i))>0){
-      suma1=sum(elem_prod(ppred_m(i),1-ppred_m(i)));
-      suma2=norm2(pobs_m(i)-ppred_m(i));
+   if (sum(pobs_flom(i))>0){
+      suma1=sum(elem_prod(ppred_flom(i),1-ppred_flom(i)));
+      suma2=norm2(pobs_flom(i)-ppred_flom(i));
       nm1=nm1*suma1/suma2;
       cuenta1+=1;
    }}
  suma1=0;suma2=0;nm2=1;cuenta2=0;
   for (int i=1;i<=nyears;i++){ //
-   if (sum(pobs_h(i))>0){
-      suma1=sum(elem_prod(ppred_h(i),1-ppred_h(i)));
-      suma2=norm2(pobs_h(i)-ppred_h(i));
+   if (sum(pobs_floh(i))>0){
+      suma1=sum(elem_prod(ppred_floh(i),1-ppred_floh(i)));
+      suma2=norm2(pobs_floh(i)-ppred_floh(i));
       nm2=nm2*suma1/suma2;
       cuenta2+=1;
    }}
  suma1=0;suma2=0;nm3=1;cuenta3=0;
   for (int i=1;i<=nyears;i++){ //
-   if (sum(pobsc_m(i))>0){
-      suma1=sum(elem_prod(ppredc_m(i),1-ppredc_m(i)));
-      suma2=norm2(pobsc_m(i)-ppredc_m(i));
+   if (sum(pobs_crum(i))>0){
+      suma1=sum(elem_prod(ppred_crum(i),1-ppred_crum(i)));
+      suma2=norm2(pobs_crum(i)-ppred_crum(i));
       nm3=nm3*suma1/suma2;
       cuenta3+=1;
    }}
  suma1=0;suma2=0;nm4=1;cuenta4=0;
   for (int i=1;i<=nyears;i++){ //
-   if (sum(pobs_m(i))>0){
-      suma1=sum(elem_prod(ppredc_h(i),1-ppredc_h(i)));
-      suma2=norm2(pobsc_h(i)-ppredc_h(i));
+   if (sum(pobs_flom(i))>0){
+      suma1=sum(elem_prod(ppred_cruh(i),1-ppred_cruh(i)));
+      suma2=norm2(pobs_cruh(i)-ppred_cruh(i));
       nm4=nm4*suma1/suma2;
       cuenta4+=1;
    }}
@@ -1227,6 +1211,20 @@ void model_parameters::final_calcs()
  cout<<"--Runtime: ";
  cout<<hour<<" hours, "<<minute<<" minutes, "<<second<<" seconds"<<endl;
  cout<<"*********************************************"<<endl;
+ // vector Brec(1,nyears)
+ // vector pred_CPUE(1,nyears);
+ // vector pred_Bcru(1,nyears);
+ // vector pred_Desemb(1,nyears);
+ // vector prior(1,7)
+ //vector Lobs(1,nyears);
+ //vector Lpred(1,nyears);
+ // matrix NM(1,nyears,1,nedades)
+ // matrix Nrec(1,nyears,1,ntallas)
+ //matrix P1(1,nedades,1,ntallas) 
+ //matrix P2(1,nedades,1,ntallas)
+ //matrix P3(1,nedades,1,ntallas)
+ // matrix NMDv(1,nyears,1,nedades)
+ // number So
 }
 
 model_data::~model_data()

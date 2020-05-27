@@ -388,9 +388,16 @@ PARAMETER_SECTION
  sdreport_vector RPRlp(1,nyears);
  sdreport_matrix SSBp(1,nyear_proy,1,npbr);//Biomasa desovante proyectada
  
+ vector Lmf_obs(1,nyears);
+ sdreport_vector Lmf_pred(1,nyears);
+ vector Lhf_obs(1,nyears);
+ sdreport_vector Lhf_pred(1,nyears);
+ vector Lmc_obs(1,nyears);
+ sdreport_vector Lmc_pred(1,nyears);
+ vector Lhc_obs(1,nyears);
+ sdreport_vector Lhc_pred(1,nyears);
+  
  sdreport_vector Frpr(1,nyears);
-
- // Falta agregar vectores de tallas 
 
  
 PRELIMINARY_CALCS_SECTION
@@ -733,6 +740,14 @@ FUNCTION Eval_capturas_predichas
  pobs_cruh=elem_div(Catsize(4),outer_prod(rowsum(Catsize(4)+1e-10),Unos_tallas));
  ppred_cruh=elem_div(NVcru_h,outer_prod(rowsum(NVcru_h+1e-10),Unos_tallas));
 
+ Lmf_obs  = vec_tallas*trans(pobs_flom);
+ Lmf_pred = vec_tallas*trans(ppred_flom);
+ Lhf_obs  = vec_tallas*trans(pobs_floh);
+ Lhf_pred = vec_tallas*trans(ppred_floh);
+ Lmc_obs  = vec_tallas*trans(pobs_crum);
+ Lmc_pred = vec_tallas*trans(ppred_crum);
+ Lhc_obs  = vec_tallas*trans(pobs_cruh);
+ Lhc_pred = vec_tallas*trans(ppred_cruh);
 
 
 FUNCTION Eval_indices
@@ -1144,14 +1159,14 @@ FINAL_SECTION
  // vector Brec(1,nyears)
  // vector pred_CPUE(1,nyears);
  // vector pred_Bcru(1,nyears);
-// vector pred_Desemb(1,nyears);
-// vector prior(1,7)
-//vector Lobs(1,nyears);
-//vector Lpred(1,nyears);
-// matrix NM(1,nyears,1,nedades)
-// matrix Nrec(1,nyears,1,ntallas)
-//matrix P1(1,nedades,1,ntallas)
-//matrix P2(1,nedades,1,ntallas)
-//matrix P3(1,nedades,1,ntallas)
-// matrix NMDv(1,nyears,1,nedades)
-// number So
+ // vector pred_Desemb(1,nyears);
+ // vector prior(1,7)
+ //vector Lobs(1,nyears);
+ //vector Lpred(1,nyears);
+ // matrix NM(1,nyears,1,nedades)
+ // matrix Nrec(1,nyears,1,ntallas)
+ //matrix P1(1,nedades,1,ntallas) 
+ //matrix P2(1,nedades,1,ntallas)
+ //matrix P3(1,nedades,1,ntallas)
+ // matrix NMDv(1,nyears,1,nedades)
+ // number So
