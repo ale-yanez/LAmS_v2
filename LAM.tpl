@@ -238,90 +238,80 @@ PARAMETER_SECTION
 //VARIABLES
 //Defino las variables de estado 
  vector BMflo(1,nyears);
- vector BMcru(1,nyears)
+ vector BMcru(1,nyears);
 
-// vector pred_Desemb(1,nyears);
- vector likeval(1,20);
+ vector likeval(1,20); //Numero de funciones objetivo (1,20)
  vector Neqm(1,nedades);
  vector Neqh(1,nedades);
 
  vector Rpred(1,nyears);
  vector Unos_edad(1,nedades);
- vector Unos_anos(1,nyears);
+ vector Unos_yrs(1,nyears);
  vector Unos_tallas(1,ntallas);
- vector mu_edadm(1,nedades)
- vector mu_edadh(1,nedades)
- vector sigma_edadm(1,nedades)
- vector sigma_edadh(1,nedades)
+ vector mu_edadm(1,nedades);
+ vector mu_edadh(1,nedades);
+ vector sigma_edadm(1,nedades);
+ vector sigma_edadh(1,nedades);
  vector BDo(1,nyears);
- vector No(1,nedades)
- vector prior(1,7)
- vector prop_hpred(1,nyears);
+ vector No(1,nedades);
 
- vector yrs(1,nyears)
+ vector yrs(1,nyears);
  vector Desemb(1,nyears);
  vector CPUE(1,nyears);
  vector Bcru(1,nyears);
  vector prop_h(1,nyears);
+ vector prop_hpred(1,nyears);
 
- vector Lobs(1,nyears);
- vector Lpred(1,nyears);
+ matrix cv_index(1,4,1,nyears);
+ matrix nm_flocru(1,4,1,nyears);
 
- matrix cv_index(1,4,1,nyears)
- matrix nm_sex(1,4,1,nyears)
+ matrix S_flom(1,nbloq_selflo,1,ntallas);
+ matrix S_floh(1,nbloq_selflo,1,ntallas);
+ matrix S_crum(1,nbloq_selcru,1,ntallas);
+ matrix S_cruh(1,nbloq_selcru,1,ntallas);
 
+ matrix Sel_flom(1,nyears,1,nedades);
+ matrix Sel_floh(1,nyears,1,nedades);
  matrix Sel_crum(1,nyears,1,nedades);
  matrix Sel_cruh(1,nyears,1,nedades);
 
- matrix S1(1,nbloq_selflo,1,ntallas)
- matrix S2(1,nbloq_selflo,1,ntallas)
- matrix S3(1,nbloq_selcru,1,ntallas)
- matrix S4(1,nbloq_selcru,1,ntallas)
+ matrix Fm(1,nyears,1,nedades);
+ matrix Fh(1,nyears,1,nedades);
+ matrix Zm(1,nyears,1,nedades);
+ matrix Zh(1,nyears,1,nedades);
+ 
+ matrix Sm(1,nyears,1,nedades);
+ matrix Sh(1,nyears,1,nedades);
+ matrix Nm(1,nyears,1,nedades);
+ matrix Nh(1,nyears,1,nedades);
 
- matrix Sel_m(1,nyears,1,nedades)
- matrix Sel_h(1,nyears,1,nedades)
- matrix Fm(1,nyears,1,nedades)
- matrix Fh(1,nyears,1,nedades)
- matrix Zm(1,nyears,1,nedades)
- matrix Zh(1,nyears,1,nedades)
- matrix Sm(1,nyears,1,nedades)
- matrix Sh(1,nyears,1,nedades)
+ matrix NMD(1,nyears,1,ntallas);
+ matrix NDv(1,nyears,1,ntallas);
 
- matrix Nm(1,nyears,1,nedades)
- matrix Nh(1,nyears,1,nedades)
+ matrix NVflo_m(1,nyears,1,ntallas);
+ matrix NVflo_h(1,nyears,1,ntallas);
+ matrix NVcru_m(1,nyears,1,ntallas);
+ matrix NVcru_h(1,nyears,1,ntallas);
 
- matrix NM(1,nyears,1,nedades)
- matrix NMD(1,nyears,1,ntallas)
- matrix NDv(1,nyears,1,ntallas)
- matrix Nrec(1,nyears,1,ntallas)
- matrix NVflo_m(1,nyears,1,ntallas)
- matrix NVflo_h(1,nyears,1,ntallas)
- matrix NVcru_m(1,nyears,1,ntallas)
- matrix NVcru_h(1,nyears,1,ntallas)
+ matrix pred_Ctot_am(1,nyears,1,nedades);
+ matrix pred_Ctotm(1,nyears,1,ntallas);
+ matrix pred_Ctot_ah(1,nyears,1,nedades);
+ matrix pred_Ctoth(1,nyears,1,ntallas);
 
- matrix pred_Ctotm(1,nyears,1,ntallas)
- matrix pred_Ctot_am(1,nyears,1,nedades)
- matrix pred_Ctoth(1,nyears,1,ntallas)
- matrix pred_Ctot_ah(1,nyears,1,nedades)
+ matrix pobs_flom(1,nyears,1,ntallas);
+ matrix ppred_flom(1,nyears,1,ntallas);
+ matrix pobs_floh(1,nyears,1,ntallas);
+ matrix ppred_floh(1,nyears,1,ntallas);
 
- matrix pobs_m(1,nyears,1,ntallas)
- matrix ppred_m(1,nyears,1,ntallas)
- matrix pobs_h(1,nyears,1,ntallas)
- matrix ppred_h(1,nyears,1,ntallas)
+ matrix pobs_crum(1,nyears,1,ntallas);
+ matrix ppred_crum(1,nyears,1,ntallas);
+ matrix pobs_cruh(1,nyears,1,ntallas);
+ matrix ppred_cruh(1,nyears,1,ntallas);
 
- matrix pobsc_m(1,nyears,1,ntallas)
- matrix ppredc_m(1,nyears,1,ntallas)
- matrix pobsc_h(1,nyears,1,ntallas)
- matrix ppredc_h(1,nyears,1,ntallas)
+ matrix Prob_talla_m(1,nedades,1,ntallas);
+ matrix Prob_talla_h(1,nedades,1,ntallas);
 
- matrix Prob_talla_m(1,nedades,1,ntallas)
- matrix Prob_talla_h(1,nedades,1,ntallas)
-
- matrix P1(1,nedades,1,ntallas)
- matrix P2(1,nedades,1,ntallas)
- matrix P3(1,nedades,1,ntallas)
- matrix Nv(1,nyears,1,nedades)
- matrix NMDv(1,nyears,1,nedades)
+ matrix Nv(1,nyears,1,nedades);
 
  number suma1
  number suma2
@@ -333,14 +323,13 @@ PARAMETER_SECTION
 
  number penalty
 
- number So
  number alfa
  number beta
 
  number Linfm
- number km
+ number K_m
  number Linfh
- number kh
+ number K_h
 
  number Mm
  number Mh
@@ -349,54 +338,59 @@ PARAMETER_SECTION
  number Npplus
  number Bph
  number Bpm
- number nm1;
- number cuenta1;
- number nm2;
- number cuenta2;
- number nm3;
- number cuenta3;
- number nm4;
- number cuenta4;
+ 
+ number nm1
+ number cuenta1
+ number nm2
+ number cuenta2
+ number nm3
+ number cuenta3
+ number nm4
+ number cuenta4
 
- vector Nph(1,nedades)
- vector Zpbrh(1,nedades)
- vector Fpbrh(1,nedades)
- vector Sph(1,nedades)
- vector Npm(1,nedades)
- vector Zpbrm(1,nedades)
- vector Fpbrm(1,nedades)
- vector Spm(1,nedades)
+ vector Nph(1,nedades);
+ vector Zpbrh(1,nedades);
+ vector Fpbrh(1,nedades);
+ vector Sph(1,nedades);
+ vector Npm(1,nedades);
+ vector Zpbrm(1,nedades);
+ vector Fpbrm(1,nedades);
+ vector Spm(1,nedades);
 
- vector CTP(1,ntallas)
+ vector CTP(1,ntallas);
  vector NMDp(1,ntallas);
- matrix YTP(1,nyear_proy,1,npbr)
- matrix BTp(1,nyear_proy,1,npbr)
+ matrix YTP(1,nyear_proy,1,npbr);
+ matrix BTp(1,nyear_proy,1,npbr);
 
  number BD_lp
- vector ratio_pbr(1,npbr)
+ vector ratio_pbr(1,npbr);
 
  vector Nvp(1,nedades);
  number Nvplus;
  vector SDvp(1,nyear_proy);
 
- 
- sdreport_vector CBA(1,npbr) // 
+ sdreport_vector CBA(1,npbr);
 
  objective_function_value f
- sdreport_vector pred_CPUE(1,nyears) // 
- sdreport_vector pred_Bcru(1,nyears) // 
- sdreport_vector pred_Desemb(1,nyears) //
- sdreport_vector BD(1,nyears) // 
- sdreport_vector BT(1,nyears) // 
- sdreport_vector BV(1,nyears)
- sdreport_vector RPR(1,nyears) // 
  
+ sdreport_vector pred_CPUE(1,nyears);
+ sdreport_vector pred_Bcru(1,nyears);
+ sdreport_vector pred_Desemb(1,nyears);
+ 
+ sdreport_vector BD(1,nyears);
+ sdreport_vector BT(1,nyears);
+ sdreport_vector BV(1,nyears);
+ sdreport_vector RPR(1,nyears);
  sdreport_number SSBo
- sdreport_vector RPRp(1,npbr) // RPR proyectado en la simulacion
- sdreport_vector Restim(1,nyears)//Reclutas hembras
- sdreport_vector RPRlp(1,nyears)//
- sdreport_matrix SSBp(1,nyear_proy,1,npbr)//Biomasa desovante proyectada
- sdreport_vector Frpr(1,nyears)
+ 
+ sdreport_vector RPRp(1,npbr); // RPR proyectado en la simulacion
+ sdreport_vector Restim(1,nyears);//Reclutas hembras
+ sdreport_vector RPRlp(1,nyears);
+ sdreport_matrix SSBp(1,nyear_proy,1,npbr);//Biomasa desovante proyectada
+ 
+ sdreport_vector Frpr(1,nyears);
+
+ // Falta agregar vectores de tallas 
 
  
 PRELIMINARY_CALCS_SECTION
@@ -410,19 +404,19 @@ PRELIMINARY_CALCS_SECTION
 
  for (int i=1;i<=4;i++){
  cv_index(i)=column(data,i+5);
- nm_sex(i)=column(data,i+9);
+ nm_flocru(i)=column(data,i+9);
  }
 
  Linfm=Par_bio(1,1);
- km=Par_bio(1,2);
+ K_m=Par_bio(1,2);
  Linfh=Par_bio(2,1);
- kh=Par_bio(2,2);
+ K_h=Par_bio(2,2);
  // Mm=Par_bio(1,5);
  // Mh=Par_bio(2,5);
  
 
  Unos_edad=1;// lo uso en  operaciones matriciales con la edad
- Unos_anos=1;// lo uso en operaciones matriciales con el año
+ Unos_yrs=1;// lo uso en operaciones matriciales con el año
  Unos_tallas=1;// lo uso en operaciones matriciales con el año
 
 
@@ -468,7 +462,7 @@ FUNCTION Eval_prob_talla_edad
  mu_edadm(1)=exp(log_Lom);
  for (i=2;i<=nedades;i++)
   {
-  mu_edadm(i)=Linfm*(1-exp(-km))+exp(-km)*mu_edadm(i-1);
+  mu_edadm(i)=Linfm*(1-exp(-K_m))+exp(-K_m)*mu_edadm(i-1);
   }
 
  sigma_edadm=exp(log_cv_edadm)*mu_edadm;
@@ -476,7 +470,7 @@ FUNCTION Eval_prob_talla_edad
  mu_edadh(1)=exp(log_Loh);
  for (i=2;i<=nedades;i++)
   {
-  mu_edadh(i)=Linfh*(1-exp(-kh))+exp(-kh)*mu_edadh(i-1);
+  mu_edadh(i)=Linfh*(1-exp(-K_h))+exp(-K_h)*mu_edadh(i-1);
   }
  sigma_edadh=exp(log_cv_edadh)*mu_edadh;
 
@@ -516,18 +510,18 @@ FUNCTION Eval_selectividad
 // FLOTA
  for (j=1;j<=nbloq_selflo;j++){
 
- S1(j)=exp(-0.5*square(vec_tallas-exp(log_L50flom(j)))/square(exp(log_sdL50flomL(j))));//machos
- S2(j)=exp(-0.5*square(vec_tallas-exp(log_L50floh(j)))/square(exp(log_sdL50flohL(j))));//hembras
+ S_flom(j)=exp(-0.5*square(vec_tallas-exp(log_L50flom(j)))/square(exp(log_sdL50flomL(j))));//machos
+ S_floh(j)=exp(-0.5*square(vec_tallas-exp(log_L50floh(j)))/square(exp(log_sdL50flohL(j))));//hembras
 
 
     for (i=1;i<=ntallas;i++){
 
       if(vec_tallas(i)>=exp(log_L50flom(j))){
-      S1(j,i)= exp(-0.5*square(vec_tallas(i)-exp(log_L50flom(j)))/square(exp(log_sdL50flomR(j))));
+      S_flom(j,i)= exp(-0.5*square(vec_tallas(i)-exp(log_L50flom(j)))/square(exp(log_sdL50flomR(j))));
       }
 
       if(vec_tallas(i)>=exp(log_L50floh(j))){
-      S2(j,i)= exp(-0.5*square(vec_tallas(i)-exp(log_L50floh(j)))/square(exp(log_sdL50flohR(j))));
+      S_floh(j,i)= exp(-0.5*square(vec_tallas(i)-exp(log_L50floh(j)))/square(exp(log_sdL50flohR(j))));
       }
 
  }}
@@ -536,16 +530,16 @@ FUNCTION Eval_selectividad
    for (i=1;i<=nyears;i++){
       for (j=1;j<=nbloq_selflo;j++){
               if (yrs(i)>=ybloq_selflo(j)){
-                Sel_m(i)=Prob_talla_m*S1(j);//machos
-                Sel_h(i)=Prob_talla_h*S2(j);} //hembras
+                Sel_flom(i)=Prob_talla_m*S_flom(j);//machos
+                Sel_floh(i)=Prob_talla_h*S_floh(j);} //hembras
        }
    }
 
  // CRUCEROS
 
  // por defecto los mismos que la flota
- //    Sel_crum=Sel_m;
- //   Sel_cruh=Sel_h;
+ //    Sel_crum=Sel_flom;
+ //   Sel_cruh=Sel_floh;
     Sel_crum=1.0;
     Sel_cruh=1.0;
 
@@ -554,18 +548,18 @@ FUNCTION Eval_selectividad
 
  for (j=1;j<=nbloq_selcru;j++){
 
- S3(j)=exp(-0.5*square(vec_tallas-exp(log_L50crum(j)))/square(exp(log_sdL50crumL(j))));
- S4(j)=exp(-0.5*square(vec_tallas-exp(log_L50cruh(j)))/square(exp(log_sdL50cruhL(j))));
+ S_crum(j)=exp(-0.5*square(vec_tallas-exp(log_L50crum(j)))/square(exp(log_sdL50crumL(j))));
+ S_cruh(j)=exp(-0.5*square(vec_tallas-exp(log_L50cruh(j)))/square(exp(log_sdL50cruhL(j))));
 
 
     for (i=1;i<=ntallas;i++){
 
       if(vec_tallas(i)>=exp(log_L50crum(j))){
-      S3(j,i)= exp(-0.5*square(vec_tallas(i)-exp(log_L50crum(j)))/square(exp(log_sdL50crumR(j))));
+      S_crum(j,i)= exp(-0.5*square(vec_tallas(i)-exp(log_L50crum(j)))/square(exp(log_sdL50crumR(j))));
       }
 
       if(vec_tallas(i)>=exp(log_L50cruh(j))){
-      S4(j,i)= exp(-0.5*square(vec_tallas(i)-exp(log_L50cruh(j)))/square(exp(log_sdL50cruhR(j))));
+      S_cruh(j,i)= exp(-0.5*square(vec_tallas(i)-exp(log_L50cruh(j)))/square(exp(log_sdL50cruhR(j))));
       }
 
  }}
@@ -573,8 +567,8 @@ FUNCTION Eval_selectividad
    for (i=1;i<=nyears;i++){
       for (j=1;j<=nbloq_selcru;j++){
               if (yrs(i)>=ybloq_selcru(j)){
-                Sel_crum(i)=Prob_talla_m*S3(j);
-                Sel_cruh(i)=Prob_talla_h*S4(j);}
+                Sel_crum(i)=Prob_talla_m*S_crum(j);
+                Sel_cruh(i)=Prob_talla_h*S_cruh(j);}
        }
    }
 
@@ -588,8 +582,8 @@ FUNCTION Eval_mortalidades
  Mm=exp(log_Mm);
  Mh=exp(log_Mh);
  
- Fm=elem_prod(Sel_m,outer_prod(mfexp(log_Fm),Unos_edad));
- Fh=elem_prod(Sel_h,outer_prod(mfexp(log_Fh),Unos_edad));
+ Fm=elem_prod(Sel_flom,outer_prod(mfexp(log_Fm),Unos_edad));
+ Fh=elem_prod(Sel_floh,outer_prod(mfexp(log_Fh),Unos_edad));
 
  Zm=Fm+Mm;
  Zh=Fh+Mh;
@@ -681,7 +675,7 @@ FUNCTION Eval_deinteres
  }
 
 
- NDv=elem_prod((Nv*exp(-dt(1)*Mh))*Prob_talla_h,outer_prod(Unos_anos,msex));
+ NDv=elem_prod((Nv*exp(-dt(1)*Mh))*Prob_talla_h,outer_prod(Unos_yrs,msex));
  BDo=NDv*Wmed(2);
  RPR=elem_div(BD,BDo);
 
@@ -692,10 +686,10 @@ FUNCTION Eval_deinteres
 FUNCTION Eval_biomasas
  
  NMD=elem_prod(Nh,mfexp(-dt(1)*Zh))*Prob_talla_h;
- NMD=elem_prod(NMD,outer_prod(Unos_anos,msex));
+ NMD=elem_prod(NMD,outer_prod(Unos_yrs,msex));
  
- NVflo_m=elem_prod(elem_prod(Nm,mfexp(-dt(2)*(Zm))),Sel_m)*Prob_talla_m;
- NVflo_h=elem_prod(elem_prod(Nh,mfexp(-dt(2)*(Zh))),Sel_h)*Prob_talla_h;
+ NVflo_m=elem_prod(elem_prod(Nm,mfexp(-dt(2)*(Zm))),Sel_flom)*Prob_talla_m;
+ NVflo_h=elem_prod(elem_prod(Nh,mfexp(-dt(2)*(Zh))),Sel_floh)*Prob_talla_h;
 
  NVcru_m=elem_prod(elem_prod(Nm,mfexp(-dt(3)*(Zm))),Sel_crum)*Prob_talla_m;
  NVcru_h=elem_prod(elem_prod(Nh,mfexp(-dt(3)*(Zh))),Sel_cruh)*Prob_talla_h;
@@ -727,17 +721,17 @@ FUNCTION Eval_capturas_predichas
 
 
 // PROPORCIONES  matrices de proporcion de capturas por talla y año
- pobs_m=elem_div(Catsize(1),outer_prod(rowsum(Catsize(1)+1e-10),Unos_tallas));
- ppred_m=elem_div(pred_Ctotm,outer_prod(rowsum(pred_Ctotm+1e-10),Unos_tallas));
+ pobs_flom=elem_div(Catsize(1),outer_prod(rowsum(Catsize(1)+1e-10),Unos_tallas));
+ ppred_flom=elem_div(pred_Ctotm,outer_prod(rowsum(pred_Ctotm+1e-10),Unos_tallas));
 
- pobs_h=elem_div(Catsize(2),outer_prod(rowsum(Catsize(2)+1e-10),Unos_tallas));
- ppred_h=elem_div(pred_Ctoth,outer_prod(rowsum(pred_Ctoth+1e-10),Unos_tallas));
+ pobs_floh=elem_div(Catsize(2),outer_prod(rowsum(Catsize(2)+1e-10),Unos_tallas));
+ ppred_floh=elem_div(pred_Ctoth,outer_prod(rowsum(pred_Ctoth+1e-10),Unos_tallas));
 
- pobsc_m=elem_div(Catsize(3),outer_prod(rowsum(Catsize(3)+1e-10),Unos_tallas));
- ppredc_m=elem_div(NVcru_m,outer_prod(rowsum(NVcru_m+1e-10),Unos_tallas));
+ pobs_crum=elem_div(Catsize(3),outer_prod(rowsum(Catsize(3)+1e-10),Unos_tallas));
+ ppred_crum=elem_div(NVcru_m,outer_prod(rowsum(NVcru_m+1e-10),Unos_tallas));
 
- pobsc_h=elem_div(Catsize(4),outer_prod(rowsum(Catsize(4)+1e-10),Unos_tallas));
- ppredc_h=elem_div(NVcru_h,outer_prod(rowsum(NVcru_h+1e-10),Unos_tallas));
+ pobs_cruh=elem_div(Catsize(4),outer_prod(rowsum(Catsize(4)+1e-10),Unos_tallas));
+ ppred_cruh=elem_div(NVcru_h,outer_prod(rowsum(NVcru_h+1e-10),Unos_tallas));
 
 
 
@@ -764,7 +758,7 @@ FUNCTION Eval_PBR
 
  for (int i=1;i<=npbr;i++){
 
- Fpbrh=Sel_h(nyears)*exp(log_Fref(i));
+ Fpbrh=Sel_floh(nyears)*exp(log_Fref(i));
  Zpbrh=Fpbrh+Mh;
 
  Neqh(1)=mfexp(log_Ro);//hembras
@@ -809,10 +803,10 @@ FUNCTION Eval_funcion_objetivo
  likeval(3)=0.5*norm2(elem_div(log(elem_div(Desemb,pred_Desemb)),cv_index(1)));// desemb
 
  likeval(4)=0.5*suma3;// prop p_hembras
- likeval(5)=-1.*sum(nm_sex(1)*elem_prod(pobs_m,log(ppred_m)));
- likeval(6)=-1.*sum(nm_sex(2)*elem_prod(pobs_h,log(ppred_h)));
- likeval(7)=-1.*sum(nm_sex(3)*elem_prod(pobsc_m,log(ppredc_m)));
- likeval(8)=-1.*sum(nm_sex(4)*elem_prod(pobsc_h,log(ppredc_h)));
+ likeval(5)=-1.*sum(nm_flocru(1)*elem_prod(pobs_flom,log(ppred_flom)));
+ likeval(6)=-1.*sum(nm_flocru(2)*elem_prod(pobs_floh,log(ppred_floh)));
+ likeval(7)=-1.*sum(nm_flocru(3)*elem_prod(pobs_crum,log(ppred_crum)));
+ likeval(8)=-1.*sum(nm_flocru(4)*elem_prod(pobs_cruh,log(ppred_cruh)));
 
 // lognormal Ninicial y Reclutas
  if(active(log_dev_Ro)){
@@ -902,8 +896,8 @@ FUNCTION Eval_CTP
 
 
  // Se considera el mismo F de hembras en los machos
- Fpbrh=Sel_h(nyears)*exp(log_Fref(j));//
- Fpbrm=Sel_m(nyears)*exp(log_Fref(j));//
+ Fpbrh=Sel_floh(nyears)*exp(log_Fref(j));//
+ Fpbrm=Sel_flom(nyears)*exp(log_Fref(j));//
 
  Zpbrh=Fpbrh+Mh;
  Zpbrm=Fpbrm+Mm;
@@ -964,43 +958,43 @@ REPORT_SECTION
  report << prop_h << endl;
  report << prop_hpred << endl;
  report << "Lm_obs_pred" << endl;
- report << vec_tallas*trans(pobs_m)<< endl;
- report << vec_tallas*trans(ppred_m)<< endl;
+ report << vec_tallas*trans(pobs_flom)<< endl;
+ report << vec_tallas*trans(ppred_flom)<< endl;
  report << "Lh_obs_pred" << endl;
- report << vec_tallas*trans(pobs_h)<< endl;
- report << vec_tallas*trans(ppred_h)<< endl;
+ report << vec_tallas*trans(pobs_floh)<< endl;
+ report << vec_tallas*trans(ppred_floh)<< endl;
  report << "Lmc_obs_est" << endl;
- report << vec_tallas*trans(pobsc_m)<< endl;
- report << vec_tallas*trans(ppredc_m)<< endl;
+ report << vec_tallas*trans(pobs_crum)<< endl;
+ report << vec_tallas*trans(ppred_crum)<< endl;
  report << "Lhc_obs_est" << endl;
- report << vec_tallas*trans(pobsc_h)<< endl;
- report << vec_tallas*trans(ppredc_h)<< endl;
+ report << vec_tallas*trans(pobs_cruh)<< endl;
+ report << vec_tallas*trans(ppred_cruh)<< endl;
  report << "Sflom_age" << endl;
- report << Sel_m << endl;
+ report << Sel_flom << endl;
  report << "Sfloh_age" <<endl;
- report << Sel_h << endl;
+ report << Sel_floh << endl;
  report << "Scrum_age" << endl;
  report << Sel_crum << endl;
  report << "Scruh_age" << endl;
  report << Sel_cruh << endl;
  report << "CAPTURAS" << endl;
  report << "pobs_mflo" << endl;
- report << (pobs_m)<< endl;
+ report << (pobs_flom)<< endl;
  report << "ppred_mflo" << endl;
- report << (ppred_m)<< endl;
+ report << (ppred_flom)<< endl;
  report << "pobs_hflo" << endl;
- report << (pobs_h)<< endl;
+ report << (pobs_floh)<< endl;
  report << "Ppred_hflo" << endl;
- report << (ppred_h)<< endl;
+ report << (ppred_floh)<< endl;
  report << "CRUCERO" << endl;
  report << "pobs_mcru" << endl;
- report << (pobsc_m)<< endl;
+ report << (pobs_crum)<< endl;
  report << "ppred_mcru" << endl;
- report << (ppredc_m)<< endl;
+ report << (ppred_crum)<< endl;
  report << "pobs_hcru" << endl;
- report << (pobsc_h)<< endl;
+ report << (pobs_cruh)<< endl;
  report << "ppred_hcru" << endl;
- report << (ppredc_h)<< endl;
+ report << (ppred_cruh)<< endl;
  report << "Abundancia a la edad"<< endl;
  report << "Nm"<< endl;
  report << Nm << endl;
@@ -1073,9 +1067,9 @@ REPORT_SECTION
 
   for (int i=1;i<=nyears;i++){ //
 
-   if (sum(pobs_m(i))>0){
-      suma1=sum(elem_prod(ppred_m(i),1-ppred_m(i)));
-      suma2=norm2(pobs_m(i)-ppred_m(i));
+   if (sum(pobs_flom(i))>0){
+      suma1=sum(elem_prod(ppred_flom(i),1-ppred_flom(i)));
+      suma2=norm2(pobs_flom(i)-ppred_flom(i));
       nm1=nm1*suma1/suma2;
       cuenta1+=1;
    }}
@@ -1083,9 +1077,9 @@ REPORT_SECTION
  suma1=0;suma2=0;nm2=1;cuenta2=0;
   for (int i=1;i<=nyears;i++){ //
 
-   if (sum(pobs_h(i))>0){
-      suma1=sum(elem_prod(ppred_h(i),1-ppred_h(i)));
-      suma2=norm2(pobs_h(i)-ppred_h(i));
+   if (sum(pobs_floh(i))>0){
+      suma1=sum(elem_prod(ppred_floh(i),1-ppred_floh(i)));
+      suma2=norm2(pobs_floh(i)-ppred_floh(i));
       nm2=nm2*suma1/suma2;
       cuenta2+=1;
    }}
@@ -1093,9 +1087,9 @@ REPORT_SECTION
  suma1=0;suma2=0;nm3=1;cuenta3=0;
   for (int i=1;i<=nyears;i++){ //
 
-   if (sum(pobsc_m(i))>0){
-      suma1=sum(elem_prod(ppredc_m(i),1-ppredc_m(i)));
-      suma2=norm2(pobsc_m(i)-ppredc_m(i));
+   if (sum(pobs_crum(i))>0){
+      suma1=sum(elem_prod(ppred_crum(i),1-ppred_crum(i)));
+      suma2=norm2(pobs_crum(i)-ppred_crum(i));
       nm3=nm3*suma1/suma2;
       cuenta3+=1;
    }}
@@ -1103,9 +1097,9 @@ REPORT_SECTION
  suma1=0;suma2=0;nm4=1;cuenta4=0;
   for (int i=1;i<=nyears;i++){ //
 
-   if (sum(pobs_m(i))>0){
-      suma1=sum(elem_prod(ppredc_h(i),1-ppredc_h(i)));
-      suma2=norm2(pobsc_h(i)-ppredc_h(i));
+   if (sum(pobs_flom(i))>0){
+      suma1=sum(elem_prod(ppred_cruh(i),1-ppred_cruh(i)));
+      suma2=norm2(pobs_cruh(i)-ppred_cruh(i));
       nm4=nm4*suma1/suma2;
       cuenta4+=1;
    }}
@@ -1150,4 +1144,14 @@ FINAL_SECTION
  // vector Brec(1,nyears)
  // vector pred_CPUE(1,nyears);
  // vector pred_Bcru(1,nyears);
-
+// vector pred_Desemb(1,nyears);
+// vector prior(1,7)
+//vector Lobs(1,nyears);
+//vector Lpred(1,nyears);
+// matrix NM(1,nyears,1,nedades)
+// matrix Nrec(1,nyears,1,ntallas)
+//matrix P1(1,nedades,1,ntallas)
+//matrix P2(1,nedades,1,ntallas)
+//matrix P3(1,nedades,1,ntallas)
+// matrix NMDv(1,nyears,1,nedades)
+// number So
