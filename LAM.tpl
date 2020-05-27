@@ -31,7 +31,7 @@ DATA_SECTION
  init_matrix Wmed(1,2,1,ntallas);
 
 // !! ad_comm::change_datafile_name("lansur17.ctl");
- init_vector cvar(1,3);//# Coeficiente de variación de los desvios Rt, No y prop_machos en el Reclutamiento
+ init_vector cvar(1,3);//# Coeficiente de variaciï¿½n de los desvios Rt, No y prop_machos en el Reclutamiento
  init_vector dt(1,3);
  
  init_matrix Par_bio(1,2,1,5); //#Loo, k, Lt(a=1), cv(edad), M; filas machos,hembras y prior si se estiman
@@ -64,7 +64,7 @@ DATA_SECTION
  init_matrix sel_ini(1,4,1,3);//Selectividad flota y crucero (valores de partida y rango)
 
 
- // Priors para selectividades y sd // Desde aquí hacia abajo difiere de LAm
+ // Priors para selectividades y sd // Desde aquï¿½ hacia abajo difiere de LAm
  //Flota
  number log_L50fpriorm
  !! log_L50fpriorm = log(sel_ini(1,1));
@@ -103,7 +103,7 @@ number log_s2priorcm
  number log_s2priorch
  !! log_s2priorch = log(sel_ini(4,3));
 
-
+  
  init_number lambda
 
 
@@ -143,8 +143,8 @@ number log_s2priorcm
 
   // Simulaciones
  init_int nyear_proy
- init_number pRec // Proporción de Reclutamiento para Proyección de capturas ante distintos niveles (1.0 proporcional al reclutamiento medio)
- init_number opt_sim // Opción para simular o estimar(0=simula, 1=estima)
+ init_number pRec // Proporciï¿½n de Reclutamiento para Proyecciï¿½n de capturas ante distintos niveles (1.0 proporcional al reclutamiento medio)
+ init_number opt_sim // Opciï¿½n para simular o estimar(0=simula, 1=estima)
  int reporte_mcmc
 
 
@@ -186,32 +186,32 @@ INITIALIZATION_SECTION
 PARAMETER_SECTION
 
 
-// selectividad paramétrica a la talla común
+// selectividad paramï¿½trica a la talla comï¿½n
 // init_bounded_vector log_L50f(1,nbloq_selflo,-5,8,opt1_fase)  
 
 // init_3darray log_sel_inif(1,2,1,2,1,nbloq_selflo,phs_Selflo)
 
- init_vector log_L50flom(1,nbloq_selflo,phs_Selflo);// Podría ser bounded (0.67,1.94)
+ init_vector log_L50flom(1,nbloq_selflo,phs_Selflo);// Podrï¿½a ser bounded (0.67,1.94)
  init_vector log_sdL50flomL(1,nbloq_selflo,phs_Selflo);
  init_vector log_sdL50flomR(1,nbloq_selflo,phs_Selflo);
 
- init_vector log_L50floh(1,nbloq_selflo,phs_Selflo);// Podría ser bounded (0.67,1.94)
+ init_vector log_L50floh(1,nbloq_selflo,phs_Selflo);// Podrï¿½a ser bounded (0.67,1.94)
  init_vector log_sdL50flohL(1,nbloq_selflo,phs_Selflo);
  init_vector log_sdL50flohR(1,nbloq_selflo,phs_Selflo);
 
- init_vector log_L50cruh(1,nbloq_selcru,phs_Selcru);// Podría ser bounded (0.67,1.94)
+ init_vector log_L50cruh(1,nbloq_selcru,phs_Selcru);// Podrï¿½a ser bounded (0.67,1.94)
  init_vector log_sdL50cruhL(1,nbloq_selcru,phs_Selcru);
  init_vector log_sdL50cruhR(1,nbloq_selcru,phs_Selcru);
 
- init_vector log_L50crum(1,nbloq_selcru,phs_Selcru);// Podría ser bounded (0.67,1.94)
+ init_vector log_L50crum(1,nbloq_selcru,phs_Selcru);// Podrï¿½a ser bounded (0.67,1.94)
  init_vector log_sdL50crumL(1,nbloq_selcru,phs_Selcru);
  init_vector log_sdL50crumR(1,nbloq_selcru,phs_Selcru);
 
 
-// parametros reclutamientos, desvíos R, No y mortalidades)
+// parametros reclutamientos, desvï¿½os R, No y mortalidades)
  init_number log_Ro(1);// Inicializado en que valor..(0)??? (En fase 1)
  init_bounded_number log_propmR(-2.3,-0.1,phs_prop_mR); // prop de machos en el reclutamiento (comienza en el valor medio entre 0.1 y 0.9, es decir 0.5)
- init_bounded_dev_vector log_dev_Ro(1,nyears,-10,10,phs_devRt); //dev_vector para que la suma de los parámetros al ser estimados sea 0
+ init_bounded_dev_vector log_dev_Ro(1,nyears,-10,10,phs_devRt); //dev_vector para que la suma de los parï¿½metros al ser estimados sea 0
  init_bounded_vector log_dev_Nom(1,nedades,-10,10,phs_devNo); // -10, 10 significa...
  init_bounded_vector log_dev_Noh(1,nedades,-10,10,phs_devNo);
  init_bounded_vector log_Fm(1,nyears,-20,-0.2,phs_F); // // log  mortalidad por pesca por flota machos F LIMITADA EN 0.8187 !!!!!!
@@ -423,8 +423,8 @@ PRELIMINARY_CALCS_SECTION
  
 
  Unos_edad=1;// lo uso en  operaciones matriciales con la edad
- Unos_yrs=1;// lo uso en operaciones matriciales con el año
- Unos_tallas=1;// lo uso en operaciones matriciales con el año
+ Unos_yrs=1;// lo uso en operaciones matriciales con el aï¿½o
+ Unos_tallas=1;// lo uso en operaciones matriciales con el aï¿½o
 
 
   reporte_mcmc=0;
@@ -618,7 +618,7 @@ FUNCTION Eval_abundancia
  alfa=4*h*exp(log_Ro)/(5*h-1);//
  beta=(1-h)*SSBo/(5*h-1);//  
 
-// genero una estructura inicial en equilibrio para el primer año
+// genero una estructura inicial en equilibrio para el primer aï¿½o
 
  Neqh(1)=mfexp(log_Ro);//hembras
  for (j=2;j<=nedades;j++)
@@ -649,7 +649,7 @@ FUNCTION Eval_abundancia
  Rpred(1)=mfexp(log_Ro);//
 
 
-// se estima la sobrevivencia por edad(a+1) y año(t+1)
+// se estima la sobrevivencia por edad(a+1) y aï¿½o(t+1)
  for (i=1;i<nyears;i++)
  {
      Rpred(i+1)=mfexp(log_Ro);// 
@@ -674,7 +674,7 @@ FUNCTION Eval_deinteres
 // Rutina para calcular RPR
  Nv=Nh;// solo para empezar los calculos
 
-// se estima la sobrevivencia por edad(a+1) y año(t+1)
+// se estima la sobrevivencia por edad(a+1) y aï¿½o(t+1)
  for (int i=1;i<nyears;i++)
  {
      Nv(i+1)(2,nedades)=++Nv(i)(1,nedades-1)*exp(-1.0*Mh);
@@ -713,21 +713,21 @@ FUNCTION Eval_biomasas
 
 FUNCTION Eval_capturas_predichas
 
-// matrices de capturas predichas por edad y año
+// matrices de capturas predichas por edad y aï¿½o
  pred_Ctot_am=elem_prod(elem_div(Fm,Zm),elem_prod(1.-Sm,Nm));
  pred_Ctotm=pred_Ctot_am*Prob_talla_m;
 
  pred_Ctot_ah=elem_prod(elem_div(Fh,Zh),elem_prod(1.-Sh,Nh));
  pred_Ctoth=pred_Ctot_ah*Prob_talla_h;
 
-// Proporción total anual de hembras en las capturas
+// Proporciï¿½n total anual de hembras en las capturas
  prop_hpred = elem_div(rowsum(pred_Ctoth),rowsum(pred_Ctoth+pred_Ctotm+1e-10));
 
-// vectores de desembarques predichos por año
+// vectores de desembarques predichos por aï¿½o
  pred_Desemb=pred_Ctotm*Wmed(1)+pred_Ctoth*Wmed(2);
 
 
-// PROPORCIONES  matrices de proporcion de capturas por talla y año
+// PROPORCIONES  matrices de proporcion de capturas por talla y aï¿½o
  pobs_flom=elem_div(Catsize(1),outer_prod(rowsum(Catsize(1)+1e-10),Unos_tallas));
  ppred_flom=elem_div(pred_Ctotm,outer_prod(rowsum(pred_Ctotm+1e-10),Unos_tallas));
 
@@ -899,7 +899,7 @@ FUNCTION Eval_CTP
  SSBp(i,j)=BDp;
  BTp(i,j)=Bph+Bpm;
 
- // año siguiente
+ // aï¿½o siguiente
  Npplus=Nph(nedades)*Sph(nedades);
  Nph(2,nedades)=++elem_prod(Nph(1,nedades-1),Sph(1,nedades-1));
  Nph(nedades)+=Npplus;
@@ -921,11 +921,11 @@ FUNCTION Eval_CTP
 
  }}
  
- CBA=YTP(2);// es para el año proyectado
+ CBA=YTP(2);// es para el aï¿½o proyectado
 
- // Rutina para la estimación de RPR
+ // Rutina para la estimaciï¿½n de RPR
 
- Nvp=Nv(nyears);// toma la ultima estimación
+ Nvp=Nv(nyears);// toma la ultima estimaciï¿½n
 
 
  for (int i=1;i<=nyear_proy;i++)
