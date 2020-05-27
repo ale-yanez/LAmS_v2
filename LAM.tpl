@@ -103,7 +103,7 @@ number log_s2priorcm
  number log_s2priorch
  !! log_s2priorch = log(sel_ini(4,3));
 
-  
+
  init_number lambda
 
 
