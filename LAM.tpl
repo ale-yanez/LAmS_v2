@@ -212,37 +212,33 @@ PARAMETER_SECTION
  init_number log_Ro(1);// Inicializado en que valor..(0)??? (En fase 1)
  init_bounded_number log_propmR(-2.3,-0.1,phs_prop_mR); // prop de machos en el reclutamiento (comienza en el valor medio entre 0.1 y 0.9, es decir 0.5)
  init_bounded_dev_vector log_dev_Ro(1,nyears,-10,10,phs_devRt); //dev_vector para que la suma de los parámetros al ser estimados sea 0
- init_bounded_vector dev_log_Nom(1,nedades,-10,10,phs_devNo) // -10, 10 significa...
- init_bounded_vector dev_log_Noh(1,nedades,-10,10,phs_devNo)
- init_bounded_vector log_Fm(1,nyears,-20,-0.2,phs_F) // log  mortalidad por pesca por flota
- init_bounded_vector log_Fh(1,nyears,-20,-0.2,phs_F) // log  mortalidad por pesca por flota
+ init_bounded_vector log_dev_Nom(1,nedades,-10,10,phs_devNo); // -10, 10 significa...
+ init_bounded_vector log_dev_Noh(1,nedades,-10,10,phs_devNo);
+ init_bounded_vector log_Fm(1,nyears,-20,-0.2,phs_F); // // log  mortalidad por pesca por flota machos F LIMITADA EN 0.8187 !!!!!!
+ init_bounded_vector log_Fh(1,nyears,-20,-0.2,phs_F); // log  mortalidad por pesca por flota
 
 // capturabilidades
- init_vector log_qflo(1,nbloq_qflo,phs_qflo)
- init_vector log_qcru(1,nbloq_qcru,phs_qcru)
+ init_vector log_qflo(1,nbloq_qflo,phs_qflo);
+ init_vector log_qcru(1,nbloq_qcru,phs_qcru);
 
-// Crecim
- init_number log_Lom(phs_Lo)
- init_number log_cv_edadm(phs_cva)
+// Crecimiento
+ init_number log_Lom(phs_Lo);
+ init_number log_cv_edadm(phs_cva);
 
- init_number log_Loh(phs_Lo)
- init_number log_cv_edadh(phs_cva)
+ init_number log_Loh(phs_Lo);
+ init_number log_cv_edadh(phs_cva);
 
- init_number log_Mh(phs_M)
- init_number log_Mm(phs_M)
+ // Mortalidad Natural
+ init_number log_Mh(phs_M);//EL valor inicial es negativo por tanto no se estima
+ init_number log_Mm(phs_M);
 
 // Fpbr
- init_vector log_Fref(1,npbr,phs_Fpbr);
+ init_vector log_Fref(1,npbr,phs_Fpbr); // F referencias para los PBRs
 
-//---------------------------------------------------------------------------------
-
+//VARIABLES
 //Defino las variables de estado 
- vector BMflo(1,nyears)
+ vector BMflo(1,nyears);
  vector BMcru(1,nyears)
-
- vector Brec(1,nyears)
-// vector pred_CPUE(1,nyears);
-// vector pred_Bcru(1,nyears);
 
 // vector pred_Desemb(1,nyears);
  vector likeval(1,20);
@@ -645,8 +641,8 @@ FUNCTION Eval_abundancia
 
 // Abundancia inicial
 
- Nm(1)=elem_prod(Neqm,exp(dev_log_Nom));
- Nh(1)=elem_prod(Neqh,exp(dev_log_Noh));
+ Nm(1)=elem_prod(Neqm,exp(log_dev_Nom));
+ Nh(1)=elem_prod(Neqh,exp(log_dev_Noh));
  BD(1)=sum(elem_prod(elem_prod(Nh(1),exp(-dt(1)*Zh(1)))*Prob_talla_h,elem_prod(msex,Wmed(2))));
 
  Rpred(1)=mfexp(log_Ro);//
@@ -821,9 +817,9 @@ FUNCTION Eval_funcion_objetivo
 // lognormal Ninicial y Reclutas
  if(active(log_dev_Ro)){
  likeval(9)=1./(2*square(cvar(1)))*norm2(log_dev_Ro);}
- if(active(dev_log_Nom)){
- likeval(10)=1./(2*square(cvar(2)))*norm2(dev_log_Nom);
- likeval(11)=1./(2*square(cvar(2)))*norm2(dev_log_Noh);}
+ if(active(log_dev_Nom)){
+ likeval(10)=1./(2*square(cvar(2)))*norm2(log_dev_Nom);
+ likeval(11)=1./(2*square(cvar(2)))*norm2(log_dev_Noh);}
  if(active(log_sdL50flomR)){
  likeval(12)=lambda*norm2(log_sdL50flomR-log_s2priorm);}
  if(active(log_sdL50flohR)){
@@ -1148,4 +1144,10 @@ FINAL_SECTION
  cout<<hour<<" hours, "<<minute<<" minutes, "<<second<<" seconds"<<endl;
  cout<<"*********************************************"<<endl;
 
+
+// Comentados..
+
+ // vector Brec(1,nyears)
+ // vector pred_CPUE(1,nyears);
+ // vector pred_Bcru(1,nyears);
 
