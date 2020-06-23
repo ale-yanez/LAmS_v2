@@ -837,16 +837,20 @@ FUNCTION Eval_funcion_objetivo
 // lognormal Ninicial y Reclutas
  if(active(log_dev_Ro)){
  likeval(9)=1./(2*square(cvar(1)))*norm2(log_dev_Ro);}
+ 
  if(active(log_dev_Nom)){
  likeval(10)=1./(2*square(cvar(2)))*norm2(log_dev_Nom);
  likeval(11)=1./(2*square(cvar(2)))*norm2(log_dev_Noh);}
+ 
  if(active(log_sdL50flomR)){
  likeval(12)=lambda*norm2(log_sdL50flomR-log_s2priorm);}
+ 
  if(active(log_sdL50flohR)){
  likeval(13)=lambda*norm2(log_sdL50flohR-log_s2priorh);}
 
  if(active(log_sdL50crumR)){
  likeval(14)=lambda*norm2(log_sdL50crumR-log_s2priorcm);}
+ 
  if(active(log_sdL50cruhR)){
  likeval(15)=lambda*norm2(log_sdL50cruhR-log_s2priorch);}
 
@@ -872,11 +876,9 @@ FUNCTION Eval_funcion_objetivo
 
 
  f=opt_sim*sum(likeval)+penalty;
-
-
-//---------------------------------------------------------------------
-
-
+ 
+ 
+ 
 FUNCTION Eval_CTP
 
  // se considera el Fpbr de hembras como el representativo factor limitante
