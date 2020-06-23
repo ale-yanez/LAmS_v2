@@ -419,11 +419,10 @@ PRELIMINARY_CALCS_SECTION
  K_h=Par_bio(2,2);
  // Mm=Par_bio(1,5);
  // Mh=Par_bio(2,5);
- 
 
  Unos_edad=1;// lo uso en  operaciones matriciales con la edad
- Unos_yrs=1;// lo uso en operaciones matriciales con el a�o
- Unos_tallas=1;// lo uso en operaciones matriciales con el a�o
+ Unos_yrs=1;// lo uso en operaciones matriciales con el año
+ Unos_tallas=1;// lo uso en operaciones matriciales con el año
 
 
   reporte_mcmc=0;
@@ -466,6 +465,7 @@ FUNCTION Eval_prob_talla_edad
 
 // genero una clave edad-talla para otros calculos. Se modela desde L(1)
  mu_edadm(1)=exp(log_Lom);
+ 
  for (i=2;i<=nedades;i++)
   {
   mu_edadm(i)=Linfm*(1-exp(-K_m))+exp(-K_m)*mu_edadm(i-1);
@@ -480,11 +480,10 @@ FUNCTION Eval_prob_talla_edad
   }
  sigma_edadh=exp(log_cv_edadh)*mu_edadh;
 
-
   Prob_talla_m = ALK( mu_edadm, sigma_edadm, vec_tallas);
   Prob_talla_h = ALK( mu_edadh, sigma_edadh, vec_tallas);
 
-//----------------------------------------------------------------------
+ // Función extraida desde ADMB Documentation (Steve Martell)
 FUNCTION dvar_matrix ALK(dvar_vector& mu, dvar_vector& sig, dvector& x)
 	//RETURN_ARRAYS_INCREMENT();
 	int i, j;
@@ -507,7 +506,7 @@ FUNCTION dvar_matrix ALK(dvar_vector& mu, dvar_vector& sig, dvector& x)
 	}//end nage
 	//RETURN_ARRAYS_DECREMENT();
 	return(pdf);
-//----------------------------------------------------------------------
+
 
 FUNCTION Eval_selectividad
  int i,j;

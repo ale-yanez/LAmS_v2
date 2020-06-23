@@ -478,7 +478,7 @@ FUNCTION dvar_matrix ALK(dvar_vector& mu, dvar_vector& sig, dvector& x)
 	}//end nage
 	//RETURN_ARRAYS_DECREMENT();
 	return(pdf);
-//----------------------------------------------------------------------
+
 
 FUNCTION Eval_selectividad
  int i,j;
