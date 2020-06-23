@@ -721,6 +721,7 @@ FUNCTION Eval_capturas_predichas
  pred_Ctot_am=elem_prod(elem_div(Fm,Zm),elem_prod(1.-Sm,Nm));
  pred_Ctotm=pred_Ctot_am*Prob_talla_m;
 
+
  pred_Ctot_ah=elem_prod(elem_div(Fh,Zh),elem_prod(1.-Sh,Nh));
  pred_Ctoth=pred_Ctot_ah*Prob_talla_h;
 
@@ -757,7 +758,6 @@ FUNCTION Eval_capturas_predichas
 
 
 FUNCTION Eval_indices
- 
 
    for (int i=1;i<=nyears;i++){
       for (int j=1;j<=nbloq_qflo;j++){
@@ -773,6 +773,8 @@ FUNCTION Eval_indices
                  pred_Bcru(i)=exp(log_qcru(j))*BMcru(i);}
        }
    }
+
+
 
 FUNCTION Eval_PBR
 
