@@ -599,64 +599,70 @@ FUNCTION Eval_mortalidades
 FUNCTION Eval_abundancia
  int i, j;
 
-
  // Biomasa desovante virgen de largo plazo
  No(1)=exp(log_Ro); // hembras
+ 
  for (int j=2;j<=nedades;j++)
  {
    No(j)=No(j-1)*exp(-1.*Mh);
  }
+ 
 //   No(nedades)+=No(nedades)*exp(-1.*Mh);
-   No(nedades)=No(nedades)*exp(-1.*Mh)/(1-exp(-1.*Mh));
-  SSBo=sum(elem_prod(No*exp(-dt(1)*Mh)*Prob_talla_h,elem_prod(msex,Wmed(2))));
+ No(nedades)=No(nedades)*exp(-1.*Mh)/(1-exp(-1.*Mh)); // Grupo Plus
+
+ SSBo=sum(elem_prod(No*exp(-dt(1)*Mh)*Prob_talla_h,elem_prod(msex,Wmed(2))));
+
 
 // Stock-recluta
 
  alfa=4*h*exp(log_Ro)/(5*h-1);//
  beta=(1-h)*SSBo/(5*h-1);//  
 
-// genero una estructura inicial en equilibrio para el primer a�o
 
+// genero una estructura inicial en equilibrio para el primer a�o
  Neqh(1)=mfexp(log_Ro);//hembras
+
  for (j=2;j<=nedades;j++)
  {
    Neqh(j)=Neqh(j-1)*exp(-Zh(1,j-1));
  }
 //   Neqh(nedades)+=Neqh(nedades)*exp(-1.*Zh(1,nedades)); // MODIFICAR POR LA OTRA FORMA
-   Neqh(nedades)=Neqh(nedades)*exp(-1.*Zh(1,nedades))/(1-exp(-1.*Zh(1,nedades)));
-
+ Neqh(nedades)=Neqh(nedades)*exp(-1.*Zh(1,nedades))/(1-exp(-1.*Zh(1,nedades)));
 
 
  Neqm(1)=mfexp(log_Ro) * (exp(log_propmR)/(1-exp(log_propmR)));//machos
+ 
  for (j=2;j<=nedades;j++)
  {
    Neqm(j)=Neqm(j-1)*exp(-Zm(1,j-1));
  }
    //Neqm(nedades)+=Neqm(nedades)*exp(-1.*Zm(1,nedades));//
-   Neqm(nedades)=Neqm(nedades)*exp(-1.*Zm(1,nedades))/(1-exp(-1.*Zm(1,nedades)));
-
+ Neqm(nedades)=Neqm(nedades)*exp(-1.*Zm(1,nedades))/(1-exp(-1.*Zm(1,nedades)));
 
 
 // Abundancia inicial
-
  Nm(1)=elem_prod(Neqm,exp(log_dev_Nom));
  Nh(1)=elem_prod(Neqh,exp(log_dev_Noh));
+ 
  BD(1)=sum(elem_prod(elem_prod(Nh(1),exp(-dt(1)*Zh(1)))*Prob_talla_h,elem_prod(msex,Wmed(2))));
 
  Rpred(1)=mfexp(log_Ro);//
 
-
-// se estima la sobrevivencia por edad(a+1) y a�o(t+1)
+// se estima la sobrevivencia por edad(a+1) y año(t+1)
  for (i=1;i<nyears;i++)
  {
-     Rpred(i+1)=mfexp(log_Ro);// 
+     Rpred(i+1)=mfexp(log_Ro);
+
+// Reclutamiento estimado por un modelo B&H hembras
      if(i>=vec_ages(1)){
-     Rpred(i+1)=alfa*BD(i-vec_ages(1)+1)/(beta+BD(i-vec_ages(1)+1));}// Reclutamiento estimado por un modelo B&H hembras
+     Rpred(i+1)=alfa*BD(i-vec_ages(1)+1)/(beta+BD(i-vec_ages(1)+1));
+ 	}
 
      Nm(i+1,1)=Rpred(i+1)*mfexp(log_dev_Ro(i))*exp(log_propmR)/(1-exp(log_propmR));  // Reclutas machos   
      Nh(i+1,1)=Rpred(i+1)*mfexp(log_dev_Ro(i));// Reclutas hembras
      Restim=column(Nh,1);
 
+// Abundancia edad 2 en adelante
      Nm(i+1)(2,nedades)=++elem_prod(Nm(i)(1,nedades-1),Sm(i)(1,nedades-1));
      Nm(i+1,nedades)=Nm(i+1,nedades)+Nm(i,nedades)*Sm(i,nedades);// grupo plus
 
@@ -665,6 +671,7 @@ FUNCTION Eval_abundancia
 
      BD(i+1)=sum(elem_prod(elem_prod(Nh(i+1),exp(-dt(1)*Zh(i+1)))*Prob_talla_h,elem_prod(msex,Wmed(2))));
  }
+
 
 FUNCTION Eval_deinteres
 
