@@ -64,7 +64,7 @@ DATA_SECTION
  init_matrix sel_ini(1,4,1,3);//Selectividad flota y crucero (valores de partida y rango)
 
 
- // Priors para selectividades y sd // Desde aqu� hacia abajo difiere de LAm
+ // Priors para selectividades y sd // Desde aquí hacia abajo difiere de LAm
  //Flota
  number log_L50fpriorm
  !! log_L50fpriorm = log(sel_ini(1,1));
@@ -143,8 +143,8 @@ number log_s2priorcm
 
   // Simulaciones
  init_int nyear_proy
- init_number pRec // Proporci�n de Reclutamiento para Proyecci�n de capturas ante distintos niveles (1.0 proporcional al reclutamiento medio)
- init_number opt_sim // Opci�n para simular o estimar(0=simula, 1=estima)
+ init_number pRec // Proporción de Reclutamiento para Proyección de capturas ante distintos niveles (1.0 proporcional al reclutamiento medio)
+ init_number opt_sim // Opción para simular o estimar(0=simula, 1=estima)
  int reporte_mcmc
 
 
@@ -186,32 +186,32 @@ INITIALIZATION_SECTION
 PARAMETER_SECTION
 
 
-// selectividad param�trica a la talla com�n
+// selectividad paramétrica a la talla común
 // init_bounded_vector log_L50f(1,nbloq_selflo,-5,8,opt1_fase)  
 
 // init_3darray log_sel_inif(1,2,1,2,1,nbloq_selflo,phs_Selflo)
 
- init_vector log_L50flom(1,nbloq_selflo,phs_Selflo);// Podr�a ser bounded (0.67,1.94)
+ init_vector log_L50flom(1,nbloq_selflo,phs_Selflo);// Podría ser bounded (0.67,1.94)
  init_vector log_sdL50flomL(1,nbloq_selflo,phs_Selflo);
  init_vector log_sdL50flomR(1,nbloq_selflo,phs_Selflo);
 
- init_vector log_L50floh(1,nbloq_selflo,phs_Selflo);// Podr�a ser bounded (0.67,1.94)
+ init_vector log_L50floh(1,nbloq_selflo,phs_Selflo);// Podría ser bounded (0.67,1.94)
  init_vector log_sdL50flohL(1,nbloq_selflo,phs_Selflo);
  init_vector log_sdL50flohR(1,nbloq_selflo,phs_Selflo);
 
- init_vector log_L50cruh(1,nbloq_selcru,phs_Selcru);// Podr�a ser bounded (0.67,1.94)
+ init_vector log_L50cruh(1,nbloq_selcru,phs_Selcru);// Podría ser bounded (0.67,1.94)
  init_vector log_sdL50cruhL(1,nbloq_selcru,phs_Selcru);
  init_vector log_sdL50cruhR(1,nbloq_selcru,phs_Selcru);
 
- init_vector log_L50crum(1,nbloq_selcru,phs_Selcru);// Podr�a ser bounded (0.67,1.94)
+ init_vector log_L50crum(1,nbloq_selcru,phs_Selcru);// Podría ser bounded (0.67,1.94)
  init_vector log_sdL50crumL(1,nbloq_selcru,phs_Selcru);
  init_vector log_sdL50crumR(1,nbloq_selcru,phs_Selcru);
 
 
-// parametros reclutamientos, desv�os R, No y mortalidades)
+// parametros reclutamientos, desvíos R, No y mortalidades)
  init_number log_Ro(1);// Inicializado en que valor..(0)??? (En fase 1)
  init_bounded_number log_propmR(-2.3,-0.1,phs_prop_mR); // prop de machos en el reclutamiento (comienza en el valor medio entre 0.1 y 0.9, es decir 0.5)
- init_bounded_dev_vector log_dev_Ro(1,nyears,-10,10,phs_devRt); //dev_vector para que la suma de los par�metros al ser estimados sea 0
+ init_bounded_dev_vector log_dev_Ro(1,nyears,-10,10,phs_devRt); //dev_vector para que la suma de los parámetros al ser estimados sea 0
  init_bounded_vector log_dev_Nom(1,nedades,-10,10,phs_devNo); // -10, 10 significa...
  init_bounded_vector log_dev_Noh(1,nedades,-10,10,phs_devNo);
  init_bounded_vector log_Fm(1,nyears,-20,-0.2,phs_F); // // log  mortalidad por pesca por flota machos F LIMITADA EN 0.8187 !!!!!!
@@ -401,7 +401,6 @@ PARAMETER_SECTION
 
  
 PRELIMINARY_CALCS_SECTION
-
 
  yrs=column(data,1);
  Desemb=column(data,2);
