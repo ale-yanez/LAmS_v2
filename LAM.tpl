@@ -698,11 +698,12 @@ FUNCTION Eval_biomasas
  NMD=elem_prod(Nh,mfexp(-dt(1)*Zh))*Prob_talla_h;
  NMD=elem_prod(NMD,outer_prod(Unos_yrs,msex));
  
- NVflo_m=elem_prod(elem_prod(Nm,mfexp(-dt(2)*(Zm))),Sel_flom)*Prob_talla_m;
  NVflo_h=elem_prod(elem_prod(Nh,mfexp(-dt(2)*(Zh))),Sel_floh)*Prob_talla_h;
-
- NVcru_m=elem_prod(elem_prod(Nm,mfexp(-dt(3)*(Zm))),Sel_crum)*Prob_talla_m;
+ NVflo_m=elem_prod(elem_prod(Nm,mfexp(-dt(2)*(Zm))),Sel_flom)*Prob_talla_m;
+ 
  NVcru_h=elem_prod(elem_prod(Nh,mfexp(-dt(3)*(Zh))),Sel_cruh)*Prob_talla_h;
+ NVcru_m=elem_prod(elem_prod(Nm,mfexp(-dt(3)*(Zm))),Sel_crum)*Prob_talla_m;
+
 
 // vectores de biomasas derivadas
  BD=NMD*Wmed(2);
