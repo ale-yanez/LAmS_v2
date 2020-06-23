@@ -509,7 +509,7 @@ FUNCTION dvar_matrix ALK(dvar_vector& mu, dvar_vector& sig, dvector& x)
 
 
 FUNCTION Eval_selectividad
- int i,j;
+ int i,j; 
 
 
 // FLOTA
@@ -578,7 +578,6 @@ FUNCTION Eval_selectividad
    }
 
  }
-
 
 
 
