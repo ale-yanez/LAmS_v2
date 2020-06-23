@@ -717,21 +717,21 @@ FUNCTION Eval_biomasas
 
 FUNCTION Eval_capturas_predichas
 
-// matrices de capturas predichas por edad y a�o
+// matrices de capturas predichas por edad y año
  pred_Ctot_am=elem_prod(elem_div(Fm,Zm),elem_prod(1.-Sm,Nm));
  pred_Ctotm=pred_Ctot_am*Prob_talla_m;
 
  pred_Ctot_ah=elem_prod(elem_div(Fh,Zh),elem_prod(1.-Sh,Nh));
  pred_Ctoth=pred_Ctot_ah*Prob_talla_h;
 
-// Proporci�n total anual de hembras en las capturas
+// Proporción total anual de hembras en las capturas
  prop_hpred = elem_div(rowsum(pred_Ctoth),rowsum(pred_Ctoth+pred_Ctotm+1e-10));
 
 // vectores de desembarques predichos por a�o
  pred_Desemb=pred_Ctotm*Wmed(1)+pred_Ctoth*Wmed(2);
 
 
-// PROPORCIONES  matrices de proporcion de capturas por talla y a�o
+// PROPORCIONES  matrices de proporcion de capturas por talla y año
  pobs_flom=elem_div(Catsize(1),outer_prod(rowsum(Catsize(1)+1e-10),Unos_tallas));
  ppred_flom=elem_div(pred_Ctotm,outer_prod(rowsum(pred_Ctotm+1e-10),Unos_tallas));
 
@@ -744,6 +744,7 @@ FUNCTION Eval_capturas_predichas
  pobs_cruh=elem_div(Catsize(4),outer_prod(rowsum(Catsize(4)+1e-10),Unos_tallas));
  ppred_cruh=elem_div(NVcru_h,outer_prod(rowsum(NVcru_h+1e-10),Unos_tallas));
 
+
  Lmf_obs  = vec_tallas*trans(pobs_flom);
  Lmf_pred = vec_tallas*trans(ppred_flom);
  Lhf_obs  = vec_tallas*trans(pobs_floh);
@@ -752,6 +753,7 @@ FUNCTION Eval_capturas_predichas
  Lmc_pred = vec_tallas*trans(ppred_crum);
  Lhc_obs  = vec_tallas*trans(pobs_cruh);
  Lhc_pred = vec_tallas*trans(ppred_cruh);
+
 
 
 FUNCTION Eval_indices
