@@ -778,27 +778,29 @@ FUNCTION Eval_indices
 
 FUNCTION Eval_PBR
 
-
- for (int i=1;i<=npbr;i++){
-
+ for (int i=1;i<=npbr;i++)
+ {
  Fpbrh=Sel_floh(nyears)*exp(log_Fref(i));
  Zpbrh=Fpbrh+Mh;
 
  Neqh(1)=mfexp(log_Ro);//hembras
- for (int j=2;j<=nedades;j++)
- {
-   Neqh(j)=Neqh(j-1)*exp(-Zpbrh(j-1));
- }
+ 
+ 	for (int j=2;j<=nedades;j++)
+	{
+		Neqh(j)=Neqh(j-1)*exp(-Zpbrh(j-1));
+	}
 //   Neqh(nedades)+=Neqh(nedades)*exp(-1.*Zpbr(nedades)); // MODIFICAR POR LA OTRA FORMA
    Neqh(nedades)=Neqh(nedades)*exp(-1.*Zpbrh(nedades))/(1-exp(-1.*Zpbrh(nedades))); // MODIFICAR POR LA OTRA FORMA
 
-
  BD_lp=sum(elem_prod(elem_prod(Neqh,exp(-dt(1)*Zpbrh))*Prob_talla_h,elem_prod(msex,Wmed(2))));
+ 
  ratio_pbr(i)=BD_lp/SSBo;
  }
 
  Frpr=mfexp(log_Fh)/mfexp(log_Fref(3));
-
+ 
+ 
+ 
 FUNCTION Eval_logverosim
 // esta funcion evalua el nucleo de las -log-verosimilitudes marginales para
 // series con datos 0.
