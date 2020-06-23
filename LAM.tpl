@@ -802,8 +802,8 @@ FUNCTION Eval_PBR
  
  
 FUNCTION Eval_logverosim
-// esta funcion evalua el nucleo de las -log-verosimilitudes marginales para
-// series con datos 0.
+// esta funcion evalua el nucleo de las -log-verosimilitudes marginales para series con datos 0
+
  int i;
 
  suma1=0; suma2=0; suma3=0; penalty=0;
@@ -817,6 +817,7 @@ FUNCTION Eval_logverosim
   if (prop_h(i)>0){
     suma3+=square(log(prop_h(i)/prop_hpred(i))*1/cv_index(4,i));}
  }
+
 
 
 FUNCTION Eval_funcion_objetivo
