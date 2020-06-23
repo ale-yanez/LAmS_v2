@@ -1062,7 +1062,7 @@ REPORT_SECTION
  report << Prob_talla_m << endl;
  report << "Prob_talla_h" << endl;
  report << Prob_talla_h << endl;
- report << "LIKE" <<endl;
+ report << "LIKE" <<endl; //CPUE, Crucero,Desemb, prop,prop_mflo, prop_hflo,pobs_crum, pobs_cruh, Ro,No_m, No_h,Lo_m,Lo_h,cvage_m, cvage_h
  report << likeval << endl;
  report << "q_cru" <<endl;
  report << exp(log_qcru) << endl;
@@ -1085,48 +1085,56 @@ REPORT_SECTION
  report << "C_proy" << endl;
  report << YTP << endl;
 
+
 // ESTIMA nm y CV
 
  suma1=0; suma2=0;nm1=1;cuenta1=0;
 
-  for (int i=1;i<=nyears;i++){ //
-
-   if (sum(pobs_flom(i))>0){
-      suma1=sum(elem_prod(ppred_flom(i),1-ppred_flom(i)));
-      suma2=norm2(pobs_flom(i)-ppred_flom(i));
-      nm1=nm1*suma1/suma2;
-      cuenta1+=1;
-   }}
+  for (int i=1;i<=nyears;i++)
+  {
+	  if (sum(pobs_flom(i))>0){
+		  suma1=sum(elem_prod(ppred_flom(i),1-ppred_flom(i)));
+		  suma2=norm2(pobs_flom(i)-ppred_flom(i));
+		  nm1=nm1*suma1/suma2;
+		  cuenta1+=1;
+		  }
+	}
 
  suma1=0;suma2=0;nm2=1;cuenta2=0;
-  for (int i=1;i<=nyears;i++){ //
-
-   if (sum(pobs_floh(i))>0){
-      suma1=sum(elem_prod(ppred_floh(i),1-ppred_floh(i)));
-      suma2=norm2(pobs_floh(i)-ppred_floh(i));
-      nm2=nm2*suma1/suma2;
-      cuenta2+=1;
-   }}
+  for (int i=1;i<=nyears;i++)
+  {
+	  if (sum(pobs_floh(i))>0)
+	  {
+		  suma1=sum(elem_prod(ppred_floh(i),1-ppred_floh(i)));
+		  suma2=norm2(pobs_floh(i)-ppred_floh(i));
+		  nm2=nm2*suma1/suma2;
+		  cuenta2+=1;
+		  }
+	  }
 
  suma1=0;suma2=0;nm3=1;cuenta3=0;
-  for (int i=1;i<=nyears;i++){ //
-
-   if (sum(pobs_crum(i))>0){
-      suma1=sum(elem_prod(ppred_crum(i),1-ppred_crum(i)));
-      suma2=norm2(pobs_crum(i)-ppred_crum(i));
-      nm3=nm3*suma1/suma2;
-      cuenta3+=1;
-   }}
+  for (int i=1;i<=nyears;i++)
+  {
+	  if (sum(pobs_crum(i))>0)
+	  {
+		  suma1=sum(elem_prod(ppred_crum(i),1-ppred_crum(i)));
+		  suma2=norm2(pobs_crum(i)-ppred_crum(i));
+		  nm3=nm3*suma1/suma2;
+		  cuenta3+=1;
+		  }
+	  }
 
  suma1=0;suma2=0;nm4=1;cuenta4=0;
-  for (int i=1;i<=nyears;i++){ //
-
-   if (sum(pobs_flom(i))>0){
-      suma1=sum(elem_prod(ppred_cruh(i),1-ppred_cruh(i)));
-      suma2=norm2(pobs_cruh(i)-ppred_cruh(i));
-      nm4=nm4*suma1/suma2;
-      cuenta4+=1;
-   }}
+  for (int i=1;i<=nyears;i++)
+  {
+	  if (sum(pobs_flom(i))>0)
+	  {
+		  suma1=sum(elem_prod(ppred_cruh(i),1-ppred_cruh(i)));
+		  suma2=norm2(pobs_cruh(i)-ppred_cruh(i));
+		  nm4=nm4*suma1/suma2;
+		  cuenta4+=1;
+		  }
+	  }
 
 
  report << "Tamanho muestra ideal" <<endl;
@@ -1134,7 +1142,6 @@ REPORT_SECTION
  report <<pow(nm2,1/cuenta2)<< endl;
  report <<pow(nm3,1/cuenta3)<< endl;
  report <<pow(nm4,1/cuenta4)<< endl;
-
 
 
 FUNCTION Eval_mcmc
