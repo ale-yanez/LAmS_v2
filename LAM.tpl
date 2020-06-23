@@ -1152,9 +1152,9 @@ FUNCTION Eval_mcmc
      " "<<SSBp(nyear_proy,4)/BD(nyears)<<endl;
 
   reporte_mcmc++;
-
-
-
+ 
+ 
+ 
 FINAL_SECTION
 
  time(&finish);
