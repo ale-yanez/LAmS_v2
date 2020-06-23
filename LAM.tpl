@@ -880,83 +880,79 @@ FUNCTION Eval_funcion_objetivo
  
  
 FUNCTION Eval_CTP
+// se considera el Fpbr de hembras como el representativo factor limitante
 
- // se considera el Fpbr de hembras como el representativo factor limitante
+ for (int j=1;j<=npbr;j++)
+ { // son # PBR only!
+	Nph=Nh(nyears);
+	Npm=Nm(nyears);
+	
+	Sph=Sh(nyears);
+	Spm=Sm(nyears);
+	
+	BDp=BD(nyears);
+	
+	Fpbrh=Fh(nyears);
+	Fpbrm=Fm(nyears);
+	
+	Zpbrh=Zh(nyears);
+	Zpbrm=Zm(nyears);
+	
+	for (int i=1;i<=nyear_proy;i++)
+	{
+		Bph=sum(elem_prod(Nph*Prob_talla_h,Wmed(2)));
+		Bpm=sum(elem_prod(Npm*Prob_talla_m,Wmed(1)));
+		NMDp=elem_prod(Nph,mfexp(-dt(1)*Zpbrh))*Prob_talla_h;
+		BDp=sum(elem_prod(elem_prod(NMDp,msex),Wmed(2)));
+		CTP=elem_prod(elem_prod(elem_div(Fpbrh,Zpbrh),elem_prod(Nph,(1-Sph)))*Prob_talla_h,Wmed(2));
+		CTP+=elem_prod(elem_prod(elem_div(Fpbrm,Zpbrm),elem_prod(Npm,(1-Spm)))*Prob_talla_m,Wmed(1));
+		YTP(i,j)=sum(CTP);
+		SSBp(i,j)=BDp;
+		BTp(i,j)=Bph+Bpm;
+		// año siguiente
+		Npplus=Nph(nedades)*Sph(nedades);
+		Nph(2,nedades)=++elem_prod(Nph(1,nedades-1),Sph(1,nedades-1));
+		Nph(nedades)+=Npplus;
+		Nph(1)=pRec*exp(log_Ro);
+		Npplus=Npm(nedades)*Spm(nedades);
+		Npm(2,nedades)=++elem_prod(Npm(1,nedades-1),Spm(1,nedades-1));
+		Npm(nedades)+=Npplus;
+		Npm(1)=exp(log_Ro)*exp(log_propmR)/(1-exp(log_propmR));
+		
+		// Se considera el mismo F de hembras en los machos
+		Fpbrh=Sel_floh(nyears)*exp(log_Fref(j));
+		Fpbrm=Sel_flom(nyears)*exp(log_Fref(j));
+		Zpbrh=Fpbrh+Mh;
+		Zpbrm=Fpbrm+Mm;
+		Sph=exp(-1.*Zpbrh);
+		Spm=exp(-1.*Zpbrm);
+	}
+ }
+ 
+ 
+ CBA=YTP(2);// es para el año proyectado
+ 
+ 
+ // Rutina para la estimación de RPR
 
- for (int j=1;j<=npbr;j++){ // son # PBR only!
-
- Nph=Nh(nyears);
- Npm=Nm(nyears);
-
- Sph=Sh(nyears);
- Spm=Sm(nyears);
-
- BDp=BD(nyears);
- Fpbrh=Fh(nyears);//
- Fpbrm=Fm(nyears);//
-
- Zpbrh=Zh(nyears);
- Zpbrm=Zm(nyears);
-
+ Nvp=Nv(nyears);// toma la ultima estimación
+ 
  for (int i=1;i<=nyear_proy;i++)
  {
-
- Bph=sum(elem_prod(Nph*Prob_talla_h,Wmed(2)));
- Bpm=sum(elem_prod(Npm*Prob_talla_m,Wmed(1)));
-
- NMDp=elem_prod(Nph,mfexp(-dt(1)*Zpbrh))*Prob_talla_h;
- BDp=sum(elem_prod(elem_prod(NMDp,msex),Wmed(2))) ;
- CTP=elem_prod(elem_prod(elem_div(Fpbrh,Zpbrh),elem_prod(Nph,(1-Sph)))*Prob_talla_h,Wmed(2));
- CTP+=elem_prod(elem_prod(elem_div(Fpbrm,Zpbrm),elem_prod(Npm,(1-Spm)))*Prob_talla_m,Wmed(1));
- YTP(i,j)=sum(CTP);
- SSBp(i,j)=BDp;
- BTp(i,j)=Bph+Bpm;
-
- // a�o siguiente
- Npplus=Nph(nedades)*Sph(nedades);
- Nph(2,nedades)=++elem_prod(Nph(1,nedades-1),Sph(1,nedades-1));
- Nph(nedades)+=Npplus;
- Nph(1)=pRec*exp(log_Ro);
- Npplus=Npm(nedades)*Spm(nedades);
- Npm(2,nedades)=++elem_prod(Npm(1,nedades-1),Spm(1,nedades-1));
- Npm(nedades)+=Npplus;
- Npm(1)=exp(log_Ro)*exp(log_propmR)/(1-exp(log_propmR));//;
-
-
- // Se considera el mismo F de hembras en los machos
- Fpbrh=Sel_floh(nyears)*exp(log_Fref(j));//
- Fpbrm=Sel_flom(nyears)*exp(log_Fref(j));//
-
- Zpbrh=Fpbrh+Mh;
- Zpbrm=Fpbrm+Mm;
- Sph=exp(-1.*Zpbrh);
- Spm=exp(-1.*Zpbrm);
-
- }}
- 
- CBA=YTP(2);// es para el a�o proyectado
-
- // Rutina para la estimaci�n de RPR
-
- Nvp=Nv(nyears);// toma la ultima estimaci�n
-
-
- for (int i=1;i<=nyear_proy;i++)
-  {
-     Nvplus=Nvp(nedades)*exp(-1.0*Mh);
-     Nvp(2,nedades)=++Nvp(1,nedades-1)*exp(-1.0*Mh);
-     Nvp(nedades)+=Nvplus;
-     Nvp(1)=exp(log_Ro);
-     SDvp(i)=sum(elem_prod(Nvp*Prob_talla_h,elem_prod(Wmed(2),msex)));
-  }
+	 Nvplus=Nvp(nedades)*exp(-1.0*Mh);
+	 Nvp(2,nedades)=++Nvp(1,nedades-1)*exp(-1.0*Mh);
+	 Nvp(nedades)+=Nvplus;
+	 Nvp(1)=exp(log_Ro);
+	 SDvp(i)=sum(elem_prod(Nvp*Prob_talla_h,elem_prod(Wmed(2),msex)));
+ }
 
  for (int i=1;i<=npbr;i++)
  {
-  RPRp(i)=SSBp(nyear_proy,i)/SDvp(nyear_proy);//
+	 RPRp(i)=SSBp(nyear_proy,i)/SDvp(nyear_proy);
  }
-
-
-
+ 
+ 
+ 
 REPORT_SECTION
 
  report << "YRS" << endl;
