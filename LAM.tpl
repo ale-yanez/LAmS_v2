@@ -678,20 +678,19 @@ FUNCTION Eval_deinteres
 // Rutina para calcular RPR
  Nv=Nh;// solo para empezar los calculos
 
-// se estima la sobrevivencia por edad(a+1) y a�o(t+1)
+// se estima la sobrevivencia por edad(a+1) y año(t+1)
  for (int i=1;i<nyears;i++)
  {
      Nv(i+1)(2,nedades)=++Nv(i)(1,nedades-1)*exp(-1.0*Mh);
      Nv(i+1,nedades)=Nv(i+1,nedades)+Nv(i,nedades)*exp(-1.0*Mh);// grupo plus
  }
 
-
  NDv=elem_prod((Nv*exp(-dt(1)*Mh))*Prob_talla_h,outer_prod(Unos_yrs,msex));
  BDo=NDv*Wmed(2);
  RPR=elem_div(BD,BDo);
 
-
  RPRlp=BD/SSBo;
+
 
 
 FUNCTION Eval_biomasas
